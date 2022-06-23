@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "502140194763",
+    "project_id": "izims-494a1",
+    "storage_bucket": "izims-494a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502140194763:android:8b565ce8146863061e304e",
+        "android_client_info": {
+          "package_name": "space.work.training.izi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502140194763-dj4iibs1n6to58gbmpavulho46ijf4j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5Hu3SJs5OrM1d1b1Vh8brnRG4I_mEGiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502140194763-dj4iibs1n6to58gbmpavulho46ijf4j0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
