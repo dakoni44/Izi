@@ -1,15 +1,15 @@
-package com.social.world.tracy.mvvm.kotlin
+package space.work.training.izi.mvvm
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import com.social.world.tracy.mvvm.homePost.Post
+import com.social.world.tracy.mvvm.kotlin.Img
+import com.social.world.tracy.mvvm.kotlin.ImgDao
+import javax.inject.Inject
 
-class ImgRoom(context: Context) {
+class ImgRoom @Inject constructor() {
     var imgDao: ImgDao? = null
     var allImgs: LiveData<List<Img>>? = null
 
     init {
-        imgDao = ImgDatabase.getDatabase(context).imgDao()
         allImgs = imgDao?.getAllImgs()
     }
 

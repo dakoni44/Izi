@@ -2,8 +2,11 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
+    id 'dagger.hilt.android.plugin'
 }
+
 
 android {
     compileSdk 32
@@ -31,29 +34,37 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding true
+        viewBinding true
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
 
 dependencies {
     def lifecycle_version = "2.2.0"
-    def final dagger_version = '2.42'
+    def dagger_version = "2.42"
     def fragment_version = "1.4.1"
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
 
+    //xml
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     //firebase
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.5'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
-    //dagger2
-    implementation "com.google.dagger:dagger:${dagger_version}"
-    implementation "com.google.dagger:dagger-android-support:${dagger_version}"
-    kapt "com.google.dagger:dagger-compiler:${dagger_version}"
-    kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
     //viewmodel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
@@ -61,6 +72,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     //glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'jp.wasabeef:glide-transformations:4.0.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //fragment
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
@@ -72,6 +84,8 @@ dependencies {
     //room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    //kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

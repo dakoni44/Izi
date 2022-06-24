@@ -1,6 +1,7 @@
 package com.social.world.tracy.mvvm.kotlin
 
 import androidx.lifecycle.LiveData
+import space.work.training.izi.mvvm.ImgRoom
 import javax.inject.Inject
 
 class ImgRepository @Inject constructor(val imgFirebase: ImgFirebase, val imgRoom: ImgRoom) {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">izi</string>
+    <string name="app_name">IZI</string>
     <string name="register_hint_username">Email</string>
     <string name="register_hint_password">Password</string>
     <string name="drawerEdit">Edit Profile</string>
