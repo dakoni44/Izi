@@ -11,20 +11,20 @@ class ImgRepository @Inject constructor(
     private val imgDao: ImgDao
 ) {
 
-    var imgs: ArrayList<Img>? = null
-
-    suspend fun notifyFirebaseDataChange() {
+    fun notifyFirebaseDataChange(list: List<Img>) {
         imgDao.deleteAllImgs()
-        imgs = ArrayList<Img>()
-        imgs?.let {
-            imgFirebase.getAllImgs()
-            for (img in it) {
-                imgDao.insert(img)
-            }
+        for (img in list) {
+            imgDao.insert(img)
         }
     }
 
     fun getAllImgs(): LiveData<List<Img>> {
+        var list: List<Img>
+        list = imgFirebase.getAllImgs()!!
+        if (list.isNullOrEmpty()) {
+        } else {
+            notifyFirebaseDataChange(list)
+        }
         return imgDao.getAllImgs()
     }
 

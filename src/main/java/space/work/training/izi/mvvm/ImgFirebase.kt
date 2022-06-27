@@ -11,16 +11,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ImgFirebase @Inject constructor(private val imgRepository: ImgRepository) {
+class ImgFirebase @Inject constructor() {
 
     private var friendList: ArrayList<String>? = null
     private var imgs: ArrayList<Img>? = null
 
-    init {
-        checkFollowing()
-    }
-
     fun getAllImgs(): List<Img>? {
+        checkFollowing()
         return imgs
     }
 
@@ -61,12 +58,6 @@ class ImgFirebase @Inject constructor(private val imgRepository: ImgRepository) 
                                 it.add(img)
                             }
                         }
-                    }
-                    if (it.isNotEmpty()) {
-                        GlobalScope.launch {
-                            imgRepository.notifyFirebaseDataChange()
-                        }
-
                     }
                 }
             }
