@@ -5,7 +5,7 @@ import com.social.world.tracy.mvvm.kotlin.Img
 import com.social.world.tracy.mvvm.kotlin.ImgDao
 import javax.inject.Inject
 
-class ImgRoom @Inject constructor() {
+class ImgRoom constructor() {
     var imgDao: ImgDao? = null
     var allImgs: LiveData<List<Img>>? = null
 

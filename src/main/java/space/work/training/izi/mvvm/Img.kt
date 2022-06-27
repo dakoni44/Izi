@@ -11,6 +11,4 @@ data class Img(
     var img: String,
     var text: String, var publisher: String,
     var views: String
-) {
-    constructor() : this(0,"","","","","")
-}
+)

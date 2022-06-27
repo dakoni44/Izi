@@ -56,4 +56,6 @@ class ChatFragment : Fragment() {
                 }
             }
     }
+
+
 }

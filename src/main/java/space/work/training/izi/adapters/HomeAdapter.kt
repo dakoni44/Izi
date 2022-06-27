@@ -13,9 +13,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.social.world.tracy.mvvm.kotlin.Img
+import jp.wasabeef.glide.transformations.BlurTransformation
+import space.work.training.izi.R
 import space.work.training.izi.model.Users
 
-internal class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
+class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<HomeAdapter.ImageViewHolder>() {
 
     var mContext: Context
@@ -34,7 +36,7 @@ internal class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.home, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false)
         return ImageViewHolder(view, listener)
     }
 
@@ -54,14 +56,17 @@ internal class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
         notifyDataSetChanged()
     }
 
-    internal inner class ImageViewHolder(itemView: View, listener: OnItemClickListener?) :
-        RecyclerView.ViewHolder(itemView) {
-        var ivMainImage: ImageView = itemView.findViewById(R.id.ivMainImage)
-        var ivProfilePic: ImageView = itemView.findViewById(R.id.tvMainText)
-        var tvMainText: TextView = itemView.findViewById(R.id.ivProfilePic)
+    class ImageViewHolder(view: View, listener: OnItemClickListener?) :
+        RecyclerView.ViewHolder(view) {
+       var ivMainImage: ImageView
+        var ivProfilePic: ImageView
+        var tvMainText: TextView
 
         init {
-            itemView.setOnClickListener {
+            ivMainImage = view.findViewById(R.id.ivMainImage)
+            ivProfilePic = view.findViewById(R.id.tvMainText)
+            tvMainText = view.findViewById(R.id.ivProfilePic)
+            view.setOnClickListener {
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
                     if (position != RecyclerView.NO_POSITION) {

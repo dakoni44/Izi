@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
     id 'dagger.hilt.android.plugin'
 }
@@ -10,6 +9,7 @@ plugins {
 
 android {
     compileSdk 32
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "space.work.training.izi"
@@ -44,8 +44,7 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = "2.2.0"
-    def dagger_version = "2.42"
+    def lifecycle_version = "2.4.1"
     def fragment_version = "1.4.1"
 
     implementation 'androidx.core:core-ktx:1.8.0'
@@ -58,10 +57,14 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //glide transformation
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
     //firebase
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.5'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.5'
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
     //hilt
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
@@ -72,7 +75,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     //glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'jp.wasabeef:glide-transformations:4.0.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     //fragment
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
@@ -84,8 +86,10 @@ dependencies {
     //room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    implementation("androidx.room:room-ktx:$room_version")
     //kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.0"
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

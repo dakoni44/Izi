@@ -7,4 +7,6 @@ data class Users(
     var username: String,
     var image: String,
     var bio: String
-)
+){
+    constructor():this("","","","","","")
+}

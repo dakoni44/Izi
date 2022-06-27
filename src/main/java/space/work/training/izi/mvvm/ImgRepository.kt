@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import space.work.training.izi.mvvm.ImgRoom
 import javax.inject.Inject
 
-class ImgRepository @Inject constructor(val imgFirebase: ImgFirebase, val imgRoom: ImgRoom) {
+class ImgRepository constructor(val imgFirebase: ImgFirebase, val imgRoom: ImgRoom) {
 
     var imgs: ArrayList<Img>? = null
 
