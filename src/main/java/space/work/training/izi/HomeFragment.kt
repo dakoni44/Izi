@@ -1,7 +1,6 @@
 package space.work.training.izi
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,7 +32,7 @@ class HomeFragment : Fragment() , HomeAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var binding: FragmentHomeBinding
-    private var posts: ArrayList<Img>? = null
+    private var imgs: ArrayList<Img>? = null
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseUser: FirebaseUser
@@ -90,11 +89,22 @@ class HomeFragment : Fragment() , HomeAdapter.OnItemClickListener {
         editor.apply()
 
         getToken()
+
+      imgViewModel.getAllImgs().observe(viewLifecycleOwner){
+          it.let {
+              getPosts(it)
+          }
+      }
     }
 
     override fun onStart() {
         super.onStart()
         checkUserStatus()
+    }
+
+    private fun getPosts(pctrs: List<Img>) {
+        homeAdapter.setData(pctrs)
+        imgs?.addAll(pctrs)
     }
 
     companion object {

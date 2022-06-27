@@ -22,7 +22,7 @@ class ImgRoom constructor() {
         imgDao?.insert(img)
     }
 
-    fun deletePosts() {
+    suspend fun deletePosts() {
         imgDao?.deleteAllImgs()
     }
 }

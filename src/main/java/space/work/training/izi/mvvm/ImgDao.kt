@@ -16,7 +16,7 @@ interface ImgDao {
     suspend fun delete(img: Img)
 
     @Query("DELETE from img_table")
-    fun deleteAllImgs()
+    suspend fun deleteAllImgs()
 
     @Query("SELECT * FROM img_table")
     fun getAllImgs(): LiveData<List<Img>>

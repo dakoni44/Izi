@@ -1,29 +1,35 @@
 package com.social.world.tracy.mvvm.kotlin
 
 import androidx.lifecycle.LiveData
-import space.work.training.izi.mvvm.ImgRoom
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class ImgRepository constructor(val imgFirebase: ImgFirebase, val imgRoom: ImgRoom) {
+@Singleton
+class ImgRepository @Inject constructor(
+    private val imgFirebase: ImgFirebase,
+    private val imgDao: ImgDao
+) {
 
     var imgs: ArrayList<Img>? = null
 
     suspend fun notifyFirebaseDataChange() {
-        imgRoom.deletePosts()
+        imgDao.deleteAllImgs()
         imgs = ArrayList<Img>()
         imgs?.let {
             imgFirebase.getAllImgs()
             for (img in it) {
-                imgRoom.addImg(img)
+                imgDao.insert(img)
             }
         }
     }
 
-    fun getAllImgs(): LiveData<List<Img>>? {
-        return imgRoom.getAllImgs()
+    fun getAllImgs(): LiveData<List<Img>> {
+        return imgDao.getAllImgs()
     }
 
+    suspend fun insertImg(img: Img) = imgDao.insert(img)
+
     fun addImg(img: Img) {
-        // remoteDatabase.addPost(post);
+        //imgFirebase.addImg(img);
     }
 }

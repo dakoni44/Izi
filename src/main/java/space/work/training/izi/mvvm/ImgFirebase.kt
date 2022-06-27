@@ -8,9 +8,10 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class ImgFirebase constructor(private val imgRepository: ImgRepository) {
+@Singleton
+class ImgFirebase @Inject constructor(private val imgRepository: ImgRepository) {
 
     private var friendList: ArrayList<String>? = null
     private var imgs: ArrayList<Img>? = null
