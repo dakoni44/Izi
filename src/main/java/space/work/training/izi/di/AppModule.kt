@@ -2,7 +2,7 @@ package space.work.training.izi.di
 
 import android.content.Context
 import androidx.room.Room
-import com.social.world.tracy.mvvm.kotlin.ImgDao
+import space.work.training.izi.mvvm.ImgDao
 import com.social.world.tracy.mvvm.kotlin.ImgDatabase
 import dagger.Module
 import dagger.Provides

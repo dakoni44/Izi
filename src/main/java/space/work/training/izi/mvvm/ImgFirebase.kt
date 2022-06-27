@@ -50,7 +50,7 @@ class ImgFirebase @Inject constructor(private val imgRepository: ImgRepository) 
                 imgs?.let {
                     it.clear()
                     for (snapshot in dataSnapshot.children) {
-                     /*   var img = Img()
+                        var img = Img()
                         img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                         img.publisher = snapshot.child("publisher").getValue(String::class.java).toString()
                         img.img = snapshot.child("postimage").getValue(String::class.java).toString()
@@ -60,7 +60,7 @@ class ImgFirebase @Inject constructor(private val imgRepository: ImgRepository) 
                             if (img.publisher == id) {
                                 it.add(img)
                             }
-                        }*/
+                        }
                     }
                     if (it.isNotEmpty()) {
                         GlobalScope.launch {

@@ -1,23 +1,24 @@
-package com.social.world.tracy.mvvm.kotlin
+package space.work.training.izi.mvvm
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.social.world.tracy.mvvm.kotlin.Img
 
 @Dao
 interface ImgDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(img: Img): Long
+     fun insert(img: Img): Long
 
     @Update
-    suspend fun update(img: Img)
+     fun update(img: Img)
 
     @Delete
-    suspend fun delete(img: Img)
+     fun delete(img: Img)
 
-    @Query("DELETE from img_table")
-    suspend fun deleteAllImgs()
+    @Query("DELETE from Img")
+     fun deleteAllImgs()
 
-    @Query("SELECT * FROM img_table")
+    @Query("SELECT * FROM Img")
     fun getAllImgs(): LiveData<List<Img>>
 }

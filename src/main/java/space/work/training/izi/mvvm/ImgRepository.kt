@@ -1,6 +1,7 @@
 package com.social.world.tracy.mvvm.kotlin
 
 import androidx.lifecycle.LiveData
+import space.work.training.izi.mvvm.ImgDao
 import javax.inject.Inject
 import javax.inject.Singleton
 

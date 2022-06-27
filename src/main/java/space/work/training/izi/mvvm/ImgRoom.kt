@@ -2,8 +2,6 @@ package space.work.training.izi.mvvm
 
 import androidx.lifecycle.LiveData
 import com.social.world.tracy.mvvm.kotlin.Img
-import com.social.world.tracy.mvvm.kotlin.ImgDao
-import javax.inject.Inject
 
 class ImgRoom constructor() {
     var imgDao: ImgDao? = null
