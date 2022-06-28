@@ -21,7 +21,6 @@ import space.work.training.izi.databinding.FragmentHomeBinding
 import space.work.training.izi.mvvm.Img
 import space.work.training.izi.notifications.Token
 
-
 @AndroidEntryPoint
 class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
 

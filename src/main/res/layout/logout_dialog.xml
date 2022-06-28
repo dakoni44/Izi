@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="150dp"
+    android:background="@drawable/layout_background">
+
+    <TextView
+        android:id="@+id/tvLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Whant to log out?"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/telex"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"/>
+
+
+    <Button
+        android:id="@+id/bnCancle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Cancle"
+       android:layout_toLeftOf="@id/center"
+        android:background="@drawable/rounded_button2"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        />
+
+    <Button
+        android:id="@+id/bnLogout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/center"
+        android:text="Log out"
+        android:background="@drawable/rounded_button2"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"/>
+
+</RelativeLayout>
