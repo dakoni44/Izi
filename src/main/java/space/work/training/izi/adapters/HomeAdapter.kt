@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.social.world.tracy.mvvm.kotlin.Img
+import space.work.training.izi.mvvm.Img
 import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
 import space.work.training.izi.model.Users

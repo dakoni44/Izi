@@ -1,5 +1,7 @@
-package space.work.training.izi
+package space.work.training.izi.nav_fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import space.work.training.izi.R
 
 class SplashScreenFragment : Fragment() {
 
@@ -19,6 +22,7 @@ class SplashScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view= inflater.inflate(R.layout.fragment_splash_screen, container, false)
+
         mAuth = FirebaseAuth.getInstance()
         val firebaseUser = mAuth!!.currentUser
         Handler(Looper.myLooper()!!).postDelayed({
@@ -27,8 +31,12 @@ class SplashScreenFragment : Fragment() {
             } else {
                 findNavController().navigate(R.id.splashToHome)
             }
-
+            val sp: SharedPreferences = requireContext().getSharedPreferences("SP_USER", Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putString("Current_USERID", firebaseUser?.uid)
+            editor.apply()
         },2000)
+
         return view
     }
 

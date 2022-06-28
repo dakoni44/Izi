@@ -1,4 +1,4 @@
-package space.work.training.izi
+package space.work.training.izi.nav_fragments
 
 import android.os.Bundle
 import android.text.InputType
@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentLoginBinding
 
 private const val ARG_PARAM1 = "param1"

@@ -1,4 +1,4 @@
-package space.work.training.izi
+package space.work.training.izi.nav_fragments
 
 import android.os.Bundle
 import android.util.Patterns
@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentSignUpBinding
 import space.work.training.izi.model.Users
 

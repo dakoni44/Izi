@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="space.work.training.izi.HomeFragment"
+        android:name="space.work.training.izi.nav_fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="space.work.training.izi.ChatFragment"
+        android:name="space.work.training.izi.nav_fragments.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="space.work.training.izi.SplashScreenFragment"
+        android:name="space.work.training.izi.nav_fragments.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
-        android:name="space.work.training.izi.LogInFragment"
+        android:name="space.work.training.izi.nav_fragments.LogInFragment"
         android:label="LogInFragment" >
         <action
             android:id="@+id/logInToHome"
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="space.work.training.izi.SignUpFragment"
+        android:name="space.work.training.izi.nav_fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
