@@ -10,12 +10,12 @@
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.17"/>
+        app:layout_constraintGuide_percent="0.17" />
 
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="1.65"/>
+        app:layout_constraintGuide_percent="1.65" />
 
     <fragment
         android:id="@+id/navHostFragment"
@@ -29,12 +29,11 @@
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="201dp"
         android:background="@color/colorBlack"
-        app:itemIconTint="@color/bottom_tint"
-        app:itemTextColor="@android:color/white"
+        android:theme="@style/BottomNavigationTheme"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_menu"/>
+        app:menu="@menu/bottom_menu"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="201dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
