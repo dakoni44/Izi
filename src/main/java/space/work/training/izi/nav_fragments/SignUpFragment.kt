@@ -13,33 +13,19 @@ import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentSignUpBinding
 import space.work.training.izi.model.Users
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var binding: FragmentSignUpBinding
 
     private var mAuth: FirebaseAuth? = null
     private var db: FirebaseDatabase? = null
     private var userRef: DatabaseReference? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-        mAuth = FirebaseAuth.getInstance()
-        db = FirebaseDatabase.getInstance()
-        userRef = db!!.getReference("Users")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +37,10 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mAuth = FirebaseAuth.getInstance()
+        db = FirebaseDatabase.getInstance()
+        userRef = db!!.getReference("Users")
 
         binding.bRegister.setOnClickListener(View.OnClickListener {
             val email: String = binding.etRegisterEmail.getText().toString().trim { it <= ' ' }
@@ -117,14 +107,4 @@ class SignUpFragment : Fragment() {
             })
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignUpFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

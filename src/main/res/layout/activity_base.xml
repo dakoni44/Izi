@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack">
+    android:background="@color/colorBlack"
+    tools:context=".BaseActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
         app:layout_constraintGuide_percent="1.65"/>
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/baseActivity"
+        android:id="@+id/navHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,5 +32,6 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="201dp"
         android:background="@color/colorBlack"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_menu"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

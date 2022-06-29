@@ -54,6 +54,7 @@ class AddPostFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         firebaseAuth = FirebaseAuth.getInstance()
         user = firebaseAuth!!.currentUser
         firebaseDatabase = FirebaseDatabase.getInstance()
@@ -84,11 +85,10 @@ class AddPostFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101 && resultCode==1) {
             var result=data!!.getStringExtra("RESULT")
-            var resultUri : Uri? = null
             result?.let {
-                resultUri=Uri.parse(it)
+                imageUri=Uri.parse(it)
             }
-            binding.ivAddPost.setImageURI(resultUri)
+            binding.ivAddPost.setImageURI(imageUri)
         }
     }
 

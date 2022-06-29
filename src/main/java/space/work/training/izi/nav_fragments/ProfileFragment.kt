@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
@@ -24,7 +25,7 @@ import space.work.training.izi.model.Users
 import space.work.training.izi.mvvm.Img
 import java.util.*
 
-
+@AndroidEntryPoint
 class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
     private lateinit var binding : FragmentProfileBinding
@@ -53,8 +54,8 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         firebaseAuth = FirebaseAuth.getInstance()
         user = firebaseAuth.currentUser!!
@@ -65,12 +66,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         dislRef = firebaseDatabase.getReference("Dislikes")
         friendRef = firebaseDatabase.getReference("Friends")
 
-
         userID = user.uid
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         gridManager = GridLayoutManager(requireContext(), 3)
         binding.profileRecycler.setLayoutManager(gridManager)
