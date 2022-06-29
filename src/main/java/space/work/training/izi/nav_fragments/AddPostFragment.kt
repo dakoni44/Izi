@@ -1,6 +1,5 @@
 package space.work.training.izi.nav_fragments
 
-import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
@@ -23,7 +22,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.yalantis.ucrop.UCrop
 import space.work.training.izi.CropperActivity
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentAddPostBinding
@@ -31,7 +29,7 @@ import space.work.training.izi.databinding.FragmentAddPostBinding
 
 class AddPostFragment : Fragment() {
 
-    private lateinit var binding : FragmentAddPostBinding
+    private lateinit var binding: FragmentAddPostBinding
 
     var firebaseAuth: FirebaseAuth? = null
     var user: FirebaseUser? = null
@@ -42,13 +40,12 @@ class AddPostFragment : Fragment() {
     var myUrl = ""
     var storageReference: StorageReference? = null
 
-    lateinit var mGetContent : ActivityResultLauncher<String>
+    lateinit var mGetContent: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_post, container, false)
     }
 
@@ -64,15 +61,14 @@ class AddPostFragment : Fragment() {
         binding.bAddPost.setOnClickListener(View.OnClickListener { uploadImage() })
 
         mGetContent.launch("image/*")
-        mGetContent=registerForActivityResult(ActivityResultContracts.GetContent(),
+        mGetContent = registerForActivityResult(ActivityResultContracts.GetContent(),
             ActivityResultCallback {
                 val intent = Intent(activity, CropperActivity::class.java).apply {
-                    putExtra("DATA",it.toString())
-                    startActivityForResult(this,101)
+                    putExtra("DATA", it.toString())
+                    startActivityForResult(this, 101)
                 }
             })
     }
-
 
 
     private fun getFileExtension(uri: Uri): String? {
@@ -81,48 +77,48 @@ class AddPostFragment : Fragment() {
         return mime.getExtensionFromMimeType(contentResolver.getType(uri))
     }
 
-     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 101 && resultCode==1) {
-            var result=data!!.getStringExtra("RESULT")
+        if (requestCode == 101 && resultCode == 1) {
+            var result = data!!.getStringExtra("RESULT")
             result?.let {
-                imageUri=Uri.parse(it)
+                imageUri = Uri.parse(it)
             }
             binding.ivAddPost.setImageURI(imageUri)
         }
     }
 
     private fun uploadImage() {
-       imageUri?.let {
-           val filereference = storageReference!!.child(
-               System.currentTimeMillis().toString() +
-                       "." + getFileExtension(it)
-           )
-           var uploadTask = filereference.putFile(it)
-           uploadTask.continueWithTask { task: Task<*> ->
-               if (!task.isComplete) {
-                   throw task.exception!!
-               }
-               filereference.downloadUrl
-           }.addOnCompleteListener(OnCompleteListener<Uri> { task ->
-               if (task.isSuccessful) {
-                   val downloadUri = task.result
-                   myUrl = downloadUri.toString()
-                   val reference = FirebaseDatabase.getInstance().getReference("Posts")
-                   val postid = reference.push().key
-                   val hashMap = HashMap<String, Any?>()
-                   val views = HashMap<Any, Any>()
-                   hashMap["postid"] = postid
-                   hashMap["postimage"] = myUrl
-                   hashMap["description"] =
-                       binding.etAddDescription.text.toString().trim { it <= ' ' }
-                   hashMap["publisher"] = user!!.uid
-                   views[user!!.uid] = user!!.uid
-                   hashMap["views"] = views
-                   reference.child((postid)!!).setValue(hashMap)
-                   findNavController().navigate(R.id.addPostToProfile)
-               }
-           }).addOnFailureListener(OnFailureListener { })
-       }
+        imageUri?.let {
+            val filereference = storageReference!!.child(
+                System.currentTimeMillis().toString() +
+                        "." + getFileExtension(it)
+            )
+            var uploadTask = filereference.putFile(it)
+            uploadTask.continueWithTask { task: Task<*> ->
+                if (!task.isComplete) {
+                    throw task.exception!!
+                }
+                filereference.downloadUrl
+            }.addOnCompleteListener(OnCompleteListener<Uri> { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    myUrl = downloadUri.toString()
+                    val reference = FirebaseDatabase.getInstance().getReference("Posts")
+                    val postid = reference.push().key
+                    val hashMap = HashMap<String, Any?>()
+                    val views = HashMap<Any, Any>()
+                    hashMap["postid"] = postid
+                    hashMap["postimage"] = myUrl
+                    hashMap["description"] =
+                        binding.etAddDescription.text.toString().trim { it <= ' ' }
+                    hashMap["publisher"] = user!!.uid
+                    views[user!!.uid] = user!!.uid
+                    hashMap["views"] = views
+                    reference.child((postid)!!).setValue(hashMap)
+                    findNavController().navigate(R.id.addPostToProfile)
+                }
+            }).addOnFailureListener(OnFailureListener { })
+        }
     }
 }

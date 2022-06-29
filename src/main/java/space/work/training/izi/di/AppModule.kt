@@ -2,15 +2,13 @@ package space.work.training.izi.di
 
 import android.content.Context
 import androidx.room.Room
-import space.work.training.izi.mvvm.ImgDao
-import space.work.training.izi.mvvm.ImgDatabase
-import space.work.training.izi.mvvm.ImgFirebase
-import space.work.training.izi.mvvm.ImgRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import space.work.training.izi.mvvm.ImgDao
+import space.work.training.izi.mvvm.ImgDatabase
 import javax.inject.Singleton
 
 @Module

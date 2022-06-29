@@ -1,7 +1,6 @@
 package space.work.training.izi.nav_fragments
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -28,7 +27,7 @@ import java.util.*
 @AndroidEntryPoint
 class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
-    private lateinit var binding : FragmentProfileBinding
+    private lateinit var binding: FragmentProfileBinding
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var user: FirebaseUser
@@ -74,7 +73,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         binding.profileRecycler.setAdapter(homeAdapter)
 
         binding.bnEditProfile.setOnClickListener(View.OnClickListener {
-           // findNavController().navigate(R.id.profileToEdit)
+            // findNavController().navigate(R.id.profileToEdit)
         })
 
         binding.bnLogout.setOnClickListener(View.OnClickListener {
@@ -98,7 +97,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_up)
             } else {
                 binding.rlBio.setVisibility(View.GONE)
-                binding. ivArrow.setImageResource(R.drawable.ic_arrow_down)
+                binding.ivArrow.setImageResource(R.drawable.ic_arrow_down)
             }
         })
     }
@@ -107,12 +106,13 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         databaseReference.child(userID!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val user = Users()
-                user.uid=userID as String
-                user.name=dataSnapshot.child("name").getValue(String::class.java).toString()
-                user.username=dataSnapshot.child("username").getValue(String::class.java).toString()
-                user.email=dataSnapshot.child("email").getValue(String::class.java).toString()
-                user.image=dataSnapshot.child("image").getValue(String::class.java).toString()
-                user.bio=dataSnapshot.child("bio").getValue(String::class.java).toString()
+                user.uid = userID as String
+                user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
+                user.username =
+                    dataSnapshot.child("username").getValue(String::class.java).toString()
+                user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
+                user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
+                user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (user.uid.equals(userID)) {
                     binding.tvName.setText(user.username)
                     binding.tvNameFull.setText(user.name)
@@ -131,11 +131,12 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
                     val img = Img()
-                    img.imgId=snapshot.child("postid").getValue(String::class.java).toString()
-                    img.publisher=snapshot.child("publisher").getValue(String::class.java).toString()
-                    img.img=snapshot.child("postimage").getValue(String::class.java).toString()
-                    img.text=snapshot.child("description").getValue(String::class.java).toString()
-                    img.views=snapshot.child("views").childrenCount.toString().toString()
+                    img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
+                    img.publisher =
+                        snapshot.child("publisher").getValue(String::class.java).toString()
+                    img.img = snapshot.child("postimage").getValue(String::class.java).toString()
+                    img.text = snapshot.child("description").getValue(String::class.java).toString()
+                    img.views = snapshot.child("views").childrenCount.toString().toString()
                     if (img.publisher.equals(userID)) {
                         imgs.add(img)
                     }
@@ -192,7 +193,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                         }
                     }
                 }
-                binding.tvDislikes.text=sum.toString()
+                binding.tvDislikes.text = sum.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -203,7 +204,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         TODO("Not yet implemented")
     }
 
-     override fun onResume() {
+    override fun onResume() {
         super.onResume()
         showData()
         showPost()

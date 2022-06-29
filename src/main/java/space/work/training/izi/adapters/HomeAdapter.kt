@@ -12,10 +12,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import space.work.training.izi.mvvm.Img
 import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
 import space.work.training.izi.model.Users
+import space.work.training.izi.mvvm.Img
 
 class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<HomeAdapter.ImageViewHolder>() {
@@ -58,7 +58,7 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
 
     class ImageViewHolder(view: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(view) {
-       var ivMainImage: ImageView
+        var ivMainImage: ImageView
         var ivProfilePic: ImageView
         var tvMainText: TextView
 
