@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
@@ -20,6 +23,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.yalantis.ucrop.UCrop
+import space.work.training.izi.CropperActivity
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentAddPostBinding
 
@@ -36,6 +41,8 @@ class AddPostFragment : Fragment() {
     var imageUri: Uri? = null
     var myUrl = ""
     var storageReference: StorageReference? = null
+
+    lateinit var mGetContent : ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,8 +62,17 @@ class AddPostFragment : Fragment() {
 
         binding.bAddPost.setOnClickListener(View.OnClickListener { uploadImage() })
 
-        CropImage.activity().setAspectRatio(1, 1).start(requireContext(),this)
+        mGetContent.launch("image/*")
+        mGetContent=registerForActivityResult(ActivityResultContracts.GetContent(),
+            ActivityResultCallback {
+                val intent = Intent(activity, CropperActivity::class.java).apply {
+                    putExtra("DATA",it.toString())
+                    startActivityForResult(this,101)
+                }
+            })
     }
+
+
 
     private fun getFileExtension(uri: Uri): String? {
         val contentResolver: ContentResolver = requireContext().contentResolver
@@ -66,14 +82,13 @@ class AddPostFragment : Fragment() {
 
      override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    val result: CropImage.ActivityResult = CropImage.getActivityResult(data)
-                    imageUri = result.getUri()
-                    binding.ivAddPost.setImageURI(imageUri)
-                }
+        if (requestCode == 101 && resultCode==1) {
+            var result=data!!.getStringExtra("RESULT")
+            var resultUri : Uri? = null
+            result?.let {
+                resultUri=Uri.parse(it)
             }
+            binding.ivAddPost.setImageURI(resultUri)
         }
     }
 
