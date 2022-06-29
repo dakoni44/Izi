@@ -32,6 +32,9 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="201dp"
         android:background="@color/colorBlack"
+        app:itemIconTint="@color/bottom_tint"
+        app:itemTextColor="@android:color/white"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_menu"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

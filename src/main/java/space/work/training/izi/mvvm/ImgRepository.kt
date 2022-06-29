@@ -24,7 +24,7 @@ class ImgRepository @Inject constructor(
     }
 
       fun getAllImgs(): LiveData<List<Img>> {
-        var list = imgFirebase.getAllImgs()!!
+        var list = imgFirebase.getAllImgs()
         if (!list.isNullOrEmpty()) {
            launch {
                notifyFirebaseDataChange(list)

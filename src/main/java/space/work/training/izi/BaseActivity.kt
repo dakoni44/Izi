@@ -1,7 +1,9 @@
 package space.work.training.izi
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,5 +21,17 @@ class BaseActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.navHostFragment)
 
         bottomNavigationView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener(NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            if(destination.id==R.id.splashScreenFragment
+                || destination.id==R.id.addPostFragment
+                || destination.id==R.id.logInFragment
+                    || destination.id==R.id.signUpFragment){
+                bottomNavigationView.visibility=View.GONE
+            }else{
+                bottomNavigationView.visibility=View.VISIBLE
+            }
+
+        })
     }
 }

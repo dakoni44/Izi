@@ -6,4 +6,5 @@
     <color name="colorBackground">#EFEFEF</color>
     <color name="colorBlack">#040404</color>
     <color name="bgGrey">#1B1B1B</color>
+    <color name="bottom_tint">#717171</color>
 </resources>

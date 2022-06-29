@@ -36,4 +36,9 @@
         <!--Other customizations-->
     </style>
 
+    <style name="BottomNavigationTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/bottom_tint</item>
+    </style>
+
 </resources>

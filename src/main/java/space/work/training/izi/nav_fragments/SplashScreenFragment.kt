@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
@@ -33,7 +34,6 @@ class SplashScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         println("Splash created")
 
-
         mAuth = FirebaseAuth.getInstance()
         val firebaseUser = mAuth!!.currentUser
         Handler(Looper.myLooper()!!).postDelayed({
@@ -47,7 +47,7 @@ class SplashScreenFragment : Fragment() {
             val editor = sp.edit()
             editor.putString("Current_USERID", firebaseUser?.uid)
             editor.apply()
-        }, 4000)
+        }, 2000)
     }
 }
 
