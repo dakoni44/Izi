@@ -48,7 +48,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
         return binding.root
     }
@@ -68,9 +68,9 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         userID = user.uid
 
         gridManager = GridLayoutManager(requireContext(), 3)
-        binding.profileRecycler.setLayoutManager(gridManager)
+        binding.profileRecycler.layoutManager = gridManager
         homeAdapter = HomeAdapter(requireContext(), this)
-        binding.profileRecycler.setAdapter(homeAdapter)
+        binding.profileRecycler.adapter = homeAdapter
 
         binding.bnEditProfile.setOnClickListener(View.OnClickListener {
             // findNavController().navigate(R.id.profileToEdit)
@@ -84,19 +84,20 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
             val bnLogout = dialog.findViewById<Button>(R.id.bnLogout)
             bnLogout.setOnClickListener {
                 firebaseAuth.signOut()
+                dialog.dismiss()
                 findNavController().navigate(R.id.profileToLogIn)
             }
-            val bnCancle = dialog.findViewById<Button>(R.id.bnCancle)
-            bnCancle.setOnClickListener { dialog.dismiss() }
+            val bnCancel = dialog.findViewById<Button>(R.id.bnCancle)
+            bnCancel.setOnClickListener { dialog.dismiss() }
             dialog.show()
         })
 
         binding.tvNameFull.setOnClickListener(View.OnClickListener {
-            if (binding.rlBio.getVisibility() == View.GONE) {
-                binding.rlBio.setVisibility(View.VISIBLE)
+            if (binding.rlBio.visibility == View.GONE) {
+                binding.rlBio.visibility = View.VISIBLE
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_up)
             } else {
-                binding.rlBio.setVisibility(View.GONE)
+                binding.rlBio.visibility = View.GONE
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_down)
             }
         })
@@ -114,9 +115,9 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (user.uid.equals(userID)) {
-                    binding.tvName.setText(user.username)
-                    binding.tvNameFull.setText(user.name)
-                    binding.tvBio.setText(user.bio)
+                    binding.tvName.text = user.username
+                    binding.tvNameFull.text = user.name
+                    binding.tvBio.text = user.bio
                     Glide.with(requireContext()).load(user.image).into(binding.ivMalaSlika1)
                 }
             }
@@ -141,8 +142,8 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                         imgs.add(img)
                     }
                 }
-                Collections.reverse(imgs)
-                homeAdapter!!.notifyDataSetChanged()
+                imgs.reverse()
+                homeAdapter?.setData(imgs)
                 showNumbers()
             }
 
@@ -165,7 +166,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         for (i in imgs.indices) {
             sum += imgs.get(i).views.toInt()
         }
-        binding.tvViews.setText((sum - imgs.size).toString())
+        binding.tvViews.text = (sum - imgs.size).toString()
 
         likeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -177,7 +178,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                         }
                     }
                 }
-                binding.tvLikes.setText(sum.toString())
+                binding.tvLikes.text = sum.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

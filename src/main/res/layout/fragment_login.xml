@@ -49,7 +49,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingLeft="15dp"
                 android:singleLine="true"
-                android:textCursorDrawable="@drawable/cursor_color"
+                android:textCursorDrawable="@drawable/cursor_black"
                 android:textSize="15sp" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +71,7 @@
                     android:hint="@string/register_hint_password"
                     android:inputType="textPassword"
                     android:paddingLeft="15dp"
-                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textCursorDrawable="@drawable/cursor_black"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

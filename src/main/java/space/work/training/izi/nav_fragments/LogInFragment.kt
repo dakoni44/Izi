@@ -115,7 +115,7 @@ class LogInFragment : Fragment() {
                         .child(FirebaseAuth.getInstance().currentUser!!.uid)
                         .addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                findNavController().navigate(R.id.homeToChat)
+                                findNavController().navigate(R.id.logInToHome)
                                 binding.pbLogin.setVisibility(View.INVISIBLE)
                             }
 

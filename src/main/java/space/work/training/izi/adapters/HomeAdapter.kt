@@ -44,7 +44,6 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser()
         val img: Img = mdata[position]
         unblurPost(holder.ivMainImage, img)
-        publisherInfo(img.publisher, holder.tvMainText, holder.ivProfilePic)
     }
 
     override fun getItemCount(): Int {
@@ -59,13 +58,11 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
     class ImageViewHolder(view: View, listener: OnItemClickListener?) :
         RecyclerView.ViewHolder(view) {
         var ivMainImage: ImageView
-        var ivProfilePic: ImageView
         var tvMainText: TextView
 
         init {
             ivMainImage = view.findViewById(R.id.ivMainImage)
-            ivProfilePic = view.findViewById(R.id.tvMainText)
-            tvMainText = view.findViewById(R.id.ivProfilePic)
+            tvMainText = view.findViewById(R.id.tvMainText)
             view.setOnClickListener {
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
@@ -94,28 +91,4 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
-
-    private fun publisherInfo(userid: String, username: TextView, ivuser: ImageView) {
-        val reference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
-            .child(userid)
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = Users()
-                user.uid = userid
-                user.name =
-                    dataSnapshot.child("name").getValue<String>(String::class.java).toString()
-                user.username =
-                    dataSnapshot.child("username").getValue<String>(String::class.java).toString()
-                user.email =
-                    dataSnapshot.child("email").getValue<String>(String::class.java).toString()
-                user.image =
-                    dataSnapshot.child("image").getValue<String>(String::class.java).toString()
-                username.setText(user.username)
-                Glide.with(mContext).load(user.image).into(ivuser)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
 }

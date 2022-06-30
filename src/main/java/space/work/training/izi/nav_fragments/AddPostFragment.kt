@@ -2,21 +2,29 @@ package space.work.training.izi.nav_fragments
 
 import android.content.ContentResolver
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.transition.Transition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.motion.widget.MotionScene
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -41,13 +49,16 @@ class AddPostFragment : Fragment() {
     var myUrl = ""
     var storageReference: StorageReference? = null
 
+    private lateinit var desc : String
+
     lateinit var mGetContent: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_post, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_post, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +72,6 @@ class AddPostFragment : Fragment() {
 
         binding.bAddPost.setOnClickListener(View.OnClickListener { uploadImage() })
 
-        mGetContent.launch("image/*")
         mGetContent = registerForActivityResult(ActivityResultContracts.GetContent(),
             ActivityResultCallback {
                 val intent = Intent(activity, CropperActivity::class.java).apply {
@@ -69,6 +79,34 @@ class AddPostFragment : Fragment() {
                     startActivityForResult(this, 101)
                 }
             })
+        mGetContent.launch("image/*")
+
+        binding.tvAddDescription.setOnClickListener(View.OnClickListener {
+            val transform = MaterialContainerTransform().apply {
+                startView = binding.tvAddDescription
+                endView = binding.rl
+                scrimColor = Color.TRANSPARENT
+                addTarget(endView as RelativeLayout)
+            }
+
+            TransitionManager.beginDelayedTransition(binding.clAddPost)
+            binding.tvAddDescription.visibility=View.GONE
+            binding.rl.visibility=View.VISIBLE
+        })
+
+        binding.descDown.setOnClickListener(View.OnClickListener {
+            val transform = MaterialContainerTransform().apply {
+                startView = binding.rl
+                endView = binding.tvAddDescription
+                scrimColor = Color.TRANSPARENT
+                addTarget(endView as TextView)
+                desc=binding.etAddDesc.text.toString().trim()
+            }
+
+            TransitionManager.beginDelayedTransition(binding.clAddPost)
+            binding.tvAddDescription.visibility=View.VISIBLE
+            binding.rl.visibility=View.GONE
+        })
     }
 
 
@@ -80,8 +118,8 @@ class AddPostFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 101 && resultCode == 1) {
-            var result = data!!.getStringExtra("RESULT")
+        if (requestCode == 101 && resultCode == -1) {
+            val result = data!!.getStringExtra("RESULT")
             result?.let {
                 imageUri = Uri.parse(it)
             }
@@ -112,14 +150,14 @@ class AddPostFragment : Fragment() {
                     hashMap["postid"] = postid
                     hashMap["postimage"] = myUrl
                     hashMap["description"] =
-                        binding.etAddDescription.text.toString().trim { it <= ' ' }
+                        desc
                     hashMap["publisher"] = user!!.uid
                     views[user!!.uid] = user!!.uid
                     hashMap["views"] = views
                     reference.child((postid)!!).setValue(hashMap)
-                    findNavController().navigate(R.id.addPostToProfile)
                 }
             }).addOnFailureListener(OnFailureListener { })
         }
+        findNavController().navigate(R.id.addPostToProfile)
     }
 }

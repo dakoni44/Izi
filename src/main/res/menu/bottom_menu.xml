@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_find"/>
 
     <item
-        android:id="@+id/post"
+        android:id="@+id/addPostFragment"
         android:title="Post"
         android:icon="@drawable/ic_post"/>
 
