@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bgGrey">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/chat_list_item_bg">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivFind"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="14dp"
+            android:layout_toRightOf="@id/ivFind"
+            android:maxLength="35"
+            android:maxLines="1"
+            android:text="username"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUsername"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/ivFind"
+            android:maxLength="35"
+            android:maxLines="1"
+            android:text="Message"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/tvMessage"
+            android:maxLines="1"
+            android:text="time"
+            android:textColor="@android:color/white"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

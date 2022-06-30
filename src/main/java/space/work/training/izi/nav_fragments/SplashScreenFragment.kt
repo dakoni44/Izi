@@ -47,7 +47,7 @@ class SplashScreenFragment : Fragment() {
             val editor = sp.edit()
             editor.putString("Current_USERID", firebaseUser?.uid)
             editor.apply()
-        }, 2000)
+        }, 1500)
     }
 }
 

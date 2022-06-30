@@ -45,6 +45,7 @@ class CropperActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        startActivity(Intent(this,BaseActivity::class.java))
         finish()
     }
 }

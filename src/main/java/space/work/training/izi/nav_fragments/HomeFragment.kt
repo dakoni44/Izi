@@ -7,8 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.Fade
+import androidx.transition.TransitionSet
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -45,7 +50,19 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ivMessage.setOnClickListener(View.OnClickListener {
-            Navigation.findNavController(view).navigate(R.id.homeToChat)
+            val transitionSet = TransitionSet()
+            transitionSet.addTransition(ChangeImageTransform())
+            transitionSet.addTransition(ChangeBounds())
+            transitionSet.duration = 300
+
+            val fragment2: Fragment = ChatListFragment()
+            fragment2.sharedElementEnterTransition = transitionSet
+            fragment2.sharedElementReturnTransition = transitionSet
+            val fade = Fade()
+            fade.startDelay = 300
+            fragment2.enterTransition = fade
+            val extras = FragmentNavigatorExtras(binding.ivMessage to "shared_element_container")
+            findNavController().navigate(R.id.homeToChatList,null,null, extras)
         })
 
         gridManager = GridLayoutManager(requireContext(), 3)

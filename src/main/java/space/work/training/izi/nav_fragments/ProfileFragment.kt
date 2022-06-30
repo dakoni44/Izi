@@ -115,10 +115,10 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (user.uid.equals(userID)) {
-                    binding.tvName.text = user.username
-                    binding.tvNameFull.text = user.name
-                    binding.tvBio.text = user.bio
-                    Glide.with(requireContext()).load(user.image).into(binding.ivMalaSlika1)
+                    if(!user.username.equals("")) binding.tvName.text = user.username
+                    if(!user.name.equals("")) binding.tvNameFull.text = user.name
+                    if(!user.bio.equals(""))  binding.tvBio.text = user.bio
+                   if (!user.bio.equals("")) Glide.with(requireContext()).load(user.image).into(binding.ivMalaSlika1)
                 }
             }
 
