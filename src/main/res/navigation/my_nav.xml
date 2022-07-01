@@ -23,6 +23,9 @@
         <action
             android:id="@+id/chatListToHome"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/chatListToChat"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -74,5 +77,17 @@
         <action
             android:id="@+id/addPostToProfile"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="space.work.training.izi.nav_fragments.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/chatToChatList"
+            app:destination="@id/chatListFragment" />
+        <argument
+            android:name="uId"
+            app:argType="string" />
     </fragment>
 </navigation>

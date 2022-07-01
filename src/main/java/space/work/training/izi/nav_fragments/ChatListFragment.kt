@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -20,6 +21,7 @@ import space.work.training.izi.databinding.FragmentChatListBinding
 import space.work.training.izi.model.Chat
 import space.work.training.izi.model.GroupList
 import space.work.training.izi.mvvm.chat.ChatListViewModel
+import space.work.training.izi.mvvm.chat.User
 import java.util.*
 
 @AndroidEntryPoint
@@ -33,6 +35,7 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
     private var groupReference: DatabaseReference? = null
 
     var groupList: ArrayList<GroupList> = ArrayList()
+    private var chatUsers: ArrayList<User> = ArrayList()
 
     var adapter: ChatList2Adapter? = null
     var groupAdapter: GroupListAdapter? = null
@@ -67,6 +70,7 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
         chatListViewModel.getAllUsers().observe(viewLifecycleOwner) {
             it.let {
                 adapter!!.setData(it)
+                chatUsers.addAll(it)
                 for (i in it.indices) {
                     lastMessage(it[i].uid)
                 }
@@ -155,12 +159,13 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
 
             override fun onCancelled(error: DatabaseError) {}
         })
-        groupAdapter = GroupListAdapter(requireContext(), groupList,this)
-        binding.rvGroupList.adapter=groupAdapter
+        groupAdapter = GroupListAdapter(requireContext(), groupList, this)
+        binding.rvGroupList.adapter = groupAdapter
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val action = ChatListFragmentDirections.chatListToChat(chatUsers.get(position).uid)
+        findNavController().navigate(action)
     }
 
 }
