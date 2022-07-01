@@ -60,7 +60,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_down"
-                android:layout_marginTop="15dp"/>
+                android:padding="25dp"
+                android:layout_marginTop="-15dp"
+               />
 
             <EditText
                 android:id="@+id/etAddDesc"
@@ -76,9 +78,6 @@
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/hint_color"
                 android:textCursorDrawable="@drawable/cursor_black" />
-
-
         </RelativeLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

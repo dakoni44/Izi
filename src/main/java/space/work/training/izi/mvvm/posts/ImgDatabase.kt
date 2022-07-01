@@ -1,4 +1,4 @@
-package space.work.training.izi.mvvm
+package space.work.training.izi.mvvm.posts
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -20,8 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
-import space.work.training.izi.model.Users
-import space.work.training.izi.mvvm.Img
+import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.mvvm.chat.User
 import java.util.*
 
 @AndroidEntryPoint
@@ -106,7 +106,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
     private fun showData() {
         databaseReference.child(userID!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = Users()
+                val user = User()
                 user.uid = userID as String
                 user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
                 user.username =

@@ -40,14 +40,14 @@ class AddPostFragment : Fragment() {
 
     private lateinit var binding: FragmentAddPostBinding
 
-    var firebaseAuth: FirebaseAuth? = null
-    var user: FirebaseUser? = null
-    var firebaseDatabase: FirebaseDatabase? = null
-    var databaseReference: DatabaseReference? = null
+    private var firebaseAuth: FirebaseAuth? = null
+    private var user: FirebaseUser? = null
+    private var firebaseDatabase: FirebaseDatabase? = null
+    private var databaseReference: DatabaseReference? = null
 
-    var imageUri: Uri? = null
-    var myUrl = ""
-    var storageReference: StorageReference? = null
+    private var imageUri: Uri? = null
+    private var myUrl = ""
+    private var storageReference: StorageReference? = null
 
     private lateinit var desc : String
 

@@ -7,8 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import space.work.training.izi.mvvm.ImgDao
-import space.work.training.izi.mvvm.ImgDatabase
+import space.work.training.izi.mvvm.posts.ImgDao
+import space.work.training.izi.mvvm.posts.ImgDatabase
+import space.work.training.izi.mvvm.chat.ChatListDatabase
+import space.work.training.izi.mvvm.chat.UserDao
 import javax.inject.Singleton
 
 @Module
@@ -26,7 +28,22 @@ object AppModule {
     }
 
     @Provides
-    fun provideChannelDao(imgDatabase: ImgDatabase): ImgDao {
+    fun provideImgDao(imgDatabase: ImgDatabase): ImgDao {
         return imgDatabase.imgDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideChatListDatabase(@ApplicationContext context: Context): ChatListDatabase {
+        return Room.databaseBuilder(
+            context,
+            ChatListDatabase::class.java, "chatList_database"
+        ).allowMainThreadQueries()
+            .build()
+    }
+
+    @Provides
+    fun provideChatListDao(chatListDatabase: ChatListDatabase): UserDao {
+        return chatListDatabase.userDao()
     }
 }

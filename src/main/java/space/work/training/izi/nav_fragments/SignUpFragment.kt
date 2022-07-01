@@ -10,14 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentSignUpBinding
-import space.work.training.izi.model.Users
+import space.work.training.izi.mvvm.chat.User
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
@@ -71,7 +70,7 @@ class SignUpFragment : Fragment() {
                     val firebaseUser = mAuth!!.currentUser
                     val userId = firebaseUser!!.uid
                     userRef = db!!.reference.child("Users").child(userId)
-                    val users = Users()
+                    val users = User()
                     users.uid = FirebaseAuth.getInstance().currentUser!!.uid
                     users.email = binding.etRegisterEmail.getText().toString().trim { it <= ' ' }
                     users.name = ""

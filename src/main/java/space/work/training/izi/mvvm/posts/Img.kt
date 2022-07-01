@@ -1,4 +1,4 @@
-package space.work.training.izi.mvvm
+package space.work.training.izi.mvvm.posts
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

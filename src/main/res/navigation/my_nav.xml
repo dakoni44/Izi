@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/homeToChatList"
-            app:destination="@id/chatListFragment" />
+            app:destination="@id/chatListFragment"
+            app:enterAnim="@anim/chat_anim" />
     </fragment>
     <fragment
         android:id="@+id/chatListFragment"
