@@ -13,7 +13,7 @@
         <action
             android:id="@+id/homeToChatList"
             app:destination="@id/chatListFragment"
-            app:enterAnim="@anim/chat_anim" />
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/chatListFragment"
@@ -22,7 +22,8 @@
         tools:layout="@layout/fragment_chat_list" >
         <action
             android:id="@+id/chatListToHome"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/fade_in" />
         <action
             android:id="@+id/chatListToChat"
             app:destination="@id/chatFragment" />
@@ -69,6 +70,16 @@
         <action
             android:id="@+id/profileToLogIn"
             app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/profileToPost"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/profileToEditProfile"
+            app:destination="@id/editProfileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/addPostFragment"
@@ -86,6 +97,47 @@
         <action
             android:id="@+id/chatToChatList"
             app:destination="@id/chatListFragment" />
+        <argument
+            android:name="uId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="space.work.training.izi.nav_fragments.PostFragment"
+        android:label="fragment_post"
+        tools:layout="@layout/fragment_post" >
+        <argument
+            android:name="imgId"
+            app:argType="string" />
+        <action
+            android:id="@+id/postToProfile"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="space.work.training.izi.nav_fragments.EditProfileFragment"
+        android:label="EditProfileFragment" >
+        <action
+            android:id="@+id/editProfileToProfile"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/findFragment"
+        android:name="space.work.training.izi.nav_fragments.FindFragment"
+        android:label="FindFragment" >
+        <action
+            android:id="@+id/findToOtherProfile"
+            app:destination="@id/profileOtherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileOtherFragment"
+        android:name="space.work.training.izi.nav_fragments.ProfileOtherFragment"
+        android:label="ProfileOtherFragment" >
+        <action
+            android:id="@+id/OtherProfileToFind"
+            app:destination="@id/findFragment" />
         <argument
             android:name="uId"
             app:argType="string" />

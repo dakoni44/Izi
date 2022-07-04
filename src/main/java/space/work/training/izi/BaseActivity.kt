@@ -23,16 +23,19 @@ class BaseActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener(NavController.OnDestinationChangedListener { controller, destination, arguments ->
-            if(destination.id==R.id.splashScreenFragment
-                || destination.id==R.id.addPostFragment
-                || destination.id==R.id.logInFragment
-                    || destination.id==R.id.signUpFragment
-                || destination.id==R.id.chatListFragment){
-                bottomNavigationView.visibility=View.GONE
-            }else{
-                bottomNavigationView.visibility=View.VISIBLE
+            if (destination.id == R.id.splashScreenFragment
+                || destination.id == R.id.addPostFragment
+                || destination.id == R.id.logInFragment
+                || destination.id == R.id.signUpFragment
+                || destination.id == R.id.chatListFragment
+                || destination.id == R.id.editProfileFragment
+                || destination.id == R.id.postFragment
+                || destination.id == R.id.chatFragment
+            ) {
+                bottomNavigationView.visibility = View.GONE
+            } else {
+                bottomNavigationView.visibility = View.VISIBLE
             }
-
         })
     }
 }

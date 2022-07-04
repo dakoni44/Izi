@@ -45,7 +45,7 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat_list, container, false)
         return binding.root
     }

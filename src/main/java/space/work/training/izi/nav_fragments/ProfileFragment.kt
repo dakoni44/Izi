@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
-import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.chat.User
-import java.util.*
+import space.work.training.izi.mvvm.posts.Img
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
@@ -44,6 +44,11 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
     private var userID: String? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(R.transition.fade)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,7 +78,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
         binding.profileRecycler.adapter = homeAdapter
 
         binding.bnEditProfile.setOnClickListener(View.OnClickListener {
-            // findNavController().navigate(R.id.profileToEdit)
+            findNavController().navigate(R.id.profileToEditProfile)
         })
 
         binding.bnLogout.setOnClickListener(View.OnClickListener {
@@ -115,10 +120,11 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (user.uid.equals(userID)) {
-                    if(!user.username.equals("")) binding.tvName.text = user.username
-                    if(!user.name.equals("")) binding.tvNameFull.text = user.name
-                    if(!user.bio.equals(""))  binding.tvBio.text = user.bio
-                   if (!user.bio.equals("")) Glide.with(requireContext()).load(user.image).into(binding.ivMalaSlika1)
+                    if (!user.username.equals("")) binding.tvName.text = user.username
+                    if (!user.name.equals("")) binding.tvNameFull.text = user.name
+                    if (!user.bio.equals("")) binding.tvBio.text = user.bio
+                    if (!user.bio.equals("")) Glide.with(requireContext()).load(user.image)
+                        .into(binding.ivMalaSlika1)
                 }
             }
 
@@ -202,7 +208,8 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val action = ProfileFragmentDirections.profileToPost(imgs.get(position).imgId)
+        findNavController().navigate(action)
     }
 
     override fun onResume() {

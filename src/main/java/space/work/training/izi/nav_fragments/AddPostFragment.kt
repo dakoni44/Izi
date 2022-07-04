@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +15,12 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.constraintlayout.motion.widget.MotionScene
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -31,11 +28,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.CropperActivity
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentAddPostBinding
 
-
+@AndroidEntryPoint
 class AddPostFragment : Fragment() {
 
     private lateinit var binding: FragmentAddPostBinding
@@ -49,14 +47,14 @@ class AddPostFragment : Fragment() {
     private var myUrl = ""
     private var storageReference: StorageReference? = null
 
-    private lateinit var desc : String
+    private lateinit var desc: String
 
     lateinit var mGetContent: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_post, container, false)
         return binding.root
     }
@@ -90,8 +88,8 @@ class AddPostFragment : Fragment() {
             }
 
             TransitionManager.beginDelayedTransition(binding.clAddPost)
-            binding.tvAddDescription.visibility=View.GONE
-            binding.rl.visibility=View.VISIBLE
+            binding.tvAddDescription.visibility = View.GONE
+            binding.rl.visibility = View.VISIBLE
         })
 
         binding.descDown.setOnClickListener(View.OnClickListener {
@@ -100,12 +98,12 @@ class AddPostFragment : Fragment() {
                 endView = binding.tvAddDescription
                 scrimColor = Color.TRANSPARENT
                 addTarget(endView as TextView)
-                desc=binding.etAddDesc.text.toString().trim()
+                desc = binding.etAddDesc.text.toString().trim()
             }
 
             TransitionManager.beginDelayedTransition(binding.clAddPost)
-            binding.tvAddDescription.visibility=View.VISIBLE
-            binding.rl.visibility=View.GONE
+            binding.tvAddDescription.visibility = View.VISIBLE
+            binding.rl.visibility = View.GONE
         })
     }
 

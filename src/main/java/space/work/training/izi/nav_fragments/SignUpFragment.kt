@@ -63,7 +63,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun registerUser(email: String, password: String) {
-        binding.pbRegister.setVisibility(View.VISIBLE)
+        binding.pbRegister.visibility = View.VISIBLE
         mAuth!!.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
@@ -80,7 +80,7 @@ class SignUpFragment : Fragment() {
                     userRef!!.setValue(users)
                         .addOnCompleteListener {
                             binding.pbRegister.setVisibility(View.INVISIBLE)
-                            //findNavController().navigate(R.id.signtoprofile)
+                            findNavController().navigate(R.id.signUpToProfile)
                             Toast.makeText(
                                 requireContext(),
                                 "User registered",

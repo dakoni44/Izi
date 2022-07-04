@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,12 +30,13 @@ import space.work.training.izi.notifications.RetrofitInstance
 import space.work.training.izi.notifications.Sender
 import space.work.training.izi.notifications.Token
 
+@AndroidEntryPoint
 class ChatFragment : Fragment() {
 
     private lateinit var binding: FragmentChatBinding
 
     private val args: ChatFragmentArgs by navArgs()
-    private var receiverId: String = args.uId
+    private var receiverId: String? = null
 
     var senderId: String? = null
     var receiverImg: String? = null
@@ -64,6 +66,8 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        receiverId = args.uId
 
         val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.stackFromEnd = true
@@ -97,7 +101,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun showData() {
-        usersDbRef!!.child(receiverId).addValueEventListener(object : ValueEventListener {
+        usersDbRef!!.child(receiverId!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 receiverImg = dataSnapshot.child("image").getValue(String::class.java)
                 binding.tvName.text = dataSnapshot.child("name").getValue(String::class.java)
@@ -177,7 +181,7 @@ class ChatFragment : Fragment() {
         val timestamp = System.currentTimeMillis().toString()
         val hashMap = HashMap<String, Any>()
         hashMap["sender"] = senderId!!
-        hashMap["receiver"] = receiverId
+        hashMap["receiver"] = receiverId!!
         hashMap["message"] = message
         hashMap["timestamp"] = timestamp
         hashMap["isSeen"] = false
@@ -196,7 +200,7 @@ class ChatFragment : Fragment() {
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (notify) {
                     val notifData =
-                        NotifData(senderId!!, message, user.username, receiverId, R.drawable.izi)
+                        NotifData(senderId!!, message, user.username, receiverId!!, R.drawable.izi)
                     checkTokenAndSend(notifData)
                 }
                 notify = false
@@ -207,7 +211,7 @@ class ChatFragment : Fragment() {
 
         //Pravim cet listu kad ja posaljem poruku u bazu ide kome sam ja sve slao poruku i upisujem njihov id
         val chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist")
-            .child(senderId!!).child(receiverId)
+            .child(senderId!!).child(receiverId!!)
         chatRef1.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
@@ -218,7 +222,7 @@ class ChatFragment : Fragment() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
         val chatRef2 = FirebaseDatabase.getInstance().getReference("Chatlist")
-            .child(receiverId).child(senderId!!)
+            .child(receiverId!!).child(senderId!!)
         chatRef2.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {

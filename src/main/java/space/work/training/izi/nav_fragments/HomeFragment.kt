@@ -1,6 +1,7 @@
 package space.work.training.izi.nav_fragments
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
-import space.work.training.izi.mvvm.posts.ImgViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
 import space.work.training.izi.databinding.FragmentHomeBinding
 import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.mvvm.posts.ImgViewModel
 import space.work.training.izi.notifications.Token
 
 @AndroidEntryPoint
@@ -31,6 +32,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var gridManager: GridLayoutManager
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(R.transition.fade)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +45,6 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
