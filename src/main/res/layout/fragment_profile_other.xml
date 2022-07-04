@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data></data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/svProfile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="@color/bgGrey">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/rlFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/rl"
@@ -159,7 +164,7 @@
                     android:src="@drawable/default_profile_pic"></de.hdodenhof.circleimageview.CircleImageView>
 
                 <Button
-                    android:id="@+id/bnEditProfile"
+                    android:id="@+id/removeFriend"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_alignTop="@id/ivMalaSlika1"
@@ -167,7 +172,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@id/ivMalaSlika1"
                     android:background="@drawable/rounded_button2"
-                    android:text="Edit profile"
+                    android:text="Remove friend"
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
 
@@ -180,7 +185,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_toRightOf="@id/ivMalaSlika1"
                     android:background="@drawable/rounded_button2"
-                    android:text="Log out"
+                    android:text="Send message"
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
 
@@ -260,6 +265,69 @@
                     android:layout_height="match_parent"
                     />
             </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlNotFriends"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@id/rlFriends"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:id="@+id/ivBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/background" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivProfile"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="220dp"
+                    app:civ_border_color="@android:color/black"
+                    app:civ_border_width="1dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ivProfile"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:text="AAAAAAA"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/tvName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvUsername"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"
+                    />
+
+                <Button
+                    android:id="@+id/bnSendRequest2"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/rounded_btn"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="600dp"
+                    android:text="Add friend"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"/>
+            </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 
