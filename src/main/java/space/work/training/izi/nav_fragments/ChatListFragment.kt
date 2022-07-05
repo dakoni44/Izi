@@ -25,7 +25,7 @@ import space.work.training.izi.mvvm.chat.User
 import java.util.*
 
 @AndroidEntryPoint
-class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
+class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupListAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentChatListBinding
 
@@ -62,17 +62,28 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
         binding.rvChatList.layoutManager = LinearLayoutManager(requireContext())
 
         binding.rvGroupList.setHasFixedSize(true)
-        binding.rvGroupList.setLayoutManager(LinearLayoutManager(requireContext()))
+        binding.rvGroupList.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = ChatList2Adapter(requireContext(), this)
         binding.rvChatList.adapter = adapter
 
-        chatListViewModel.getAllUsers().observe(viewLifecycleOwner) {
+        chatListViewModel.getOnlineUsers().observe(viewLifecycleOwner) {
             it.let {
                 adapter!!.setData(it)
                 chatUsers.addAll(it)
                 for (i in it.indices) {
                     lastMessage(it[i].uid)
+                }
+            }
+            if(it.isNullOrEmpty()){
+                chatListViewModel.getOfflineUsers().observe(viewLifecycleOwner){ it ->
+                    it.let {
+                        adapter!!.setData(it)
+                        chatUsers.addAll(it)
+                        for (i in it.indices) {
+                            lastMessage(it[i].uid)
+                        }
+                    }
                 }
             }
         }
@@ -81,11 +92,11 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
 
         binding.oneChat.setOnClickListener {
             binding.rvChatList.visibility = View.VISIBLE
-            binding.rvGroupList.visibility = View.INVISIBLE
-            binding.bnCreate.visibility = View.INVISIBLE
+            binding.rvGroupList.visibility = View.GONE
+            binding.bnCreate.visibility = View.GONE
         }
         binding.groupChat.setOnClickListener {
-            binding.rvChatList.visibility = View.INVISIBLE
+            binding.rvChatList.visibility = View.GONE
             binding.rvGroupList.visibility = View.VISIBLE
             binding.bnCreate.visibility = View.VISIBLE
         }
@@ -166,6 +177,10 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener {
     override fun onItemClick(position: Int) {
         val action = ChatListFragmentDirections.chatListToChat(chatUsers.get(position).uid)
         findNavController().navigate(action)
+    }
+
+    override fun onItemGroupClick(position: Int) {
+        TODO("Not yet implemented")
     }
 
 }

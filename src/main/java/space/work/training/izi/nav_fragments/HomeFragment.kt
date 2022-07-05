@@ -17,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
+import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentHomeBinding
 import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.posts.ImgViewModel
@@ -26,7 +27,7 @@ import space.work.training.izi.notifications.Token
 class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private var imgs: ArrayList<Img>? = null
+    private var imgs: ArrayList<Img> = ArrayList()
 
     private val imgViewModel: ImgViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
@@ -54,26 +55,33 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         })
 
         gridManager = GridLayoutManager(requireContext(), 3)
-        binding.homeRecycler.setLayoutManager(gridManager)
+        binding.homeRecycler.layoutManager = gridManager
         homeAdapter = HomeAdapter(requireContext(), this)
-        binding.homeRecycler.setAdapter(homeAdapter)
+        binding.homeRecycler.adapter = homeAdapter
 
         getToken()
 
-        imgViewModel.getAllImgs().observe(viewLifecycleOwner) {
+        imgViewModel.getOnlineImgs().observe(viewLifecycleOwner) {
             it.let {
                 getPosts(it)
+            }
+            if(it.isNullOrEmpty()){
+                imgViewModel.getOfflineImgs().observe(viewLifecycleOwner){ it ->
+                    it.let {
+                        getPosts(it)
+                    }
+                }
             }
         }
     }
 
     private fun getPosts(pctrs: List<Img>) {
         homeAdapter.setData(pctrs)
-        imgs?.addAll(pctrs)
+        imgs.addAll(pctrs)
     }
 
     private fun getToken() {
-        FirebaseMessaging.getInstance().getToken()
+        FirebaseMessaging.getInstance().token
             .addOnCompleteListener(OnCompleteListener<String?> { task ->
                 val token = task.result
                 val user = FirebaseAuth.getInstance().currentUser
@@ -84,6 +92,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val action = HomeFragmentDirections.homeToPost(imgs.get(position).imgId)
+        findNavController().navigate(action)
     }
 }

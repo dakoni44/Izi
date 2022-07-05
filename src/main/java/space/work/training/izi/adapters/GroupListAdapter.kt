@@ -14,11 +14,15 @@ import space.work.training.izi.R
 import space.work.training.izi.model.GroupList
 import java.util.*
 
-class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:ChatList2Adapter.OnItemClickListener) :
+class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:OnItemClickListener) :
     RecyclerView.Adapter<GroupListAdapter.ImageViewHolder?>() {
 
     private val mdata: List<GroupList>
-    private val listener : ChatList2Adapter.OnItemClickListener?=null
+    private val listener : OnItemClickListener?=null
+
+    interface OnItemClickListener {
+        fun onItemGroupClick(position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view: View =
@@ -63,7 +67,7 @@ class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:C
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position)
+                        listener.onItemGroupClick(position)
                     }
                 }
             }

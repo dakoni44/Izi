@@ -10,6 +10,8 @@ import dagger.hilt.components.SingletonComponent
 import space.work.training.izi.mvvm.posts.ImgDao
 import space.work.training.izi.mvvm.posts.ImgDatabase
 import space.work.training.izi.mvvm.chat.ChatListDatabase
+import space.work.training.izi.mvvm.chat.ChatListFirebase
+import space.work.training.izi.mvvm.chat.ChatListRepository
 import space.work.training.izi.mvvm.chat.UserDao
 import javax.inject.Singleton
 
@@ -45,5 +47,10 @@ object AppModule {
     @Provides
     fun provideChatListDao(chatListDatabase: ChatListDatabase): UserDao {
         return chatListDatabase.userDao()
+    }
+
+    @Provides
+    fun provideChatListRepo(chatListFirebase: ChatListFirebase,userDao: UserDao): ChatListRepository {
+        return ChatListRepository(chatListFirebase,userDao)
     }
 }

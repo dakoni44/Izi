@@ -13,7 +13,13 @@
         <action
             android:id="@+id/homeToChatList"
             app:destination="@id/chatListFragment"
-            app:enterAnim="@android:anim/fade_in" />
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/homeToPost"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/chatListFragment"
@@ -35,10 +41,16 @@
         tools:layout="@layout/fragment_splash_screen" >
         <action
             android:id="@+id/splashToHome"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashScreenFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/splashToLogin"
-            app:destination="@id/logInFragment" />
+            app:destination="@id/logInFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashScreenFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
@@ -87,7 +99,8 @@
         android:label="AddPostFragment" >
         <action
             android:id="@+id/addPostToProfile"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -141,5 +154,10 @@
         <argument
             android:name="uId"
             app:argType="string" />
+        <action
+            android:id="@+id/profileOtherToChat"
+            app:destination="@id/chatFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
 </navigation>

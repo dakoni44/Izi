@@ -32,7 +32,6 @@ class SplashScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("Splash created")
 
         mAuth = FirebaseAuth.getInstance()
         val firebaseUser = mAuth!!.currentUser

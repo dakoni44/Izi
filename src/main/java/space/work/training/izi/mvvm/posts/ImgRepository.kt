@@ -2,6 +2,7 @@ package space.work.training.izi.mvvm.posts
 
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.*
+import space.work.training.izi.mvvm.chat.User
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
@@ -10,11 +11,7 @@ import kotlin.coroutines.CoroutineContext
 class ImgRepository @Inject constructor(
     private val imgFirebase: ImgFirebase,
     private val imgDao: ImgDao
-) :CoroutineScope{
-    private lateinit var job: Job
-
-    override val coroutineContext:CoroutineContext
-    get() = job+Dispatchers.IO
+) {
 
     suspend fun notifyFirebaseDataChange(list: List<Img>) {
         imgDao.deleteAllImgs()
@@ -23,14 +20,12 @@ class ImgRepository @Inject constructor(
         }
     }
 
-      fun getAllImgs(): LiveData<List<Img>> {
-        var list = imgFirebase.getAllImgs()
-        if (!list.isNullOrEmpty()) {
-           launch {
-               notifyFirebaseDataChange(list)
-           }
-        }
+    fun getOfflineImgs():LiveData<List<Img>>{
         return imgDao.getAllImgs()
+    }
+
+    fun getOnlineImgs(): List<Img> {
+        return imgFirebase.getAllImgs()
     }
 
     suspend fun insertImg(img: Img) = imgDao.insert(img)

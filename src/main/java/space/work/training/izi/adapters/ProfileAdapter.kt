@@ -14,11 +14,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
-import space.work.training.izi.mvvm.chat.User
 import space.work.training.izi.mvvm.posts.Img
 
-class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
-    RecyclerView.Adapter<HomeAdapter.ImageViewHolder>() {
+class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
+    RecyclerView.Adapter<ProfileAdapter.ImageViewHolder>() {
 
     var mContext: Context
     private var mdata: List<Img>
@@ -44,7 +43,6 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser()
         val img: Img = mdata[position]
         unblurPost(holder.ivMainImage, img)
-        publisherInfo(img.publisher, holder.tvMainText, holder.ivProfilePic)
     }
 
     override fun getItemCount(): Int {
@@ -60,12 +58,10 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
         RecyclerView.ViewHolder(view) {
         var ivMainImage: ImageView
         var tvMainText: TextView
-        var ivProfilePic: ImageView
 
         init {
             ivMainImage = view.findViewById(R.id.ivMainImage)
             tvMainText = view.findViewById(R.id.tvMainText)
-            ivProfilePic = itemView.findViewById<ImageView>(R.id.ivProfilePic)
             view.setOnClickListener {
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
@@ -82,7 +78,7 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
             FirebaseDatabase.getInstance().getReference("Posts").child(post.imgId)
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.child("views").child(firebaseUser!!.uid).exists()) {
+                if (dataSnapshot.child("views").child(firebaseUser!!.getUid()).exists()) {
                     Glide.with(mContext).load(post.img).into(ivPost)
                 } else {
                     Glide.with(mContext).load(post.img)
@@ -94,25 +90,4 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
-
-    private fun publisherInfo(userid: String, username: TextView, ivuser: ImageView) {
-        val reference = FirebaseDatabase.getInstance().getReference("Users")
-            .child(userid)
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = User()
-                user.uid = userid
-                user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
-                user.username =
-                    dataSnapshot.child("username").getValue(String::class.java).toString()
-                user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
-                user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
-                username.setText(user.username)
-                Glide.with(mContext).load(user.image).into(ivuser)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
 }

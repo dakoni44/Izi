@@ -19,13 +19,13 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
-import space.work.training.izi.adapters.HomeAdapter
+import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
 import space.work.training.izi.mvvm.chat.User
 import space.work.training.izi.mvvm.posts.Img
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
+class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -39,7 +39,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
     private lateinit var friendRef: DatabaseReference
 
     private var gridManager: GridLayoutManager? = null
-    private var homeAdapter: HomeAdapter? = null
+    private var profileAdapter: ProfileAdapter? = null
     private val imgs: ArrayList<Img> = ArrayList<Img>()
 
     private var userID: String? = null
@@ -74,8 +74,8 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
         gridManager = GridLayoutManager(requireContext(), 3)
         binding.profileRecycler.layoutManager = gridManager
-        homeAdapter = HomeAdapter(requireContext(), this)
-        binding.profileRecycler.adapter = homeAdapter
+        profileAdapter = ProfileAdapter(requireContext(), this)
+        binding.profileRecycler.adapter = profileAdapter
 
         binding.bnEditProfile.setOnClickListener(View.OnClickListener {
             findNavController().navigate(R.id.profileToEditProfile)
@@ -149,7 +149,7 @@ class ProfileFragment : Fragment(), HomeAdapter.OnItemClickListener {
                     }
                 }
                 imgs.reverse()
-                homeAdapter?.setData(imgs)
+                profileAdapter?.setData(imgs)
                 showNumbers()
             }
 

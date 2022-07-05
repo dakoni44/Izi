@@ -19,14 +19,15 @@ import space.work.training.izi.adapters.FindAdapter
 import space.work.training.izi.databinding.FragmentFindBinding
 import space.work.training.izi.mvvm.chat.User
 import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
 
-    private lateinit var binding = FragmentFindBinding
+    private lateinit var binding: FragmentFindBinding
 
     var findAdapter: FindAdapter? = null
-    var findUsers: ArrayList<User>? = null
+    var findUsers: ArrayList<User> = ArrayList()
 
     var firebaseUser: FirebaseUser? = null
 
@@ -51,7 +52,7 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
         firebaseUser = FirebaseAuth.getInstance().currentUser
 
         findUsers = ArrayList()
-        findAdapter = FindAdapter(requireContext(), findUsers!!, this)
+        findAdapter = FindAdapter(requireContext(), findUsers, this)
         binding.rvFind.setAdapter(findAdapter)
 
         binding.etFind.addTextChangedListener(object : TextWatcher {
@@ -69,7 +70,7 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
             .orderByChild("username").startAt(s).endAt(s + "\uf8ff")
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                findUsers!!.clear()
+                findUsers.clear()
                 for (snapshot in dataSnapshot.children) {
                     val user = User()
                     user.uid = snapshot.child("uid").getValue(String::class.java).toString()
@@ -80,7 +81,7 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
                     user.image = snapshot.child("image").getValue(String::class.java).toString()
                     user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                     if (!user.uid.equals(firebaseUser!!.uid))
-                        findUsers!!.add(user)
+                        findUsers.add(user)
                 }
                 findAdapter!!.notifyDataSetChanged()
             }
@@ -94,10 +95,9 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
             .child(firebaseUser!!.uid)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (findUsers!![position].uid.equals(firebaseUser!!.uid)) {
-                } else {
+                if (!findUsers[position].uid.equals(firebaseUser!!.uid)) {
                     val action =
-                        FindFragmentDirections.findToOtherProfile(findUsers!!.get(position).uid)
+                        FindFragmentDirections.findToOtherProfile(findUsers.get(position).uid)
                     findNavController().navigate(action)
                 }
             }

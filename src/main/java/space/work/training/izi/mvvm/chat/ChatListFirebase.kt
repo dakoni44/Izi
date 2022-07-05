@@ -13,13 +13,16 @@ class ChatListFirebase @Inject constructor(){
     private var usersList: ArrayList<User> = ArrayList()
 
     fun getUsers(): List<User> {
-        checkList()
         return usersList
+    }
+
+    init {
+        checkList()
     }
 
     //Odavde odma citam id-eve i spajam ih sa userima u sledecoj metodi
     //ne moram da ih trazim gde me sve ima u chats-u
-    private fun checkList() {
+    private fun checkList(){
         val reference = FirebaseDatabase.getInstance().getReference("Chatlist")
             .child(FirebaseAuth.getInstance().currentUser!!.uid)
         reference.addValueEventListener(object : ValueEventListener {
@@ -54,7 +57,6 @@ class ChatListFirebase @Inject constructor(){
                     for (chat in chatList) {
                         if (user.uid != null && user.uid.equals(chat.id)) {
                             usersList.add(user)
-                            break
                         }
                     }
                 }

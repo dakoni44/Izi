@@ -11,10 +11,10 @@ import javax.inject.Singleton
 @Singleton
 class ImgFirebase @Inject constructor() {
 
-    private var friendList: ArrayList<String>? = null
-    private var imgs: ArrayList<Img>? = null
+    private var friendList: ArrayList<String> = ArrayList()
+    private var imgs: ArrayList<Img> = ArrayList()
 
-    fun getAllImgs(): List<Img>? {
+    fun getAllImgs(): List<Img> {
         checkFollowing()
         return imgs
     }
@@ -33,6 +33,7 @@ class ImgFirebase @Inject constructor() {
                     readPosts()
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
@@ -47,9 +48,12 @@ class ImgFirebase @Inject constructor() {
                     for (snapshot in dataSnapshot.children) {
                         var img = Img()
                         img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
-                        img.publisher = snapshot.child("publisher").getValue(String::class.java).toString()
-                        img.img = snapshot.child("postimage").getValue(String::class.java).toString()
-                        img.text = snapshot.child("description").getValue(String::class.java).toString()
+                        img.publisher =
+                            snapshot.child("publisher").getValue(String::class.java).toString()
+                        img.img =
+                            snapshot.child("postimage").getValue(String::class.java).toString()
+                        img.text =
+                            snapshot.child("description").getValue(String::class.java).toString()
                         img.views = snapshot.child("views").childrenCount.toString()
                         for (id in friendList!!) {
                             if (img.publisher == id) {

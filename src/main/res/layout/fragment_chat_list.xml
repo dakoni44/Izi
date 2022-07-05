@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bgGrey"
+        android:animateLayoutChanges="true"
         tools:context=".activities.ChatListActivity">
 
 
@@ -85,16 +86,14 @@
             android:id="@+id/rvChatList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rl"
-            tools:listitem="@layout/chat_list_item" />
+            android:layout_below="@id/rl"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvGroupList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl"
-            android:visibility="invisible"
-            tools:listitem="@layout/groupchat_list_item"/>
+            android:visibility="invisible"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/bnCreate"

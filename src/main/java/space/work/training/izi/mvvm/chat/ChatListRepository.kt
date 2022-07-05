@@ -13,12 +13,7 @@ import kotlin.coroutines.CoroutineContext
 class ChatListRepository @Inject constructor(
     private val chatListFirebase: ChatListFirebase,
     private val userDao: UserDao
-):CoroutineScope {
-
-    private lateinit var job: Job
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
+) {
 
     suspend fun notifyFirebaseDataChange(list: List<User>) {
         userDao.deleteAllUsers()
@@ -27,15 +22,14 @@ class ChatListRepository @Inject constructor(
         }
     }
 
-    fun getAllUsers(): LiveData<List<User>> {
-        var list = chatListFirebase.getUsers()
-        if (!list.isNullOrEmpty()) {
-            launch {
-                notifyFirebaseDataChange(list)
-            }
-        }
+     fun getOfflineUsers():LiveData<List<User>>{
         return userDao.getAllUsers()
     }
+
+    fun getOnlineUsers():List<User>{
+        return chatListFirebase.getUsers()
+    }
+
 
     suspend fun insertUser(user: User) = userDao.insert(user)
 

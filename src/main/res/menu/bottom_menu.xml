@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/find"
+        android:id="@+id/findFragment"
         android:title="Find"
         android:icon="@drawable/ic_find"/>
 

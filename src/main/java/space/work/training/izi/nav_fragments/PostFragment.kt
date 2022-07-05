@@ -32,7 +32,6 @@ class PostFragment : Fragment() {
     private val args: PostFragmentArgs by navArgs()
     private var imgId: String? = null
     private var currentUserID: String? = null
-    private var postUserId: String? = null
 
     private var seen = false
 
@@ -329,7 +328,7 @@ class PostFragment : Fragment() {
         binding.username.text = user?.username
         Glide.with(requireContext()).load(img?.img).into(binding.postImage)
         binding.description.text = img?.text
-        binding.views.text = java.lang.String.valueOf(img?.views)
+        binding.views.text = img?.views
     }
 
     private fun updatePost() {
@@ -338,14 +337,14 @@ class PostFragment : Fragment() {
                 if (!dataSnapshot.hasChild(currentUserID!!)) {
                     seen = true
                 }
+                if (seen) {
+                    postRef!!.child("views").child(currentUserID!!).setValue(currentUserID)
+                    seen = false
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-        if (seen) {
-            postRef!!.child("views").child(currentUserID!!).setValue(currentUserID)
-            seen = false
-        }
     }
 
 }

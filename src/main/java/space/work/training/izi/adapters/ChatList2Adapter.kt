@@ -16,8 +16,12 @@ class ChatList2Adapter(private val mContext: Context, listener: OnItemClickListe
 
     private var mdata: List<User> = ArrayList()
     private val lastMessageMap: HashMap<String, String> = HashMap()
-    private val listener: OnItemClickListener?=null
+    private val listener: OnItemClickListener
     var time: String? = null
+
+    init {
+        this.listener=listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view: View =

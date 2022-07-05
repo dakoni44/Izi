@@ -8,54 +8,55 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:background="@color/colorBlack"
         tools:context=".nav_fragments.HomeFragment">
 
-            <RelativeLayout
-                android:id="@+id/topLo"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_bg"
-                android:elevation="10dp"
-                android:fitsSystemWindows="true"
-                android:outlineSpotShadowColor="@android:color/white"
-                app:layout_constraintTop_toTopOf="parent"
-                app:labelVisibilityMode="unlabeled"
-                tools:targetApi="p">
+        <RelativeLayout
+            android:id="@+id/topLo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_bg"
+            android:elevation="10dp"
+            android:fitsSystemWindows="true"
+            android:outlineSpotShadowColor="@android:color/white"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="p">
 
-                <ImageView
-                    android:id="@+id/ivMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="35dp"
-                    android:transitionName="shared_element"
-                    android:src="@drawable/ic_message" />
+            <ImageView
+                android:id="@+id/ivMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="35dp"
+                android:src="@drawable/ic_message"
+                android:transitionName="shared_element" />
 
-                <ImageView
-                    android:id="@+id/ivList"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="35dp"
-                    android:src="@drawable/ic_img" />
+            <ImageView
+                android:id="@+id/ivList"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/ic_img" />
 
-                <TextView
-                    android:id="@+id/tvAppName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="IZI"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tvAppName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="IZI"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -68,6 +69,9 @@
             android:id="@+id/homeRecycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="@id/bottomg"
             app:layout_constraintTop_toBottomOf="@id/topLo" />
 

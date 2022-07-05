@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorBlack"
         android:id="@+id/postLayout"
+        android:animateLayoutChanges="true"
         tools:context=".nav_fragments.PostFragment">
 
         <RelativeLayout
