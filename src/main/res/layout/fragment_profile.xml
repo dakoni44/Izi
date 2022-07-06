@@ -250,6 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rlBio"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@color/bgGrey"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"

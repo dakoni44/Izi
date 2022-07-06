@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -38,7 +39,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     private lateinit var dislRef: DatabaseReference
     private lateinit var friendRef: DatabaseReference
 
-    private var gridManager: GridLayoutManager? = null
+    private var gridManager: StaggeredGridLayoutManager? = null
     private var profileAdapter: ProfileAdapter? = null
     private val imgs: ArrayList<Img> = ArrayList<Img>()
 
@@ -72,7 +73,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
         userID = user.uid
 
-        gridManager = GridLayoutManager(requireContext(), 3)
+        gridManager = StaggeredGridLayoutManager(3, 1)
         binding.profileRecycler.layoutManager = gridManager
         profileAdapter = ProfileAdapter(requireContext(), this)
         binding.profileRecycler.adapter = profileAdapter

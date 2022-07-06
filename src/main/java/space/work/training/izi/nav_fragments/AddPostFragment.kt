@@ -44,7 +44,7 @@ class AddPostFragment : Fragment() {
     private var myUrl = ""
     private var storageReference: StorageReference? = null
 
-    private lateinit var desc: String
+    private var desc: String=""
 
     lateinit var mGetContent: ActivityResultLauncher<String>
 
@@ -105,7 +105,6 @@ class AddPostFragment : Fragment() {
         }
     }
 
-
     private fun getFileExtension(uri: Uri): String? {
         val contentResolver: ContentResolver = requireContext().contentResolver
         val mime = MimeTypeMap.getSingleton()
@@ -145,8 +144,7 @@ class AddPostFragment : Fragment() {
                     val views = HashMap<Any, Any>()
                     hashMap["postid"] = postid
                     hashMap["postimage"] = myUrl
-                    hashMap["description"] =
-                        desc
+                    hashMap["description"] = desc
                     hashMap["publisher"] = user!!.uid
                     views[user!!.uid] = user!!.uid
                     hashMap["views"] = views

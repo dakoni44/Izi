@@ -12,7 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -42,7 +42,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     private var likeRef: DatabaseReference? = null
     private var dislikeRef: DatabaseReference? = null
 
-    private var profileRManager: GridLayoutManager? = null
+    private var profileRManager: StaggeredGridLayoutManager? = null
     private var profileAdapter: ProfileAdapter? = null
     private val imgs: ArrayList<Img> = ArrayList<Img>()
 
@@ -81,7 +81,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         senderId = user!!.uid
         CURRENT_STATE = "not_friends"
 
-        profileRManager = GridLayoutManager(requireContext(), 3)
+        profileRManager = StaggeredGridLayoutManager(3, 1)
         binding.profileRecycler.layoutManager = profileRManager
         profileAdapter = ProfileAdapter(requireContext(), this)
         binding.profileRecycler.adapter = profileAdapter

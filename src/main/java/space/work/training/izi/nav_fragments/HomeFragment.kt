@@ -1,5 +1,6 @@
 package space.work.training.izi.nav_fragments
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -29,7 +32,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
     private val imgViewModel: ImgViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var gridManager: GridLayoutManager
+    private lateinit var gridManager: StaggeredGridLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
             findNavController().navigate(R.id.homeToChatList)
         }
 
-        gridManager = GridLayoutManager(requireContext(), 3)
+        gridManager = StaggeredGridLayoutManager(3,LinearLayoutManager.VERTICAL)
         binding.homeRecycler.layoutManager = gridManager
         homeAdapter = HomeAdapter(requireContext(), this)
         binding.homeRecycler.adapter = homeAdapter
