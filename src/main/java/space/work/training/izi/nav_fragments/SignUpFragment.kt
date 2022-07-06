@@ -43,15 +43,15 @@ class SignUpFragment : Fragment() {
         userRef = db!!.getReference("Users")
 
         binding.bRegister.setOnClickListener(View.OnClickListener {
-            val email: String = binding.etRegisterEmail.getText().toString().trim { it <= ' ' }
+            val email: String = binding.etRegisterEmail.text.toString().trim { it <= ' ' }
             val password: String =
-                binding.etRegisterPassword.getText().toString().trim { it <= ' ' }
+                binding.etRegisterPassword.text.toString().trim { it <= ' ' }
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.etRegisterEmail.setError("Invalid Email")
-                binding.etRegisterEmail.setFocusable(true)
+                binding.etRegisterEmail.error = "Invalid Email"
+                binding.etRegisterEmail.isFocusable = true
             } else if (password.length < 6) {
-                binding.etRegisterPassword.setError("At least 6 characters")
-                binding.etRegisterPassword.setFocusable(true)
+                binding.etRegisterPassword.error = "At least 6 characters"
+                binding.etRegisterPassword.isFocusable = true
             } else {
                 registerUser(email, password)
             }
@@ -72,14 +72,14 @@ class SignUpFragment : Fragment() {
                     userRef = db!!.reference.child("Users").child(userId)
                     val users = User()
                     users.uid = FirebaseAuth.getInstance().currentUser!!.uid
-                    users.email = binding.etRegisterEmail.getText().toString().trim { it <= ' ' }
+                    users.email = binding.etRegisterEmail.text.toString().trim { it <= ' ' }
                     users.name = ""
                     users.username = ""
                     users.image = ""
                     users.bio = ""
                     userRef!!.setValue(users)
                         .addOnCompleteListener {
-                            binding.pbRegister.setVisibility(View.INVISIBLE)
+                            binding.pbRegister.visibility = View.INVISIBLE
                             findNavController().navigate(R.id.signUpToProfile)
                             Toast.makeText(
                                 requireContext(),
@@ -95,14 +95,14 @@ class SignUpFragment : Fragment() {
                             ).show()
                         }
                 } else {
-                    binding.pbRegister.setVisibility(View.INVISIBLE)
+                    binding.pbRegister.visibility = View.INVISIBLE
                     Toast.makeText(
                         requireContext(), "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }.addOnFailureListener(OnFailureListener { e ->
-                binding.pbRegister.setVisibility(View.INVISIBLE)
+                binding.pbRegister.visibility = View.INVISIBLE
                 Toast.makeText(requireContext(), "" + e.message, Toast.LENGTH_SHORT).show()
             })
     }

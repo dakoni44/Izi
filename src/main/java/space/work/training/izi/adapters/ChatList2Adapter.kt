@@ -77,11 +77,9 @@ class ChatList2Adapter(private val mContext: Context, listener: OnItemClickListe
             tvMessage = itemView.findViewById<TextView>(R.id.tvMessage)
             tvTime = itemView.findViewById<TextView>(R.id.tvTime)
             itemView.setOnClickListener {
-                if (listener != null) {
-                    val position: Int = getAdapterPosition()
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position)
-                    }
+                val position: Int = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(position)
                 }
             }
         }

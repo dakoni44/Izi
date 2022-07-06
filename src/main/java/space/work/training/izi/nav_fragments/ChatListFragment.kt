@@ -118,9 +118,9 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
                     if (sender == null || receiver == null) {
                         continue
                     }
-                    if (chat.reciever.equals(user?.getUid())
+                    if (chat.reciever.equals(user?.uid)
                         && chat.sender.equals(uid) || chat.reciever.equals(uid)
-                        && chat.sender.equals(user?.getUid())
+                        && chat.sender.equals(user?.uid)
                     ) {
                         theLastMessage = chat.message
                         val cal = Calendar.getInstance(Locale.ENGLISH)

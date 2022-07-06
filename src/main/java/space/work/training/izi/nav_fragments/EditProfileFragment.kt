@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -71,21 +68,21 @@ class EditProfileFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().getReference("profileImages")
 
         mGetContent = registerForActivityResult(
-            ActivityResultContracts.GetContent(),
-            ActivityResultCallback {
-                val intent = Intent(activity, CropperActivity::class.java).apply {
-                    putExtra("DATA", it.toString())
-                    startActivityForResult(this, 101)
-                }
-            })
+            ActivityResultContracts.GetContent()
+        ) {
+            val intent = Intent(activity, CropperActivity::class.java).apply {
+                putExtra("DATA", it.toString())
+                startActivityForResult(this, 101)
+            }
+        }
 
-        binding.ivChangePic.setOnClickListener(View.OnClickListener {
+        binding.ivChangePic.setOnClickListener {
             mGetContent.launch("image/*")
-        })
+        }
 
-        binding.bEditProfile.setOnClickListener(View.OnClickListener {
+        binding.bEditProfile.setOnClickListener {
             updateText()
-        })
+        }
     }
 
     private fun showData() {
@@ -140,28 +137,28 @@ class EditProfileFragment : Fragment() {
                     throw task.exception!!
                 }
                 filereference.downloadUrl
-            }.addOnCompleteListener(OnCompleteListener<Uri> { task ->
+            }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val downloadUri: Uri = task.getResult()
+                    val downloadUri: Uri = task.result
                     myUrl = downloadUri.toString()
 
                     val reference = FirebaseDatabase.getInstance().getReference("Users")
 
                     reference.child(userID!!).child("image").setValue(myUrl)
                 }
-            }).addOnFailureListener(OnFailureListener { })
+            }.addOnFailureListener { }
         }
     }
 
     private fun updateText() {
         val reference = FirebaseDatabase.getInstance().getReference("Users")
         reference.child(userID!!).child("name")
-            .setValue(binding.etEditName.getText().toString().trim { it <= ' ' })
+            .setValue(binding.etEditName.text.toString().trim { it <= ' ' })
         reference.child(userID!!).child("username")
-            .setValue(binding.etEditUsername.getText().toString().trim { it <= ' ' }
+            .setValue(binding.etEditUsername.text.toString().trim { it <= ' ' }
                 .lowercase(Locale.getDefault()))
         reference.child(userID!!).child("bio")
-            .setValue(binding.etEditBio.getText().toString().trim { it <= ' ' })
+            .setValue(binding.etEditBio.text.toString().trim { it <= ' ' })
         findNavController().navigate(R.id.editProfileToProfile)
     }
 

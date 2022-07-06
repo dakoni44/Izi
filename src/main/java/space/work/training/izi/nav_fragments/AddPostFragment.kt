@@ -12,14 +12,11 @@ import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.Task
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
@@ -68,18 +65,19 @@ class AddPostFragment : Fragment() {
         databaseReference = firebaseDatabase!!.getReference("Users")
         storageReference = FirebaseStorage.getInstance().getReference("posts")
 
-        binding.bAddPost.setOnClickListener(View.OnClickListener { uploadImage() })
+        binding.bAddPost.setOnClickListener { uploadImage() }
 
-        mGetContent = registerForActivityResult(ActivityResultContracts.GetContent(),
-            ActivityResultCallback {
-                val intent = Intent(activity, CropperActivity::class.java).apply {
-                    putExtra("DATA", it.toString())
-                    startActivityForResult(this, 101)
-                }
-            })
+        mGetContent = registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        ) {
+            val intent = Intent(activity, CropperActivity::class.java).apply {
+                putExtra("DATA", it.toString())
+                startActivityForResult(this, 101)
+            }
+        }
         mGetContent.launch("image/*")
 
-        binding.tvAddDescription.setOnClickListener(View.OnClickListener {
+        binding.tvAddDescription.setOnClickListener {
             val transform = MaterialContainerTransform().apply {
                 startView = binding.tvAddDescription
                 endView = binding.rl
@@ -90,9 +88,9 @@ class AddPostFragment : Fragment() {
             TransitionManager.beginDelayedTransition(binding.clAddPost)
             binding.tvAddDescription.visibility = View.GONE
             binding.rl.visibility = View.VISIBLE
-        })
+        }
 
-        binding.descDown.setOnClickListener(View.OnClickListener {
+        binding.descDown.setOnClickListener {
             val transform = MaterialContainerTransform().apply {
                 startView = binding.rl
                 endView = binding.tvAddDescription
@@ -104,7 +102,7 @@ class AddPostFragment : Fragment() {
             TransitionManager.beginDelayedTransition(binding.clAddPost)
             binding.tvAddDescription.visibility = View.VISIBLE
             binding.rl.visibility = View.GONE
-        })
+        }
     }
 
 
@@ -131,13 +129,13 @@ class AddPostFragment : Fragment() {
                 System.currentTimeMillis().toString() +
                         "." + getFileExtension(it)
             )
-            var uploadTask = filereference.putFile(it)
+            val uploadTask = filereference.putFile(it)
             uploadTask.continueWithTask { task: Task<*> ->
                 if (!task.isComplete) {
                     throw task.exception!!
                 }
                 filereference.downloadUrl
-            }.addOnCompleteListener(OnCompleteListener<Uri> { task ->
+            }.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri = task.result
                     myUrl = downloadUri.toString()
@@ -154,7 +152,7 @@ class AddPostFragment : Fragment() {
                     hashMap["views"] = views
                     reference.child((postid)!!).setValue(hashMap)
                 }
-            }).addOnFailureListener(OnFailureListener { })
+            }.addOnFailureListener { }
         }
         findNavController().navigate(R.id.addPostToProfile)
     }

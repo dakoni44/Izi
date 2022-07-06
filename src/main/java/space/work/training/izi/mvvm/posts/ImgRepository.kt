@@ -51,7 +51,7 @@ class ImgRepository @Inject constructor(
                 imgs.let {
                     it.clear()
                     for (snapshot in dataSnapshot.children) {
-                        var img = Img()
+                        val img = Img()
                         img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                         img.publisher =
                             snapshot.child("publisher").getValue(String::class.java).toString()

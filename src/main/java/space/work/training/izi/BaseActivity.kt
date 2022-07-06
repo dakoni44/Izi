@@ -22,7 +22,7 @@ class BaseActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener(NavController.OnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (destination.id == R.id.splashScreenFragment
                 || destination.id == R.id.addPostFragment
                 || destination.id == R.id.logInFragment
@@ -36,6 +36,6 @@ class BaseActivity : AppCompatActivity() {
             } else {
                 bottomNavigationView.visibility = View.VISIBLE
             }
-        })
+        }
     }
 }

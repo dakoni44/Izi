@@ -77,11 +77,11 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         profileAdapter = ProfileAdapter(requireContext(), this)
         binding.profileRecycler.adapter = profileAdapter
 
-        binding.bnEditProfile.setOnClickListener(View.OnClickListener {
+        binding.bnEditProfile.setOnClickListener {
             findNavController().navigate(R.id.profileToEditProfile)
-        })
+        }
 
-        binding.bnLogout.setOnClickListener(View.OnClickListener {
+        binding.bnLogout.setOnClickListener {
             val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.logout_dialog)
             dialog.setCanceledOnTouchOutside(false)
@@ -95,9 +95,9 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
             val bnCancel = dialog.findViewById<Button>(R.id.bnCancle)
             bnCancel.setOnClickListener { dialog.dismiss() }
             dialog.show()
-        })
+        }
 
-        binding.tvNameFull.setOnClickListener(View.OnClickListener {
+        binding.tvNameFull.setOnClickListener {
             if (binding.rlBio.visibility == View.GONE) {
                 binding.rlBio.visibility = View.VISIBLE
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_up)
@@ -105,7 +105,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                 binding.rlBio.visibility = View.GONE
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_down)
             }
-        })
+        }
     }
 
     private fun showData() {
@@ -143,7 +143,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                         snapshot.child("publisher").getValue(String::class.java).toString()
                     img.img = snapshot.child("postimage").getValue(String::class.java).toString()
                     img.text = snapshot.child("description").getValue(String::class.java).toString()
-                    img.views = snapshot.child("views").childrenCount.toString().toString()
+                    img.views = snapshot.child("views").childrenCount.toString()
                     if (img.publisher.equals(userID)) {
                         imgs.add(img)
                     }

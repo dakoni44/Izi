@@ -86,20 +86,20 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         profileAdapter = ProfileAdapter(requireContext(), this)
         binding.profileRecycler.adapter = profileAdapter
 
-        binding.sendMessage.setOnClickListener(View.OnClickListener {
+        binding.sendMessage.setOnClickListener {
             val action = ProfileOtherFragmentDirections.profileOtherToChat(friendId!!)
             findNavController().navigate(action)
-        })
+        }
 
-        binding.tvNameFull.setOnClickListener(View.OnClickListener {
-            if (binding.rlBio.getVisibility() == View.GONE) {
-                binding.rlBio.setVisibility(View.VISIBLE)
+        binding.tvNameFull.setOnClickListener {
+            if (binding.rlBio.visibility == View.GONE) {
+                binding.rlBio.visibility = View.VISIBLE
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_up)
             } else {
-                binding.rlBio.setVisibility(View.GONE)
+                binding.rlBio.visibility = View.GONE
                 binding.ivArrow.setImageResource(R.drawable.ic_arrow_down)
             }
-        })
+        }
 
         friendsRef!!.child(senderId!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

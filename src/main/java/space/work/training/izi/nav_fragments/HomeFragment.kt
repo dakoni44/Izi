@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -49,9 +48,9 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ivMessage.setOnClickListener(View.OnClickListener {
+        binding.ivMessage.setOnClickListener {
             findNavController().navigate(R.id.homeToChatList)
-        })
+        }
 
         gridManager = GridLayoutManager(requireContext(), 3)
         binding.homeRecycler.layoutManager = gridManager
@@ -76,13 +75,13 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
     private fun getToken() {
         FirebaseMessaging.getInstance().token
-            .addOnCompleteListener(OnCompleteListener<String?> { task ->
+            .addOnCompleteListener { task ->
                 val token = task.result
                 val user = FirebaseAuth.getInstance().currentUser
                 val reference = FirebaseDatabase.getInstance().getReference("Tokens")
                 val token2 = Token(token)
                 reference.child(user!!.uid).setValue(token2)
-            })
+            }
     }
 
     override fun onItemClick(position: Int) {

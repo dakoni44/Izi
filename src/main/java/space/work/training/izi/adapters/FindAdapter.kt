@@ -28,8 +28,8 @@ class FindAdapter(var mContext: Context, mdata: List<User>, listener: OnItemClic
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val user: User = mdata[position]
-        holder.tvUsername.setText(user.username)
-        holder.tvName.setText(user.name)
+        holder.tvUsername.text = user.username
+        holder.tvName.text = user.name
         Glide.with(mContext).load(user.image).into(holder.ivFind)
     }
 
@@ -45,11 +45,11 @@ class FindAdapter(var mContext: Context, mdata: List<User>, listener: OnItemClic
 
         init {
             ivFind = itemView.findViewById(R.id.ivFind)
-            tvUsername = itemView.findViewById<TextView>(R.id.tvUsername)
-            tvName = itemView.findViewById<TextView>(R.id.tvName)
+            tvUsername = itemView.findViewById(R.id.tvUsername)
+            tvName = itemView.findViewById(R.id.tvName)
             itemView.setOnClickListener {
                 if (listener != null) {
-                    val position: Int = getAdapterPosition()
+                    val position: Int = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(position)
                     }

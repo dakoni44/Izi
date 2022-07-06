@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.yalantis.ucrop.UCrop
-import space.work.training.izi.nav_fragments.HomeFragment
 import java.io.File
 import java.util.*
 
@@ -45,7 +44,7 @@ class CropperActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(Intent(this,BaseActivity::class.java))
+        startActivity(Intent(this, BaseActivity::class.java))
         finish()
     }
 }

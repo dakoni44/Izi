@@ -36,79 +36,79 @@ class ChatAdapter(var mContext: Context, mdata: List<Chat>, imageUri: String) :
         }
         return if (position == 0 && !mdata[position].sender
                 .equals(mdata[position + 1].sender) && mdata[position].sender
-                .equals(firebaseUser?.getUid())
+                .equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_ALONE
         } else if (position == 0 && mdata[position].sender
                 .equals(mdata[position + 1].sender) && mdata[position].sender
-                .equals(firebaseUser?.getUid())
+                .equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_FIRST
         } else if (position == 0 && !mdata[position].sender
                 .equals(mdata[position + 1].sender) && !mdata[position].sender
-                .equals(firebaseUser?.getUid())
+                .equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_ALONE
         } else if (position == 0 && mdata[position].sender
                 .equals(mdata[position + 1].sender) && !mdata[position].sender
-                .equals(firebaseUser?.getUid())
+                .equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_FIRST
         } else if (position == mdata.size - 1 && mdata[position].sender
                 .equals(mdata[position - 1].sender)
-            && mdata[position].sender.equals(firebaseUser?.getUid())
+            && mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_LAST
         } else if (position == mdata.size - 1 && !mdata[position].sender
                 .equals(mdata[position - 1].sender)
-            && mdata[position].sender.equals(firebaseUser?.getUid())
+            && mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_ALONE
         } else if (position == mdata.size - 1 && mdata[position].sender
                 .equals(mdata[position - 1].sender)
-            && !mdata[position].sender.equals(firebaseUser?.getUid())
+            && !mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_LAST
         } else if (position == mdata.size - 1 && !mdata[position].sender
                 .equals(mdata[position - 1].sender)
-            && !mdata[position].sender.equals(firebaseUser?.getUid())
+            && !mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_ALONE
         } else if (position > 0 && position < mdata.size - 1 && !mdata[position].sender
                 .equals(mdata[position - 1].sender)
             && !mdata[position].sender
                 .equals(mdata[position + 1].sender) && mdata[position].sender
-                .equals(firebaseUser?.getUid())
+                .equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_ALONE
         } else if (position > 0 && position < mdata.size - 1 && !mdata[position].sender
                 .equals(mdata[position - 1].sender)
             && !mdata[position].sender
                 .equals(mdata[position + 1].sender) && !mdata[position].sender
-                .equals(firebaseUser?.getUid())
+                .equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_ALONE
         } else if (position > 0 && !mdata[position].sender
                 .equals(mdata[position - 1].sender)
-            && mdata[position].sender.equals(firebaseUser?.getUid())
+            && mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_FIRST
         } else if (position > 0 && !mdata[position].sender
                 .equals(mdata[position - 1].sender)
-            && !mdata[position].sender.equals(firebaseUser?.getUid())
+            && !mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_FIRST
         } else if (position < mdata.size - 1 && !mdata[position].sender
                 .equals(mdata[position + 1].sender)
-            && mdata[position].sender.equals(firebaseUser?.getUid())
+            && mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_RIGHT_LAST
         } else if (position < mdata.size - 1 && !mdata[position].sender
                 .equals(mdata[position + 1].sender)
-            && !mdata[position].sender.equals(firebaseUser?.getUid())
+            && !mdata[position].sender.equals(firebaseUser?.uid)
         ) {
             MSG_TYPE_LEFT_LAST
-        } else if (mdata[position].sender.equals(firebaseUser?.getUid())) {
+        } else if (mdata[position].sender.equals(firebaseUser?.uid)) {
             MSG_TYPE_RIGHT
         } else {
             MSG_TYPE_LEFT
@@ -158,8 +158,8 @@ class ChatAdapter(var mContext: Context, mdata: List<Chat>, imageUri: String) :
         cal.timeInMillis = timestamp.toLong()
         val dateTime = DateFormat.format("HH:mm", cal).toString()
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser()
-        holder.tvMessage.setText(message)
-        holder.tvTime.setText(dateTime)
+        holder.tvMessage.text = message
+        holder.tvTime.text = dateTime
         Glide.with(mContext).load(imageUri).into(holder.ivProfile)
         if (mdata[position].isSeen) {
             holder.ivSeen.setImageResource(R.drawable.ic_seen)

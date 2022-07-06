@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
@@ -133,24 +132,24 @@ class PostFragment : Fragment() {
     }
 
     private fun likeDislike() {
-        binding.like.setOnClickListener(View.OnClickListener {
-            if (binding.like.getTag() == "like" && binding.dislike.getTag() == "dislike") {
+        binding.like.setOnClickListener {
+            if (binding.like.tag == "like" && binding.dislike.tag == "dislike") {
                 firebaseDatabase!!.reference.child("Likes").child(imgId!!).child(currentUserID!!)
                     .setValue(true)
             } else {
                 firebaseDatabase!!.reference.child("Likes").child(imgId!!).child(currentUserID!!)
                     .removeValue()
             }
-        })
-        binding.dislike.setOnClickListener(View.OnClickListener {
-            if (binding.dislike.getTag() == "dislike" && binding.like.getTag() == "like") {
+        }
+        binding.dislike.setOnClickListener {
+            if (binding.dislike.tag == "dislike" && binding.like.tag == "like") {
                 firebaseDatabase!!.reference.child("Dislikes").child(imgId!!).child(currentUserID!!)
                     .setValue(true)
             } else {
                 firebaseDatabase!!.reference.child("Dislikes").child(imgId!!).child(currentUserID!!)
                     .removeValue()
             }
-        })
+        }
     }
 
     private fun isLikes(postid: String, textView: TextView) {

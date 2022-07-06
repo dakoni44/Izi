@@ -33,11 +33,6 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
 
     var firebaseUser: FirebaseUser? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,13 +44,13 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvFind.setHasFixedSize(true)
-        binding.rvFind.setLayoutManager(LinearLayoutManager(requireContext()))
+        binding.rvFind.layoutManager = LinearLayoutManager(requireContext())
 
         firebaseUser = FirebaseAuth.getInstance().currentUser
 
         findUsers = ArrayList()
         findAdapter = FindAdapter(requireContext(), findUsers, this)
-        binding.rvFind.setAdapter(findAdapter)
+        binding.rvFind.adapter = findAdapter
 
         binding.etFind.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

@@ -13,8 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +31,7 @@ class LogInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
     }
@@ -45,25 +43,25 @@ class LogInFragment : Fragment() {
         db = FirebaseDatabase.getInstance()
         userRef = db!!.getReference("Users")
 
-        binding.bLogin.setOnClickListener(View.OnClickListener {
-            val email: String = binding.etLoginEmail.getText().toString().trim { it <= ' ' }
-            val password: String = binding.etLoginPassword.getText().toString().trim { it <= ' ' }
+        binding.bLogin.setOnClickListener {
+            val email: String = binding.etLoginEmail.text.toString().trim { it <= ' ' }
+            val password: String = binding.etLoginPassword.text.toString().trim { it <= ' ' }
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.etLoginEmail.setError("Invalid Email")
-                binding.etLoginEmail.setFocusable(true)
+                binding.etLoginEmail.error = "Invalid Email"
+                binding.etLoginEmail.isFocusable = true
             } else if (password.length < 6) {
-                binding.etLoginPassword.setError("At least 6 characters")
-                binding.etLoginPassword.setFocusable(true)
+                binding.etLoginPassword.error = "At least 6 characters"
+                binding.etLoginPassword.isFocusable = true
             } else {
                 loginUser(email, password)
             }
-        })
+        }
 
-        binding.tvRegister.setOnClickListener(View.OnClickListener {
+        binding.tvRegister.setOnClickListener {
             findNavController().navigate(R.id.logInToSignUp)
-        })
+        }
 
-        binding.tvForgot.setOnClickListener(View.OnClickListener { showRecoverPasswordDialog() })
+        binding.tvForgot.setOnClickListener { showRecoverPasswordDialog() }
     }
 
     private fun showRecoverPasswordDialog() {
@@ -106,7 +104,7 @@ class LogInFragment : Fragment() {
     }
 
     private fun loginUser(email: String, password: String) {
-        binding.pbLogin.setVisibility(View.VISIBLE)
+        binding.pbLogin.visibility = View.VISIBLE
         mAuth!!.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity())
             { task ->
@@ -116,30 +114,29 @@ class LogInFragment : Fragment() {
                         .addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
                                 findNavController().navigate(R.id.logInToHome)
-                                binding.pbLogin.setVisibility(View.INVISIBLE)
+                                binding.pbLogin.visibility = View.INVISIBLE
                             }
 
                             override fun onCancelled(databaseError: DatabaseError) {}
                         })
                 } else {
-                    binding.pbLogin.setVisibility(View.INVISIBLE)
+                    binding.pbLogin.visibility = View.INVISIBLE
                     Toast.makeText(
                         requireContext(), "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            }.addOnFailureListener(OnFailureListener {
-                binding.pbLogin.setVisibility(View.INVISIBLE)
+            }.addOnFailureListener {
+                binding.pbLogin.visibility = View.INVISIBLE
                 Toast.makeText(requireContext(), "" + it.message, Toast.LENGTH_SHORT).show()
-            })
+            }
 
     }
 
     override fun onStart() {
         super.onStart()
         val firebaseUser = mAuth!!.currentUser
-        if (firebaseUser == null) {
-        } else {
+        if (firebaseUser != null) {
             findNavController().navigate(R.id.logInToHome)
         }
     }

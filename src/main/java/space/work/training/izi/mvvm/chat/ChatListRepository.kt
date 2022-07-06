@@ -1,20 +1,14 @@
 package space.work.training.izi.mvvm.chat
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import space.work.training.izi.model.ChatList
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
 
 @Singleton
 class ChatListRepository @Inject constructor(
@@ -49,7 +43,7 @@ class ChatListRepository @Inject constructor(
         })
     }
 
-     fun loadChatList() : MutableLiveData<List<User>> {
+    fun loadChatList(): MutableLiveData<List<User>> {
         checkList()
         val reference = FirebaseDatabase.getInstance().getReference("Users")
         reference.addValueEventListener(object : ValueEventListener {
@@ -57,15 +51,16 @@ class ChatListRepository @Inject constructor(
                 usersList.clear()
                 for (snapshot in dataSnapshot.children) {
                     val user = User()
-                    user.uid=snapshot.child("uid").getValue(String::class.java).toString()
-                    user.name=snapshot.child("name").getValue(String::class.java).toString()
-                    user.username=snapshot.child("username").getValue(String::class.java).toString()
-                    user.email=snapshot.child("email").getValue(String::class.java).toString()
-                    user.image=snapshot.child("image").getValue(String::class.java).toString()
-                    user.bio=dataSnapshot.child("bio").getValue(String::class.java).toString()
+                    user.uid = snapshot.child("uid").getValue(String::class.java).toString()
+                    user.name = snapshot.child("name").getValue(String::class.java).toString()
+                    user.username =
+                        snapshot.child("username").getValue(String::class.java).toString()
+                    user.email = snapshot.child("email").getValue(String::class.java).toString()
+                    user.image = snapshot.child("image").getValue(String::class.java).toString()
+                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                     //preko isto postojecih ide-va trazim cim se poklope i ubacujem ih u listu
                     for (chat in chatList) {
-                        if (user.uid != null && user.uid.equals(chat.id)) {
+                        if (user.uid.equals(chat.id)) {
                             usersList.add(user)
                         }
                     }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnLayoutChangeListener
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -88,8 +87,7 @@ class ChatFragment : Fragment() {
         binding.bnSend.setOnClickListener {
             notify = true
             val message: String = binding.etMessage.text.toString().trim { it <= ' ' }
-            if (TextUtils.isEmpty(message)) {
-            } else {
+            if (!TextUtils.isEmpty(message)) {
                 sendMessage(message)
             }
             binding.etMessage.setText("")
@@ -160,15 +158,15 @@ class ChatFragment : Fragment() {
                     chatAdapter!!.notifyDataSetChanged()
                     binding.rvChat.setAdapter(chatAdapter)
                     binding.rvChat.smoothScrollToPosition(chatAdapter!!.itemCount)
-                    binding.rvChat.addOnLayoutChangeListener(OnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                    binding.rvChat.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
                         if (bottom < oldBottom) {
-                            binding.rvChat.postDelayed(Runnable {
+                            binding.rvChat.postDelayed({
                                 binding.rvChat.smoothScrollToPosition(
                                     chatAdapter!!.itemCount
                                 )
                             }, 10)
                         }
-                    })
+                    }
                 }
             }
 
@@ -186,7 +184,6 @@ class ChatFragment : Fragment() {
         hashMap["timestamp"] = timestamp
         hashMap["isSeen"] = false
         databaseReference.child("Chats").push().setValue(hashMap)
-        val msg = message
         val database = FirebaseDatabase.getInstance().getReference("Users").child(senderId!!)
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
