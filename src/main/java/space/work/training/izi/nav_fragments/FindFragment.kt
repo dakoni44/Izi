@@ -12,14 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.FindAdapter
 import space.work.training.izi.databinding.FragmentFindBinding
 import space.work.training.izi.mvvm.chat.User
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
@@ -90,23 +92,11 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
         })
     }
 
-    private fun checkFollowing(position: Int) {
-        val reference = FirebaseDatabase.getInstance().getReference("Friends")
-            .child(firebaseUser!!.uid)
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (!findUsers[position].uid.equals(firebaseUser!!.uid)) {
-                    val action =
-                        FindFragmentDirections.findToOtherProfile(findUsers.get(position).uid)
-                    findNavController().navigate(action)
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     override fun onItemClick(position: Int) {
-        checkFollowing(position)
+        if (!findUsers.get(position).uid.equals(firebaseUser!!.uid)) {
+            val action =
+                FindFragmentDirections.findToOtherProfile(findUsers.get(position).uid)
+            findNavController().navigate(action)
+        }
     }
 }

@@ -104,13 +104,12 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         friendsRef!!.child(senderId!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.hasChild(friendId!!)) {
-                    binding.rlFriends.setVisibility(View.INVISIBLE)
-                    binding.rlNotFriends.setVisibility(View.VISIBLE)
+                    binding.rlFriends.visibility = View.INVISIBLE
+                    binding.rlNotFriends.visibility = View.VISIBLE
 
                 } else {
-                    binding.rlFriends.setVisibility(View.VISIBLE)
-                    binding.rlNotFriends.setVisibility(View.INVISIBLE)
-
+                    binding.rlFriends.visibility = View.VISIBLE
+                    binding.rlNotFriends.visibility = View.INVISIBLE
                 }
             }
 
@@ -130,8 +129,8 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                 user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
                 user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                binding.tvUsername.setText(user.username)
-                binding.tvName2.setText(user.name)
+                binding.tvUsername.text = user.username
+                binding.tvName2.text = user.name
                 Glide.with(requireContext()).load(user.image).into(binding.ivProfile)
                 Glide.with(requireContext()).load(R.drawable.background).into(binding.ivBackground)
                 //Glide.with(getApplicationContext()).load(user.getImage())
@@ -154,13 +153,10 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                 user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
                 user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                //if(user.getUid().equals(userID)){
                 binding.tvName.text = user.username
                 binding.tvNameFull.text = user.name
                 binding.tvBio.text = user.bio
                 Glide.with(requireContext()).load(user.image).into(binding.ivMalaSlika1)
-                // }
-                //setupToolbar();
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -369,8 +365,8 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                 val bnRemove = dialog.findViewById<Button>(R.id.bnRemove)
                 bnRemove.setOnClickListener {
                     removeFriend()
-                    binding.rlFriends.visibility = View.INVISIBLE;
-                    binding.rlNotFriends.visibility = View.VISIBLE;
+                    /*binding.rlFriends.visibility = View.INVISIBLE;
+                    binding.rlNotFriends.visibility = View.VISIBLE;*/
                     dialog.dismiss()
                 }
                 val bnCancle = dialog.findViewById<Button>(R.id.bnCancle)
@@ -382,8 +378,8 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         binding.bnSendRequest2.setOnClickListener(View.OnClickListener {
             if (CURRENT_STATE.equals("request_received")) {
                 acceptFriendRequest()
-                binding.rlFriends.visibility = View.VISIBLE;
-                binding.rlNotFriends.visibility = View.INVISIBLE;
+                /* binding.rlFriends.visibility = View.VISIBLE;
+                 binding.rlNotFriends.visibility = View.INVISIBLE;*/
             } else if (CURRENT_STATE.equals("not_friends")) {
                 sendFriendRequest()
             } else if (CURRENT_STATE.equals("request_sent")) {
@@ -393,7 +389,8 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val action = ProfileOtherFragmentDirections.profileOtherToPost(imgs.get(position).imgId)
+        findNavController().navigate(action)
     }
 
 }

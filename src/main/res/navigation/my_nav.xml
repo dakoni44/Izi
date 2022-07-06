@@ -142,7 +142,9 @@
         android:label="FindFragment" >
         <action
             android:id="@+id/findToOtherProfile"
-            app:destination="@id/profileOtherFragment" />
+            app:destination="@id/profileOtherFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/profileOtherFragment"
@@ -159,5 +161,8 @@
             app:destination="@id/chatFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popEnterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/profileOtherToPost"
+            app:destination="@id/postFragment" />
     </fragment>
 </navigation>
