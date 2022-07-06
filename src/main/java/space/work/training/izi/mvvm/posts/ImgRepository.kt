@@ -1,36 +1,77 @@
 package space.work.training.izi.mvvm.posts
 
-import androidx.lifecycle.LiveData
-import kotlinx.coroutines.*
-import space.work.training.izi.mvvm.chat.User
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.CoroutineContext
 
 @Singleton
 class ImgRepository @Inject constructor(
-    private val imgFirebase: ImgFirebase,
-    private val imgDao: ImgDao
 ) {
 
-    suspend fun notifyFirebaseDataChange(list: List<Img>) {
-        imgDao.deleteAllImgs()
-        for (img in list) {
-            imgDao.insert(img)
-        }
+    private var friendList: ArrayList<String> = ArrayList()
+    private var imgs: ArrayList<Img> = ArrayList()
+
+    private var onlineList: MutableLiveData<List<Img>> = MutableLiveData()
+
+    /*  suspend fun notifyFirebaseDataChange(list: List<Img>) {
+          imgDao.deleteAllImgs()
+          for (img in list) {
+              imgDao.insert(img)
+          }
+      }*/
+
+    private fun checkFollowing() {
+        val reference = FirebaseDatabase.getInstance().getReference("Friends")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                friendList.let {
+                    it.clear()
+                    for (snapshot in dataSnapshot.children) {
+                        it.add(snapshot.key.toString())
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
-    fun getOfflineImgs():LiveData<List<Img>>{
-        return imgDao.getAllImgs()
-    }
 
-    fun getOnlineImgs(): List<Img> {
-        return imgFirebase.getAllImgs()
-    }
+    fun readPosts(): MutableLiveData<List<Img>> {
+        checkFollowing()
+        val postRef = FirebaseDatabase.getInstance().getReference("Posts")
+        postRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                imgs.let {
+                    it.clear()
+                    for (snapshot in dataSnapshot.children) {
+                        var img = Img()
+                        img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
+                        img.publisher =
+                            snapshot.child("publisher").getValue(String::class.java).toString()
+                        img.img =
+                            snapshot.child("postimage").getValue(String::class.java).toString()
+                        img.text =
+                            snapshot.child("description").getValue(String::class.java).toString()
+                        img.views = snapshot.child("views").childrenCount.toString()
+                        for (id in friendList) {
+                            if (img.publisher == id) {
+                                it.add(img)
+                            }
+                        }
+                    }
+                }
+                onlineList.postValue(imgs)
+            }
 
-    suspend fun insertImg(img: Img) = imgDao.insert(img)
-
-    fun addImg(img: Img) {
-        //imgFirebase.addImg(img);
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+        return onlineList
     }
 }

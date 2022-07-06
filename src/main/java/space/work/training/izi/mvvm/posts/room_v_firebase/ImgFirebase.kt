@@ -1,15 +1,14 @@
-package space.work.training.izi.mvvm.posts
+package space.work.training.izi.mvvm.posts.room_v_firebase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import javax.inject.Inject
-import javax.inject.Singleton
+import space.work.training.izi.mvvm.posts.Img
 
-@Singleton
-class ImgFirebase @Inject constructor() {
+
+class ImgFirebase {
 
     private var friendList: ArrayList<String> = ArrayList()
     private var imgs: ArrayList<Img> = ArrayList()

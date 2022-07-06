@@ -1,7 +1,8 @@
-package space.work.training.izi.mvvm.chat
+package space.work.training.izi.mvvm.chat.room_v_firebase
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import space.work.training.izi.mvvm.chat.User
 
 @Dao
 interface UserDao {

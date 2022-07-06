@@ -12,21 +12,14 @@ import javax.inject.Inject
 class ChatListViewModel @Inject constructor(private val repository: ChatListRepository) :
     ViewModel() {
 
-    var online: MutableLiveData<List<User>>? = null
+    private var online: MutableLiveData<List<User>> = MutableLiveData()
 
-    fun getOnlineUsers(): MutableLiveData<List<User>> {
-        val onlineUsers = repository.getOnlineUsers()
-        online = MutableLiveData<List<User>>()
-        if(!onlineUsers.isNullOrEmpty()){
-            online!!.postValue(onlineUsers)
-            viewModelScope.launch {
-                repository.notifyFirebaseDataChange(onlineUsers)
-            }
-        }
-        return online as MutableLiveData<List<User>>
+    fun load(){
+        online=repository.loadChatList()
     }
 
-    fun getOfflineUsers(): LiveData<List<User>> {
-        return repository.getOfflineUsers()
+    fun getUsers(): MutableLiveData<List<User>> {
+        return online
     }
+
 }

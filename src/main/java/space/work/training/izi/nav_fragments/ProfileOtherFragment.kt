@@ -186,10 +186,10 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                         .value.toString()
                     if (requset_type == "sent") {
                         CURRENT_STATE = "request_sent"
-                        binding.bnSendRequest2.setText("Cancel request")
+                        binding.bnSendRequest2.text = "Cancel request"
                     } else if (requset_type == "received") {
                         CURRENT_STATE = "request_received"
-                        binding.bnSendRequest2.setText("Accept request")
+                        binding.bnSendRequest2.text = "Accept request"
                     }
                 }
             }
@@ -227,17 +227,17 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     private fun showNumbers() {
         friendsRef!!.child(friendId!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                binding.tvFriends.setText(dataSnapshot.childrenCount.toInt().toString())
+                binding.tvFriends.text = dataSnapshot.childrenCount.toInt().toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-        binding.tvPosts.setText(imgs.size.toString())
+        binding.tvPosts.text = imgs.size.toString()
         var sum = 0
         for (i in imgs.indices) {
             sum += imgs.get(i).views.toInt()
         }
-        binding.tvViews.setText((sum - imgs.size).toString())
+        binding.tvViews.text = (sum - imgs.size).toString()
         likeRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var sum = 0
@@ -248,7 +248,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                         }
                     }
                 }
-                binding.tvLikes.setText(sum.toString())
+                binding.tvLikes.text = sum.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -263,7 +263,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                         }
                     }
                 }
-                binding.tvDislikes.setText(sum.toString())
+                binding.tvDislikes.text = sum.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

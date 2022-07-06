@@ -1,28 +1,22 @@
-package space.work.training.izi.mvvm.chat
+package space.work.training.izi.mvvm.chat.room_v_firebase
 
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import space.work.training.izi.model.ChatList
+import space.work.training.izi.mvvm.chat.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class ChatListFirebase @Inject constructor(){
+class ChatListFirebase{
 
     private val chatList: ArrayList<ChatList> = ArrayList()
     private var usersList: ArrayList<User> = ArrayList()
-
-    fun getUsers(): List<User> {
-        return usersList
-    }
-
-    init {
-        checkList()
-    }
+    private var online:MutableLiveData<List<User>> = MutableLiveData()
 
     //Odavde odma citam id-eve i spajam ih sa userima u sledecoj metodi
     //ne moram da ih trazim gde me sve ima u chats-u
-    private fun checkList(){
+    private fun checkList() {
         val reference = FirebaseDatabase.getInstance().getReference("Chatlist")
             .child(FirebaseAuth.getInstance().currentUser!!.uid)
         reference.addValueEventListener(object : ValueEventListener {
@@ -40,7 +34,8 @@ class ChatListFirebase @Inject constructor(){
         })
     }
 
-    private fun loadChatList() {
+     fun loadChatList() : MutableLiveData<List<User>>{
+         checkList()
         val reference = FirebaseDatabase.getInstance().getReference("Users")
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -60,9 +55,11 @@ class ChatListFirebase @Inject constructor(){
                         }
                     }
                 }
+                online.postValue(usersList)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+        return online
     }
 }

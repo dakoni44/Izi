@@ -17,7 +17,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
-import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentHomeBinding
 import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.posts.ImgViewModel
@@ -59,18 +58,13 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         homeAdapter = HomeAdapter(requireContext(), this)
         binding.homeRecycler.adapter = homeAdapter
 
+        imgViewModel.load()
+
         getToken()
 
-        imgViewModel.getOnlineImgs().observe(viewLifecycleOwner) {
+        imgViewModel.getImgs().observe(viewLifecycleOwner) {
             it.let {
                 getPosts(it)
-            }
-            if(it.isNullOrEmpty()){
-                imgViewModel.getOfflineImgs().observe(viewLifecycleOwner){ it ->
-                    it.let {
-                        getPosts(it)
-                    }
-                }
             }
         }
     }

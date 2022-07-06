@@ -18,6 +18,7 @@ import space.work.training.izi.R
 import space.work.training.izi.adapters.ChatList2Adapter
 import space.work.training.izi.adapters.GroupListAdapter
 import space.work.training.izi.databinding.FragmentChatListBinding
+import space.work.training.izi.interfaces.IDataLoad
 import space.work.training.izi.model.Chat
 import space.work.training.izi.model.GroupList
 import space.work.training.izi.mvvm.chat.ChatListViewModel
@@ -25,7 +26,7 @@ import space.work.training.izi.mvvm.chat.User
 import java.util.*
 
 @AndroidEntryPoint
-class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupListAdapter.OnItemClickListener {
+class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupListAdapter.OnItemClickListener, IDataLoad {
 
     private lateinit var binding: FragmentChatListBinding
 
@@ -67,7 +68,11 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
         adapter = ChatList2Adapter(requireContext(), this)
         binding.rvChatList.adapter = adapter
 
-        chatListViewModel.getOnlineUsers().observe(viewLifecycleOwner) {
+        chatListViewModel.load()
+
+        loadGroups()
+
+        chatListViewModel.getUsers().observe(viewLifecycleOwner) {
             it.let {
                 adapter!!.setData(it)
                 chatUsers.addAll(it)
@@ -75,20 +80,7 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
                     lastMessage(it[i].uid)
                 }
             }
-            if(it.isNullOrEmpty()){
-                chatListViewModel.getOfflineUsers().observe(viewLifecycleOwner){ it ->
-                    it.let {
-                        adapter!!.setData(it)
-                        chatUsers.addAll(it)
-                        for (i in it.indices) {
-                            lastMessage(it[i].uid)
-                        }
-                    }
-                }
-            }
         }
-
-        loadGroups()
 
         binding.oneChat.setOnClickListener {
             binding.rvChatList.visibility = View.VISIBLE
@@ -181,6 +173,10 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
 
     override fun onItemGroupClick(position: Int) {
         TODO("Not yet implemented")
+    }
+
+    override fun onDataLoaded() {
+
     }
 
 }

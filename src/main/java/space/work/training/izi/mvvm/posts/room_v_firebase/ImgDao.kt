@@ -1,7 +1,8 @@
-package space.work.training.izi.mvvm.posts
+package space.work.training.izi.mvvm.posts.room_v_firebase
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import space.work.training.izi.mvvm.posts.Img
 
 @Dao
 interface ImgDao {
