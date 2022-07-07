@@ -47,13 +47,6 @@ class ChatList2Adapter(private val mContext: Context, listener: OnItemClickListe
             holder.tvTime.setText("· $time")
         }
         Glide.with(mContext).load(user.image).into(holder.ivFind)
-       // holder.itemView.setOnClickListener(View.OnClickListener {
-
-            /*val intent = Intent(mContext, ChatActivity::class.java)
-            intent.putExtra("receiverID", uid)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            mContext.startActivity(intent)*/
-        //})
     }
 
     fun setData(users: List<User>) {

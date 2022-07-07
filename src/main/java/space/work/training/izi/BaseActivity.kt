@@ -31,6 +31,7 @@ class BaseActivity : AppCompatActivity() {
                 || destination.id == R.id.editProfileFragment
                 || destination.id == R.id.postFragment
                 || destination.id == R.id.chatFragment
+                || destination.id == R.id.groupChatFragment
             ) {
                 bottomNavigationView.visibility = View.GONE
             } else {

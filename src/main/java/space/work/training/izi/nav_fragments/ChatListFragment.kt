@@ -192,7 +192,8 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,
     }
 
     override fun onItemGroupClick(position: Int) {
-        TODO("Not yet implemented")
+        val action = ChatListFragmentDirections.chatListToGroupChat(groupList.get(position).id)
+        findNavController().navigate(action)
     }
 
 }

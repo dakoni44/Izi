@@ -8,7 +8,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:background="@color/bgGrey">
 
     <ScrollView
@@ -23,10 +22,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/rl"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
                     android:background="@drawable/rounded_profile_upper">
 
                     <TextView
@@ -41,7 +41,11 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvFriends"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
                     <TextView
                         android:id="@+id/tvV"
@@ -53,7 +57,11 @@
                         android:text="Views"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvF"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvViews" />
 
                     <TextView
                         android:id="@+id/tvFriends"
@@ -67,7 +75,10 @@
                         android:text="0"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvLikes"
+                        app:layout_constraintStart_toEndOf="@id/tvViews"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
                     <TextView
                         android:id="@+id/tvF"
@@ -79,7 +90,10 @@
                         android:text="Friends"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvL"
+                        app:layout_constraintStart_toEndOf="@id/tvV"
+                        app:layout_constraintTop_toBottomOf="@id/tvFriends" />
 
                     <TextView
                         android:id="@+id/tvLikes"
@@ -93,7 +107,10 @@
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvDislikes"
+                        app:layout_constraintStart_toEndOf="@id/tvFriends"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
                     <TextView
                         android:id="@+id/tvL"
@@ -104,7 +121,10 @@
                         android:text="Likes"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvD"
+                        app:layout_constraintStart_toEndOf="@id/tvF"
+                        app:layout_constraintTop_toBottomOf="@id/tvLikes" />
 
                     <TextView
                         android:id="@+id/tvDislikes"
@@ -118,7 +138,10 @@
                         android:text="0"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvPosts"
+                        app:layout_constraintStart_toEndOf="@id/tvLikes"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
                     <TextView
                         android:id="@+id/tvD"
@@ -130,7 +153,10 @@
                         android:text="Dislikes"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/tvP"
+                        app:layout_constraintStart_toEndOf="@id/tvL"
+                        app:layout_constraintTop_toBottomOf="@id/tvDislikes" />
 
                     <TextView
                         android:id="@+id/tvPosts"
@@ -144,7 +170,10 @@
                         android:text="0"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvDislikes"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
 
                     <TextView
                         android:id="@+id/tvP"
@@ -156,7 +185,10 @@
                         android:text="Posts"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvD"
+                        app:layout_constraintTop_toBottomOf="@id/tvPosts" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/ivMalaSlika1"
@@ -165,17 +197,22 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="40dp"
-                        android:src="@drawable/default_profile_pic"></de.hdodenhof.circleimageview.CircleImageView>
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/rounded_avatar"
+                        app:layout_constraintTop_toBottomOf="@id/tvL"
+                        app:layout_constraintStart_toEndOf="@id/removeFriend"
+                        app:layout_constraintEnd_toStartOf="@id/sendMessage"
+                        ></de.hdodenhof.circleimageview.CircleImageView>
 
                     <Button
                         android:id="@+id/removeFriend"
                         android:layout_width="100dp"
                         android:layout_height="40dp"
-                        android:layout_alignTop="@id/ivMalaSlika1"
                         android:layout_marginTop="25dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_toLeftOf="@id/ivMalaSlika1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ivMalaSlika1"
                         android:background="@drawable/rounded_button2"
+                        app:layout_constraintTop_toTopOf="@id/ivMalaSlika1"
                         android:text="Remove friend"
                         android:textColor="@android:color/white"
                         android:textSize="10sp" />
@@ -185,14 +222,14 @@
                         android:layout_width="100dp"
                         android:layout_height="40dp"
                         android:layout_alignTop="@id/ivMalaSlika1"
-                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="25dp"
-                        android:layout_toRightOf="@id/ivMalaSlika1"
                         android:background="@drawable/rounded_button2"
+                        app:layout_constraintStart_toEndOf="@id/ivMalaSlika1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/ivMalaSlika1"
                         android:text="Send message"
                         android:textColor="@android:color/white"
                         android:textSize="10sp" />
-
 
                     <TextView
                         android:id="@+id/tvName"
@@ -203,29 +240,44 @@
                         android:text="@string/random"
                         android:textColor="@android:color/white"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tvNameFull"
+                    <RelativeLayout
+                        android:id="@+id/bBio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ivMalaSlika1"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="-30dp"
-                        android:text="@string/random"
-                        android:textColor="@android:color/white"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintTop_toBottomOf="@id/ivMalaSlika1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.53"
+                        android:padding="5dp">
 
-                    <ImageView
-                        android:id="@+id/ivArrow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/tvNameFull"
-                        android:layout_marginBottom="-3dp"
-                        android:layout_toRightOf="@id/tvNameFull"
-                        android:src="@drawable/ic_arrow_down" />
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tvNameFull"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/random"
+                            android:textColor="@android:color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/ivArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/tvNameFull"
+                            android:layout_marginBottom="-3dp"
+                            android:layout_toRightOf="@id/tvNameFull"
+                            android:src="@drawable/ic_arrow_down" />
+                    </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <RelativeLayout
                     android:id="@+id/rlBio"
