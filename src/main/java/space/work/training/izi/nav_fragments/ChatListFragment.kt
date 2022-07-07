@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -18,7 +19,6 @@ import space.work.training.izi.R
 import space.work.training.izi.adapters.ChatList2Adapter
 import space.work.training.izi.adapters.GroupListAdapter
 import space.work.training.izi.databinding.FragmentChatListBinding
-import space.work.training.izi.interfaces.IDataLoad
 import space.work.training.izi.model.Chat
 import space.work.training.izi.model.GroupList
 import space.work.training.izi.mvvm.chat.ChatListViewModel
@@ -26,7 +26,8 @@ import space.work.training.izi.mvvm.chat.User
 import java.util.*
 
 @AndroidEntryPoint
-class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupListAdapter.OnItemClickListener, IDataLoad {
+class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,
+    GroupListAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentChatListBinding
 
@@ -43,6 +44,9 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
 
     private val chatListViewModel: ChatListViewModel by viewModels()
 
+    private val arg: ChatListFragmentArgs by navArgs()
+    private var back = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +57,8 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        back = arg.backPress
 
         firebaseAuth = FirebaseAuth.getInstance()
         user = firebaseAuth!!.currentUser
@@ -82,15 +88,29 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
             }
         }
 
+        if (back) {
+            binding.rvChatList.visibility = View.GONE
+            binding.rvGroupList.visibility = View.VISIBLE
+            binding.bnCreate.visibility = View.VISIBLE
+        } else {
+            binding.rvChatList.visibility = View.VISIBLE
+            binding.rvGroupList.visibility = View.GONE
+            binding.bnCreate.visibility = View.GONE
+        }
+
         binding.oneChat.setOnClickListener {
             binding.rvChatList.visibility = View.VISIBLE
             binding.rvGroupList.visibility = View.GONE
             binding.bnCreate.visibility = View.GONE
         }
         binding.groupChat.setOnClickListener {
-            binding.rvChatList.visibility = View.GONE
             binding.rvGroupList.visibility = View.VISIBLE
             binding.bnCreate.visibility = View.VISIBLE
+            binding.rvChatList.visibility = View.GONE
+        }
+
+        binding.bnCreate.setOnClickListener {
+            findNavController().navigate(R.id.chatListToAddGroup)
         }
     }
 
@@ -173,10 +193,6 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,GroupL
 
     override fun onItemGroupClick(position: Int) {
         TODO("Not yet implemented")
-    }
-
-    override fun onDataLoaded() {
-
     }
 
 }

@@ -1,27 +1,29 @@
 package space.work.training.izi.nav_fragments
 
-import android.graphics.Color
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.view.animation.Animation
+import android.view.animation.Transformation
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
+import space.work.training.izi.ViewUtils
 import space.work.training.izi.databinding.FragmentPostBinding
 import space.work.training.izi.mvvm.chat.User
 import space.work.training.izi.mvvm.posts.Img
+
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
@@ -83,31 +85,15 @@ class PostFragment : Fragment() {
         // readComm()
 
         binding.postDetails.setOnClickListener {
-            val transform = MaterialContainerTransform().apply {
-                startView = binding.postDetails
-                endView = binding.detailsLayout
-                scrimColor = Color.TRANSPARENT
-                addTarget(endView as ConstraintLayout)
-            }
-
-            TransitionManager.beginDelayedTransition(binding.postLayout)
+            ViewUtils.expand(binding.detailsLayout)
             binding.postDetails.visibility = View.GONE
             binding.usernameLayout.visibility = View.GONE
-            binding.detailsLayout.visibility = View.VISIBLE
         }
 
         binding.hideDetails.setOnClickListener {
-            val transform = MaterialContainerTransform().apply {
-                startView = binding.detailsLayout
-                endView = binding.postDetails
-                scrimColor = Color.TRANSPARENT
-                addTarget(endView as ImageView)
-            }
-
-            TransitionManager.beginDelayedTransition(binding.postLayout)
+            ViewUtils.collapse(binding.detailsLayout)
             binding.postDetails.visibility = View.VISIBLE
             binding.usernameLayout.visibility = View.VISIBLE
-            binding.detailsLayout.visibility = View.GONE
         }
     }
 

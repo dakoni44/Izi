@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set group name"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"/>
+
+    <ImageView
+        android:id="@+id/ivCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/ic_confirm" />
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="15dp"
+        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_back" />
+
+    <EditText
+        android:id="@+id/etGroupName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/hint_color"
+        android:gravity="center"
+        android:hint="(Required)"
+        android:inputType="textCapSentences"
+        android:maxLength="40"
+        android:textColor="@android:color/white"
+        android:paddingBottom="15dp"
+        android:textColorHint="@color/hint_color"
+        android:textCursorDrawable="@drawable/cursor_white" />
+
+    <TextView
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_below="@id/etGroupName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="17sp"
+        android:textColor="@android:color/white"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvParticipants"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/etGroupName"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/participants_item"
+        android:visibility="invisible"/>
+</RelativeLayout>
+</layout>

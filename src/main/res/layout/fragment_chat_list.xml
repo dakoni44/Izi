@@ -10,7 +10,6 @@
         android:animateLayoutChanges="true"
         tools:context=".activities.ChatListActivity">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bnavMessage"
             android:layout_width="match_parent"
@@ -44,7 +43,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/oneChat"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
@@ -78,7 +76,6 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:textCursorDrawable="@drawable/cursor_white" />
-
         </RelativeLayout>
 
 

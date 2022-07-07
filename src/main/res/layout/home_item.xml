@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorBlack"
     android:padding="2dp">
 
     <androidx.cardview.widget.CardView
@@ -14,14 +15,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack">
 
             <ImageView
                 android:id="@+id/ivMainImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:background="@drawable/default_profile_pic"
                 android:scaleType="fitXY" />
 
             <de.hdodenhof.circleimageview.CircleImageView

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,31 +10,29 @@
         android:id="@+id/clAddPost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
-        android:animateLayoutChanges="true">
+        android:background="@android:color/black">
 
         <ImageView
             android:id="@+id/ivAddPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/default_profile_pic"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvAddDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="13dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:text="@string/description"
-            android:textSize="15sp"
             android:background="@drawable/desc_round"
+            android:gravity="center"
+            android:padding="13dp"
+            android:text="@string/description"
+            android:textColor="@android:color/black"
             android:textColorHint="@android:color/white"
             android:textCursorDrawable="@drawable/cursor_black"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,30 +40,29 @@
             android:id="@+id/bAddPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="20dp"
             android:layout_marginEnd="20dp"
-            android:textColor="@android:color/white" />
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_next"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <RelativeLayout
             android:id="@+id/rl"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@drawable/desc_bg"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="gone">
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
                 android:id="@+id/desc_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_down"
-                android:padding="25dp"
                 android:layout_marginTop="-15dp"
-               />
+                android:padding="25dp"
+                android:src="@drawable/ic_down" />
 
             <EditText
                 android:id="@+id/etAddDesc"

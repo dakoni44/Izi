@@ -33,6 +33,15 @@
         <action
             android:id="@+id/chatListToChat"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/chatListToAddGroup"
+            app:destination="@id/addGroupFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="backPress"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -166,5 +175,14 @@
             app:destination="@id/postFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popEnterAnim="@android:anim/fade_in" />
+    </fragment>
+    <fragment
+        android:id="@+id/addGroupFragment"
+        android:name="space.work.training.izi.nav_fragments.AddGroupFragment"
+        android:label="AddGroupFragment" >
+        <action
+            android:id="@+id/addGroupToChatList"
+            app:destination="@id/chatListFragment"
+            app:enterAnim="@android:anim/fade_in" />
     </fragment>
 </navigation>

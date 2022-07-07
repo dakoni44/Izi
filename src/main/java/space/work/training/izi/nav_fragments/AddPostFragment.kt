@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.CropperActivity
 import space.work.training.izi.R
+import space.work.training.izi.ViewUtils
 import space.work.training.izi.databinding.FragmentAddPostBinding
 
 @AndroidEntryPoint
@@ -78,30 +79,14 @@ class AddPostFragment : Fragment() {
         mGetContent.launch("image/*")
 
         binding.tvAddDescription.setOnClickListener {
-            val transform = MaterialContainerTransform().apply {
-                startView = binding.tvAddDescription
-                endView = binding.rl
-                scrimColor = Color.TRANSPARENT
-                addTarget(endView as RelativeLayout)
-            }
-
-            TransitionManager.beginDelayedTransition(binding.clAddPost)
+            ViewUtils.expandOrCollapse(binding.rl,"expand")
             binding.tvAddDescription.visibility = View.GONE
-            binding.rl.visibility = View.VISIBLE
         }
 
         binding.descDown.setOnClickListener {
-            val transform = MaterialContainerTransform().apply {
-                startView = binding.rl
-                endView = binding.tvAddDescription
-                scrimColor = Color.TRANSPARENT
-                addTarget(endView as TextView)
-                desc = binding.etAddDesc.text.toString().trim()
-            }
-
-            TransitionManager.beginDelayedTransition(binding.clAddPost)
+            ViewUtils.expandOrCollapse(binding.rl,"collapse")
             binding.tvAddDescription.visibility = View.VISIBLE
-            binding.rl.visibility = View.GONE
+            desc = binding.etAddDesc.text.toString().trim()
         }
     }
 

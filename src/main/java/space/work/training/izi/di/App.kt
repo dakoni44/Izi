@@ -14,5 +14,6 @@ class App : Application() {
     //adding some representation to profiles that are hidden
     //add user can see who saw his post and who liked and disliked, nobody can see that on my profile except me
     //comments are only visible to 1to1 person
+    //delete group, add and remove members
     //mvvvm, coroutines, firebase, hilt, flow, room
 }
