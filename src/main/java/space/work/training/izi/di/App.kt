@@ -13,8 +13,10 @@ class App : Application() {
     //adding links images videos in chat, add group chat functions
     //adding some representation to profiles that are hidden
     //add user can see who saw his post and who liked and disliked, nobody can see that on my profile except me
-    //comments are only visible to 1to1 person
+    //comments are only visible to 1to1 person ( done )
     //delete group, add and remove members
     //add back buttons to fragments
+    //editing options
+    //delete posts, delete message
     //mvvvm, coroutines, firebase, hilt, flow, room
 }
