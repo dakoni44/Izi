@@ -94,10 +94,10 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         binding.tvNameFull.setOnClickListener {
             if (binding.rlBio.visibility == View.GONE) {
                 binding.rlBio.visibility = View.VISIBLE
-                binding.ivArrow.setImageResource(R.drawable.ic_arrow_up)
+                binding.ivArrow.animate().rotation(180f)
             } else {
                 binding.rlBio.visibility = View.GONE
-                binding.ivArrow.setImageResource(R.drawable.ic_arrow_down)
+                binding.ivArrow.animate().rotation(0f)
             }
         }
 

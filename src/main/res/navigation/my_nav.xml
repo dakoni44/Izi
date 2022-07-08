@@ -143,6 +143,12 @@
             android:id="@+id/postToProfile"
             app:destination="@id/profileFragment"
             app:enterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/postToCommentList"
+            app:destination="@id/commentListFragment" />
+        <action
+            android:id="@+id/postToComment"
+            app:destination="@id/commentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -203,6 +209,35 @@
             app:destination="@id/chatListFragment" />
         <argument
             android:name="groupId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="space.work.training.izi.nav_fragments.CommentsFragment"
+        android:label="fragment_comments"
+        tools:layout="@layout/fragment_comments" >
+        <argument
+            android:name="imgId"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentListFragment"
+        android:name="space.work.training.izi.nav_fragments.CommentListFragment"
+        android:label="fragment_comment_list"
+        tools:layout="@layout/fragment_comment_list" >
+        <action
+            android:id="@+id/commentListToComments"
+            app:destination="@id/commentsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/commentsToComment"
+            app:destination="@id/postFragment" />
+        <argument
+            android:name="imgId"
             app:argType="string" />
     </fragment>
 </navigation>

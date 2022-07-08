@@ -1,18 +1,16 @@
 package space.work.training.izi.nav_fragments
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.Transformation
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -20,7 +18,9 @@ import com.google.firebase.database.*
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.ViewUtils
+import space.work.training.izi.adapters.CommentsAdapter
 import space.work.training.izi.databinding.FragmentPostBinding
+import space.work.training.izi.model.ModelComment
 import space.work.training.izi.mvvm.chat.User
 import space.work.training.izi.mvvm.posts.Img
 
@@ -45,6 +45,7 @@ class PostFragment : Fragment() {
     var img: Img? = null
     var user: User? = null
     var user1: User? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,6 +95,17 @@ class PostFragment : Fragment() {
             ViewUtils.collapse(binding.detailsLayout)
             binding.postDetails.visibility = View.VISIBLE
             binding.usernameLayout.visibility = View.VISIBLE
+        }
+
+        binding.comments.setOnClickListener{
+            ViewUtils.collapse(binding.detailsLayout)
+            if(currentUserID!!.equals(img!!.publisher)){
+                val action = PostFragmentDirections.postToCommentList(imgId!!)
+                findNavController().navigate(action)
+            }else{
+                val action = PostFragmentDirections.postToComment(imgId!!,currentUserID!!)
+                findNavController().navigate(action)
+            }
         }
     }
 
@@ -260,53 +272,6 @@ class PostFragment : Fragment() {
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
     }
-
-    /* private fun addComm() {
-         val comment: String = etComm.getText().toString().trim { it <= ' ' }
-         if (TextUtils.isEmpty(comment)) {
-             return
-         } else {
-             val timestamp = System.currentTimeMillis().toString()
-             val hashMap = HashMap<String, Any>()
-             hashMap["cId"] = timestamp
-             hashMap["comment"] = comment
-             hashMap["timestamp"] = timestamp
-             hashMap["uId"] = currentUserID!!
-             hashMap["uName"] = user1.getUsername()
-             hashMap["uPic"] = user1.getImage()
-             hashMap["postId"] = postid
-             postRef!!.child("Comments").child(timestamp).setValue(hashMap)
-         }
-         etComm.setText("")
-     }
-
-     private fun readComm() {
-         postRef!!.child("Comments").addValueEventListener(object : ValueEventListener {
-             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                 modelComments.clear()
-                 for (snapshot in dataSnapshot.children) {
-                     val modelComment = ModelComment()
-                     modelComment.setCid(snapshot.child("cId").getValue(String::class.java))
-                     modelComment.setComment(snapshot.child("comment").getValue(String::class.java))
-                     modelComment.setTimestamp(
-                         snapshot.child("timestamp").getValue(String::class.java)
-                     )
-                     modelComment.setuId(snapshot.child("uId").getValue(String::class.java))
-                     modelComment.setuName(snapshot.child("uName").getValue(String::class.java))
-                     modelComment.setuPic(snapshot.child("uPic").getValue(String::class.java))
-                     modelComment.setPostId(snapshot.child("postId").getValue(String::class.java))
-                     modelComments.add(modelComment)
-                 }
-                 tvCommNum.setText(modelComments.size.toString())
-                 rvComments.setHasFixedSize(true)
-                 rvComments.setLayoutManager(LinearLayoutManager(getApplicationContext()))
-                 commentsAdapter = CommentsAdapter(getApplicationContext(), modelComments)
-                 rvComments.setAdapter(commentsAdapter)
-             }
-
-             override fun onCancelled(databaseError: DatabaseError) {}
-         })
-     }*/
 
     private fun showPostUI() {
         Glide.with(requireContext()).load(user?.image).into(binding.profilePic)

@@ -15,5 +15,6 @@ class App : Application() {
     //add user can see who saw his post and who liked and disliked, nobody can see that on my profile except me
     //comments are only visible to 1to1 person
     //delete group, add and remove members
+    //add back buttons to fragments
     //mvvvm, coroutines, firebase, hilt, flow, room
 }

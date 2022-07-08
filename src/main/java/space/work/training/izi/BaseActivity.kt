@@ -32,6 +32,8 @@ class BaseActivity : AppCompatActivity() {
                 || destination.id == R.id.postFragment
                 || destination.id == R.id.chatFragment
                 || destination.id == R.id.groupChatFragment
+                || destination.id == R.id.commentListFragment
+                || destination.id == R.id.commentsFragment
             ) {
                 bottomNavigationView.visibility = View.GONE
             } else {
