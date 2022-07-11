@@ -79,12 +79,12 @@ class AddPostFragment : Fragment() {
         mGetContent.launch("image/*")
 
         binding.tvAddDescription.setOnClickListener {
-            ViewUtils.expandOrCollapse(binding.rl,"expand")
+            ViewUtils.expandOrCollapseDownUp(binding.rl,"expand")
             binding.tvAddDescription.visibility = View.GONE
         }
 
         binding.descDown.setOnClickListener {
-            ViewUtils.expandOrCollapse(binding.rl,"collapse")
+            ViewUtils.expandOrCollapseDownUp(binding.rl,"collapse")
             binding.tvAddDescription.visibility = View.VISIBLE
             desc = binding.etAddDesc.text.toString().trim()
         }

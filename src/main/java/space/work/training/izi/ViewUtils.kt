@@ -12,15 +12,39 @@ import android.widget.LinearLayout
 
 
 class ViewUtils {
-    companion object{
+    companion object {
 
-        fun expandOrCollapse(v: View, exp_or_colpse: String) {
+        fun expandOrCollapseDownUp(v: View, exp_or_colpse: String) {
             var anim: TranslateAnimation? = null
             if (exp_or_colpse == "expand") {
-                anim = TranslateAnimation(0.0f, 0.0f,v.height.toFloat(), 0.0f)
+                anim = TranslateAnimation(0.0f, 0.0f, v.height.toFloat(), 0.0f)
                 v.visibility = View.VISIBLE
             } else {
-                anim = TranslateAnimation(0.0f, 0.0f,  0.0f,(v.height).toFloat())
+                anim = TranslateAnimation(0.0f, 0.0f, 0.0f, (v.height).toFloat())
+                val collapselistener: AnimationListener = object : AnimationListener {
+                    override fun onAnimationStart(animation: Animation) {}
+                    override fun onAnimationRepeat(animation: Animation) {}
+                    override fun onAnimationEnd(animation: Animation) {
+                        v.visibility = View.GONE
+                    }
+                }
+                anim.setAnimationListener(collapselistener)
+            }
+
+            // To Collapse
+            //
+            anim.duration = 350
+            anim.interpolator = AccelerateInterpolator(0.5f)
+            v.startAnimation(anim)
+        }
+
+        fun expandOrCollapseUpDown(v: View, exp_or_colpse: String) {
+            var anim: TranslateAnimation? = null
+            if (exp_or_colpse == "expand") {
+                anim = TranslateAnimation(0.0f, 0.0f, 0.0f, v.height.toFloat())
+                v.visibility = View.VISIBLE
+            } else {
+                anim = TranslateAnimation(0.0f, 0.0f, (v.height).toFloat(), 0.0f)
                 val collapselistener: AnimationListener = object : AnimationListener {
                     override fun onAnimationStart(animation: Animation) {}
                     override fun onAnimationRepeat(animation: Animation) {}
