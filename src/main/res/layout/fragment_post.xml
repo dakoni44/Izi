@@ -7,7 +7,7 @@
         android:id="@+id/postLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBlack"
+        android:background="@color/bgGrey"
         tools:context=".nav_fragments.PostFragment">
 
         <RelativeLayout
@@ -149,6 +149,7 @@
                 android:padding="10dp"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dislike"

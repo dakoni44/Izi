@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -22,13 +21,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.ViewUtils
 import space.work.training.izi.adapters.CommentListAdapter
+import space.work.training.izi.adapters.DislikeAdapter
+import space.work.training.izi.adapters.LikesAdapter
 import space.work.training.izi.databinding.FragmentPostBinding
 import space.work.training.izi.mvvm.chat.User
 import space.work.training.izi.mvvm.posts.Img
 
 
 @AndroidEntryPoint
-class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
+class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
+    LikesAdapter.OnItemClickListener, DislikeAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentPostBinding
 
@@ -47,8 +49,8 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
     private var dislikedRef: DatabaseReference? = null
 
     private var viewsAdapter: CommentListAdapter? = null
-    private var likedAdapter: CommentListAdapter? = null
-    private var dislikedAdapter: CommentListAdapter? = null
+    private var likedAdapter: LikesAdapter? = null
+    private var dislikedAdapter: DislikeAdapter? = null
     private var viewsList: ArrayList<String> = ArrayList()
     private var likedList: ArrayList<String> = ArrayList()
     private var dislikedList: ArrayList<String> = ArrayList()
@@ -92,12 +94,12 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
 
         binding.rvLikes.setHasFixedSize(true)
         binding.rvLikes.layoutManager = LinearLayoutManager(requireContext())
-        likedAdapter = CommentListAdapter(requireContext(), this)
+        likedAdapter = LikesAdapter(requireContext(), this)
         binding.rvLikes.adapter = likedAdapter
 
         binding.rvDislikes.setHasFixedSize(true)
         binding.rvDislikes.layoutManager = LinearLayoutManager(requireContext())
-        dislikedAdapter = CommentListAdapter(requireContext(), this)
+        dislikedAdapter = DislikeAdapter(requireContext(), this)
         binding.rvDislikes.adapter = dislikedAdapter
 
         updatePost()
@@ -107,7 +109,6 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
         isDislikes(imgId!!, binding.dislike)
         nrLikes(binding.like, binding.liked, imgId!!)
         nrDislikes(binding.dislike, binding.disliked, imgId!!)
-        likeDislike()
 
         loadReactions()
         loadViews()
@@ -137,6 +138,10 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
             }
         }
 
+
+    }
+
+    private fun availableData() {
         binding.views.setOnClickListener {
             ViewUtils.collapse(binding.detailsLayout)
             binding.clViews.visibility = View.VISIBLE
@@ -149,9 +154,9 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
         }
 
         binding.hideViews.setOnClickListener {
-            val handler=Handler(Looper.getMainLooper()).postDelayed({
+            val handler = Handler(Looper.getMainLooper()).postDelayed({
                 binding.clViews.visibility = View.INVISIBLE
-            },200)
+            }, 200)
             ViewUtils.expand(binding.detailsLayout)
         }
 
@@ -168,9 +173,9 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
         }
 
         binding.hideReactions.setOnClickListener {
-           val handler=Handler(Looper.getMainLooper()).postDelayed({
-               binding.clReactions.visibility = View.INVISIBLE
-           },200)
+            val handler = Handler(Looper.getMainLooper()).postDelayed({
+                binding.clReactions.visibility = View.INVISIBLE
+            }, 200)
             ViewUtils.expand(binding.detailsLayout)
         }
     }
@@ -200,7 +205,9 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 viewsList.clear()
                 for (snapshot in dataSnapshot.children) {
-                    viewsList.add(snapshot.getValue(String::class.java).toString())
+                    val id = snapshot.getValue(String::class.java).toString()
+                    if (!id.equals(currentUserID))
+                        viewsList.add(id)
                 }
                 viewsAdapter?.setData(viewsList)
             }
@@ -355,6 +362,12 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
                     dataSnapshot.child("description").getValue(String::class.java).toString()
                 img?.views = (dataSnapshot.child("views").childrenCount - 1).toString()
                 showData()
+                if (currentUserID.equals(img?.publisher)) {
+                    binding.reactions.visibility = View.VISIBLE
+                    availableData()
+                }else{
+                    likeDislike()
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -406,7 +419,18 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        val action = PostFragmentDirections.postToProfileOther(viewsList.get(position))
+        findNavController().navigate(action)
+    }
+
+    override fun onDislikeClick(position: Int) {
+        val action = PostFragmentDirections.postToComment(imgId!!, dislikedList.get(position))
+        findNavController().navigate(action)
+    }
+
+    override fun onLikeClick(position: Int) {
+        val action = PostFragmentDirections.postToComment(imgId!!, likedList.get(position))
+        findNavController().navigate(action)
     }
 
 }

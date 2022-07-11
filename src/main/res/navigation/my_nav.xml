@@ -149,6 +149,11 @@
         <action
             android:id="@+id/postToComment"
             app:destination="@id/commentsFragment" />
+        <action
+            android:id="@+id/postToProfileOther"
+            app:destination="@id/profileOtherFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
