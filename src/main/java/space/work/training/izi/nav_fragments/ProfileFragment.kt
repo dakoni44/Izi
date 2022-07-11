@@ -209,7 +209,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        val action = ProfileFragmentDirections.profileToPost(imgs.get(position).imgId)
+        val action = ProfileFragmentDirections.profileToImgList(position)
         findNavController().navigate(action)
     }
 

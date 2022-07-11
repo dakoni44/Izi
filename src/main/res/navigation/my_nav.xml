@@ -99,13 +99,13 @@
             android:id="@+id/profileToLogIn"
             app:destination="@id/logInFragment" />
         <action
-            android:id="@+id/profileToPost"
-            app:destination="@id/postFragment"
+            android:id="@+id/profileToEditProfile"
+            app:destination="@id/editProfileFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popEnterAnim="@android:anim/fade_in" />
         <action
-            android:id="@+id/profileToEditProfile"
-            app:destination="@id/editProfileFragment"
+            android:id="@+id/profileToImgList"
+            app:destination="@id/imgsListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
@@ -139,10 +139,6 @@
         <argument
             android:name="imgId"
             app:argType="string" />
-        <action
-            android:id="@+id/postToProfile"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@android:anim/fade_in" />
         <action
             android:id="@+id/postToCommentList"
             app:destination="@id/commentListFragment" />
@@ -192,6 +188,11 @@
         <action
             android:id="@+id/profileOtherToPost"
             app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
+        <action
+            android:id="@+id/profileOtherToImgList"
+            app:destination="@id/imgsListFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
@@ -244,5 +245,18 @@
         <argument
             android:name="imgId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/imgsListFragment"
+        android:name="space.work.training.izi.nav_fragments.ImgsListFragment"
+        android:label="ImgsListFragment" >
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/imgListToPost"
+            app:destination="@id/postFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popEnterAnim="@android:anim/fade_in" />
     </fragment>
 </navigation>
