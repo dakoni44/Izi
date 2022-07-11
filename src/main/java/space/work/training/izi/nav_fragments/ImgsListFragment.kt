@@ -112,7 +112,7 @@ class ImgsListFragment : Fragment(), ImgListAdapter.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onListItemClick(position: Int) {
         val action = ImgsListFragmentDirections.imgListToPost(imgs.get(position).imgId)
         findNavController().navigate(action)
     }

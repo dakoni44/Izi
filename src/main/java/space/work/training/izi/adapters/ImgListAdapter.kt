@@ -25,7 +25,7 @@ class ImgListAdapter(var mContext: Context, listener: OnItemClickListener) :
     private var firebaseUser: FirebaseUser? = null
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onListItemClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -71,7 +71,7 @@ class ImgListAdapter(var mContext: Context, listener: OnItemClickListener) :
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position)
+                        listener.onListItemClick(position)
                     }
                 }
             }
