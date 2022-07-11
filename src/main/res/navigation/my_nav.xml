@@ -258,5 +258,8 @@
             app:destination="@id/postFragment"
             app:enterAnim="@android:anim/fade_in"
             app:popEnterAnim="@android:anim/fade_in" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
     </fragment>
 </navigation>

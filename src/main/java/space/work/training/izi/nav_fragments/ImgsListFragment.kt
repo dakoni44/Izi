@@ -2,6 +2,7 @@ package space.work.training.izi.nav_fragments
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +57,7 @@ class ImgsListFragment : Fragment(), ImgListAdapter.OnItemClickListener {
         databaseReference = firebaseDatabase!!.getReference("Users")
         postRef = firebaseDatabase!!.getReference("Posts")
 
-        userID = user!!.uid
+        userID = args.userId
         position = args.position
 
         linearLayoutManager = LinearLayoutManager(requireContext())
@@ -68,7 +69,9 @@ class ImgsListFragment : Fragment(), ImgListAdapter.OnItemClickListener {
         )
         imgListAdapter = ImgListAdapter(requireContext(), this)
         binding.rvImgsList.adapter = imgListAdapter
-        binding.rvImgsList.smoothScrollToPosition(position)
+        val handler = Handler()
+        handler.postDelayed(Runnable { binding.rvImgsList.scrollToPosition(position) }, 500)
+
 
         showPost()
     }
