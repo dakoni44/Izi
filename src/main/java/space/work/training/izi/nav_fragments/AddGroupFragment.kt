@@ -18,7 +18,7 @@ import com.google.firebase.database.*
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ParticipantsAdapter
 import space.work.training.izi.databinding.FragmentAddGroupBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 
 class AddGroupFragment : Fragment() {
 

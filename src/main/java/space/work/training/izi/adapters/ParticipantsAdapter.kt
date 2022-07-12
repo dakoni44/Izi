@@ -11,8 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
-import space.work.training.izi.mvvm.chat.User
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.mvvm.chatList.User
 
 class ParticipantsAdapter(var mContext: Context, timestamp: String) :
     RecyclerView.Adapter<ParticipantsAdapter.ImageViewHolder?>() {

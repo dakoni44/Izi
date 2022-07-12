@@ -25,14 +25,14 @@ import space.work.training.izi.R
 import space.work.training.izi.adapters.ChatAdapter
 import space.work.training.izi.databinding.FragmentChatBinding
 import space.work.training.izi.model.Chat
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.notifications.NotifData
 import space.work.training.izi.notifications.RetrofitInstance
 import space.work.training.izi.notifications.Sender
 import space.work.training.izi.notifications.Token
 
 @AndroidEntryPoint
-class ChatFragment : Fragment(),ChatAdapter.OnItemClickListener {
+class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentChatBinding
 
@@ -74,7 +74,7 @@ class ChatFragment : Fragment(),ChatAdapter.OnItemClickListener {
         linearLayoutManager.stackFromEnd = true
         binding.rvChat.setHasFixedSize(true)
         binding.rvChat.layoutManager = linearLayoutManager
-        chatAdapter = ChatAdapter(requireContext(),this)
+        chatAdapter = ChatAdapter(requireContext(), this)
         binding.rvChat.setAdapter(chatAdapter)
 
         requestQueue = Volley.newRequestQueue(requireContext())
@@ -261,7 +261,7 @@ class ChatFragment : Fragment(),ChatAdapter.OnItemClickListener {
     }
 
     override fun onItemLongClick(position: Int) {
-        if(chatList.get(position).sender.equals(user!!.uid)){
+        if (chatList.get(position).sender.equals(user!!.uid)) {
             val alertDialogBuilder = AlertDialog.Builder(requireActivity())
             alertDialogBuilder.setMessage("Confirm")
             alertDialogBuilder.setPositiveButton(

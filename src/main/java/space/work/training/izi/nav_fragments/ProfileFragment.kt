@@ -12,7 +12,6 @@ import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
 
 @AndroidEntryPoint

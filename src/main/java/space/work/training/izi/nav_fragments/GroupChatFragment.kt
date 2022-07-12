@@ -36,7 +36,7 @@ import space.work.training.izi.adapters.GroupChatAdapter
 import space.work.training.izi.adapters.ParticipantsAdapter
 import space.work.training.izi.databinding.FragmentGroupChatBinding
 import space.work.training.izi.model.ModelGroupChat
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 
 class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
 

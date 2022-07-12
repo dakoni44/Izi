@@ -25,7 +25,7 @@ import space.work.training.izi.CropperActivity
 import space.work.training.izi.EditTextLinesLimiter
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentEditProfileBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import java.util.*
 
 class EditProfileFragment : Fragment() {

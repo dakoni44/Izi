@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import space.work.training.izi.mvvm.chat.*
+import space.work.training.izi.mvvm.chatList.*
 import space.work.training.izi.mvvm.posts.ImgRepository
 
 @Module

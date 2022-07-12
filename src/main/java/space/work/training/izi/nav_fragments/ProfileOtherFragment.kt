@@ -20,7 +20,7 @@ import com.google.firebase.database.*
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileOtherBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
 import java.text.SimpleDateFormat
 import java.util.*

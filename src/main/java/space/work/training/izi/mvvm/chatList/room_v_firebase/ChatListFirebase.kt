@@ -1,12 +1,10 @@
-package space.work.training.izi.mvvm.chat.room_v_firebase
+package space.work.training.izi.mvvm.chatList.room_v_firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import space.work.training.izi.model.ChatList
-import space.work.training.izi.mvvm.chat.User
-import javax.inject.Inject
-import javax.inject.Singleton
+import space.work.training.izi.mvvm.chatList.User
 
 class ChatListFirebase{
 

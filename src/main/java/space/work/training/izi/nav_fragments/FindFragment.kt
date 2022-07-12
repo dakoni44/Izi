@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.FindAdapter
 import space.work.training.izi.databinding.FragmentFindBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import java.util.*
 
 @AndroidEntryPoint

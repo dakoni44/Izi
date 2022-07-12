@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentSignUpBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {

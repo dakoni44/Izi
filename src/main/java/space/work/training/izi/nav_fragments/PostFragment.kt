@@ -3,13 +3,11 @@ package space.work.training.izi.nav_fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,9 +24,8 @@ import space.work.training.izi.adapters.CommentListAdapter
 import space.work.training.izi.adapters.DislikeAdapter
 import space.work.training.izi.adapters.LikesAdapter
 import space.work.training.izi.databinding.FragmentPostBinding
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
-import java.util.*
 import kotlin.collections.ArrayList
 
 

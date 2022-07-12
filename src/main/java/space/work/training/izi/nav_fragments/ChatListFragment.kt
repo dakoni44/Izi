@@ -21,8 +21,8 @@ import space.work.training.izi.adapters.GroupListAdapter
 import space.work.training.izi.databinding.FragmentChatListBinding
 import space.work.training.izi.model.Chat
 import space.work.training.izi.model.GroupList
-import space.work.training.izi.mvvm.chat.ChatListViewModel
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.ChatListViewModel
+import space.work.training.izi.mvvm.chatList.User
 import java.util.*
 
 @AndroidEntryPoint

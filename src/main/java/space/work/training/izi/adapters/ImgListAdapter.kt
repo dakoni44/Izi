@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
-import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
 
 class ImgListAdapter(var mContext: Context, listener: OnItemClickListener) :
@@ -130,7 +130,7 @@ class ImgListAdapter(var mContext: Context, listener: OnItemClickListener) :
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-        val dislikeRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Likes")
+        val dislikeRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Dislikes")
             .child(img.imgId)
         dislikeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

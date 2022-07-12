@@ -1,4 +1,4 @@
-package space.work.training.izi.mvvm.chat
+package space.work.training.izi.mvvm.chatList
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
