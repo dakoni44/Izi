@@ -3,11 +3,13 @@ package space.work.training.izi.nav_fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,6 +28,8 @@ import space.work.training.izi.adapters.LikesAdapter
 import space.work.training.izi.databinding.FragmentPostBinding
 import space.work.training.izi.mvvm.chat.User
 import space.work.training.izi.mvvm.posts.Img
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -361,6 +365,7 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
                 img?.text =
                     dataSnapshot.child("description").getValue(String::class.java).toString()
                 img?.views = (dataSnapshot.child("views").childrenCount - 1).toString()
+                img?.timestamp = dataSnapshot.child("timestamp").getValue(String::class.java).toString()
                 showData()
                 if (currentUserID.equals(img?.publisher)) {
                     binding.reactions.visibility = View.VISIBLE

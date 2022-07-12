@@ -10,5 +10,6 @@ data class Img(
     var imgId: String = "",
     var img: String = "",
     var text: String = "", var publisher: String = "",
-    var views: String = ""
+    var views: String = "",
+    var timestamp: String = ""
 )

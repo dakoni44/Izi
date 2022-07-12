@@ -42,7 +42,7 @@ class ImgFirebase {
         val postRef = FirebaseDatabase.getInstance().getReference("Posts")
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                imgs?.let {
+                imgs.let {
                     it.clear()
                     for (snapshot in dataSnapshot.children) {
                         var img = Img()
@@ -54,6 +54,7 @@ class ImgFirebase {
                         img.text =
                             snapshot.child("description").getValue(String::class.java).toString()
                         img.views = snapshot.child("views").childrenCount.toString()
+                        img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
                         for (id in friendList!!) {
                             if (img.publisher == id) {
                                 it.add(img)

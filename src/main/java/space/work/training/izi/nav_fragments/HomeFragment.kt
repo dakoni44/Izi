@@ -31,6 +31,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
 
     private lateinit var binding: FragmentHomeBinding
     private var imgs: ArrayList<Img> = ArrayList()
+    private var newImgs: ArrayList<Img> = ArrayList()
 
     private val imgViewModel: ImgViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
@@ -84,6 +85,12 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
             }
         }
 
+        imgViewModel.getNewImgs().observe(viewLifecycleOwner) {
+            it.let {
+                getNewPosts(it)
+            }
+        }
+
         state = prefs.getBoolean("state", false)
 
         if (state) {
@@ -112,9 +119,13 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
     }
 
     private fun getPosts(pctrs: List<Img>) {
-        homeAdapter.setData(pctrs)
         listHomeAdapter.setData(pctrs)
         imgs.addAll(pctrs)
+    }
+
+    private fun getNewPosts(pctrs: List<Img>) {
+        homeAdapter.setData(pctrs)
+        newImgs.addAll(pctrs)
     }
 
     private fun getToken() {
@@ -129,7 +140,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
     }
 
     override fun onItemClick(position: Int) {
-        val action = HomeFragmentDirections.homeToPost(imgs.get(position).imgId)
+        val action = HomeFragmentDirections.homeToPost(newImgs.get(position).imgId)
         findNavController().navigate(action)
     }
 

@@ -9,12 +9,18 @@ import javax.inject.Inject
 class ImgViewModel @Inject constructor(private val repository: ImgRepository) : ViewModel() {
 
     var online: MutableLiveData<List<Img>> = MutableLiveData()
+    var onlineNew: MutableLiveData<List<Img>> = MutableLiveData()
 
     fun load() {
         online = repository.readPosts()
+        onlineNew = repository.readNewPosts()
     }
 
     fun getImgs(): MutableLiveData<List<Img>> {
         return online
+    }
+
+    fun getNewImgs(): MutableLiveData<List<Img>> {
+        return onlineNew
     }
 }

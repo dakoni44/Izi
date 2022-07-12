@@ -133,6 +133,7 @@ class AddPostFragment : Fragment() {
                     hashMap["publisher"] = user!!.uid
                     views[user!!.uid] = user!!.uid
                     hashMap["views"] = views
+                    hashMap["timestamp"] = "" + System.currentTimeMillis()
                     reference.child((postid)!!).setValue(hashMap)
                 }
             }.addOnFailureListener { }

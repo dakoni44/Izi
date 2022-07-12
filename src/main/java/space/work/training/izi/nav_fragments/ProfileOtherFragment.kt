@@ -206,6 +206,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                     img.img = snapshot.child("postimage").getValue(String::class.java).toString()
                     img.text = snapshot.child("description").getValue(String::class.java).toString()
                     img.views = snapshot.child("views").childrenCount.toString()
+                    img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
                     if (img.publisher.equals(friendId)) {
                         imgs.add(img)
                     }
