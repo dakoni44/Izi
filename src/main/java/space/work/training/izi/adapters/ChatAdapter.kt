@@ -16,12 +16,17 @@ import space.work.training.izi.R
 import space.work.training.izi.model.Chat
 import java.util.*
 
-class ChatAdapter(var mContext: Context, mdata: List<Chat>, imageUri: String) :
+class ChatAdapter(var mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<ChatAdapter.ImageViewHolder?>() {
 
-    private val mdata: List<Chat>
-    private val imageUri: String
+    private var mdata: List<Chat>
+    private var imageUri: String = ""
     private var firebaseUser: FirebaseUser? = null
+    private var listener: OnItemClickListener
+
+    interface OnItemClickListener {
+        fun onItemLongClick(position: Int)
+    }
 
     override fun getItemViewType(position: Int): Int {
         //mozda ovde treba switch case
@@ -168,6 +173,16 @@ class ChatAdapter(var mContext: Context, mdata: List<Chat>, imageUri: String) :
         }
     }
 
+    fun setData(posts: List<Chat>) {
+        mdata = posts
+        notifyDataSetChanged()
+    }
+
+    fun setImageUri(uri: String) {
+        imageUri = uri
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
         return mdata.size
     }
@@ -183,6 +198,15 @@ class ChatAdapter(var mContext: Context, mdata: List<Chat>, imageUri: String) :
             tvMessage = itemView.findViewById<TextView>(R.id.tvMessage)
             tvTime = itemView.findViewById<TextView>(R.id.tvTime)
             ivSeen = itemView.findViewById(R.id.ivSeen)
+            itemView.setOnLongClickListener{
+                if (listener != null) {
+                    val position: Int = getAdapterPosition()
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemLongClick(position)
+                    }
+                }
+                return@setOnLongClickListener true
+            }
         }
     }
 
@@ -198,7 +222,8 @@ class ChatAdapter(var mContext: Context, mdata: List<Chat>, imageUri: String) :
     }
 
     init {
-        this.mdata = mdata
+        this.mdata = ArrayList()
         this.imageUri = imageUri
+        this.listener = listener
     }
 }

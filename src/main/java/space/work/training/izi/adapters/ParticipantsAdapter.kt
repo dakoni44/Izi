@@ -12,11 +12,12 @@ import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 import space.work.training.izi.mvvm.chat.User
+import space.work.training.izi.mvvm.posts.Img
 
-class ParticipantsAdapter(var mContext: Context, mdata: List<User>, timestamp: String) :
+class ParticipantsAdapter(var mContext: Context, timestamp: String) :
     RecyclerView.Adapter<ParticipantsAdapter.ImageViewHolder?>() {
 
-    private val mdata: List<User>
+    private var mdata: List<User> = ArrayList()
     private val timestamp: String
     private var circle = true
     private val groupRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("Groups")
@@ -35,10 +36,16 @@ class ParticipantsAdapter(var mContext: Context, mdata: List<User>, timestamp: S
         val user: User = mdata[position]
         holder.tvUsername.setText(user.username)
         Glide.with(mContext).load(user.image).into(holder.ivProfile)
+        checkCircle(position,holder.ivChecked,holder.ivCircle)
     }
 
     override fun getItemCount(): Int {
         return mdata.size
+    }
+
+    fun setData(posts: List<User>) {
+        mdata = posts
+        notifyDataSetChanged()
     }
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -81,8 +88,25 @@ class ParticipantsAdapter(var mContext: Context, mdata: List<User>, timestamp: S
         }
     }
 
+    fun checkCircle(position: Int, iv1 :ImageView, iv2:ImageView){
+        groupRef.child(timestamp).child("Participants")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(mdata[position].uid).exists()
+                    ) {
+                        iv1.visibility = View.VISIBLE
+                        iv2.visibility = View.INVISIBLE
+                    } else {
+                        iv1.visibility = View.INVISIBLE
+                        iv2.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {}
+            })
+    }
+
     init {
-        this.mdata = mdata
         this.timestamp = timestamp
     }
 }

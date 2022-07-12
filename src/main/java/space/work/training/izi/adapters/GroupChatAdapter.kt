@@ -15,13 +15,21 @@ import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 import space.work.training.izi.model.ModelGroupChat
+import space.work.training.izi.mvvm.posts.Img
 import java.util.*
+import kotlin.collections.ArrayList
 
-class GroupChatAdapter(var mContext: Context, mdata: List<ModelGroupChat>) :
+class GroupChatAdapter(var mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<GroupChatAdapter.ImageViewHolder?>() {
 
-    private val mdata: List<ModelGroupChat>
+    private var mdata: List<ModelGroupChat>
     private var firebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
+    private var listener:OnItemClickListener
+
+    interface OnItemClickListener {
+        fun onItemLongClick(position: Int)
+    }
+
     override fun getItemViewType(position: Int): Int {
         //mozda ovde treba switch case
 
@@ -122,6 +130,11 @@ class GroupChatAdapter(var mContext: Context, mdata: List<ModelGroupChat>) :
         }
     }
 
+    fun setData(posts: List<ModelGroupChat>) {
+        mdata = posts
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.ivSeen.visibility = View.GONE
         val message: String = mdata[position].message
@@ -149,6 +162,15 @@ class GroupChatAdapter(var mContext: Context, mdata: List<ModelGroupChat>) :
             tvMessage = itemView.findViewById<TextView>(R.id.tvMessage)
             tvTime = itemView.findViewById<TextView>(R.id.tvTime)
             ivSeen = itemView.findViewById(R.id.ivSeen)
+            itemView.setOnLongClickListener{
+                if (listener != null) {
+                    val position: Int = getAdapterPosition()
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemLongClick(position)
+                    }
+                }
+                return@setOnLongClickListener true
+            }
         }
     }
 
@@ -178,6 +200,7 @@ class GroupChatAdapter(var mContext: Context, mdata: List<ModelGroupChat>) :
     }
 
     init {
-        this.mdata = mdata
+        this.mdata = ArrayList()
+        this.listener = listener
     }
 }

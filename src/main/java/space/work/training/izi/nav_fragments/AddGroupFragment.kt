@@ -22,7 +22,7 @@ import space.work.training.izi.mvvm.chat.User
 
 class AddGroupFragment : Fragment() {
 
-    private lateinit var binding:FragmentAddGroupBinding
+    private lateinit var binding: FragmentAddGroupBinding
 
     private var friendList: ArrayList<String>? = null
     private var list: ArrayList<User> = ArrayList<User>()
@@ -31,7 +31,7 @@ class AddGroupFragment : Fragment() {
     private var user: FirebaseUser? = null
     private var firebaseDatabase: FirebaseDatabase? = null
     private var databaseReference: DatabaseReference? = null
-    private var groupRef:DatabaseReference? = null
+    private var groupRef: DatabaseReference? = null
 
     private var userID: String? = null
     private var timestamp: String? = null
@@ -60,7 +60,8 @@ class AddGroupFragment : Fragment() {
 
         binding.rvParticipants.setHasFixedSize(true)
         binding.rvParticipants.layoutManager = LinearLayoutManager(requireContext())
-        adapter = ParticipantsAdapter(requireContext(), list, timestamp!!)
+        adapter = ParticipantsAdapter(requireContext(),timestamp!!)
+        binding.rvParticipants.adapter = adapter
 
         checkFollowing()
 
@@ -85,7 +86,7 @@ class AddGroupFragment : Fragment() {
                 "Ok"
             ) { _, _ ->
                 val action = AddGroupFragmentDirections.addGroupToChatList(true)
-               findNavController().navigate(action)
+                findNavController().navigate(action)
             }
             alertDialogBuilder.setNegativeButton(
                 "Cancel"
@@ -140,12 +141,13 @@ class AddGroupFragment : Fragment() {
                 list.clear()
                 for (snapshot in dataSnapshot.children) {
                     val user = User()
-                    user.uid=snapshot.child("uid").getValue(String::class.java).toString()
-                    user.name=snapshot.child("name").getValue(String::class.java).toString()
-                    user.username=snapshot.child("username").getValue(String::class.java).toString()
-                    user.email=snapshot.child("email").getValue(String::class.java).toString()
-                    user.image=snapshot.child("image").getValue(String::class.java).toString()
-                    user.bio=dataSnapshot.child("bio").getValue(String::class.java).toString()
+                    user.uid = snapshot.child("uid").getValue(String::class.java).toString()
+                    user.name = snapshot.child("name").getValue(String::class.java).toString()
+                    user.username =
+                        snapshot.child("username").getValue(String::class.java).toString()
+                    user.email = snapshot.child("email").getValue(String::class.java).toString()
+                    user.image = snapshot.child("image").getValue(String::class.java).toString()
+                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                     for (id in friendList!!) {
                         if (user.uid.equals(id)) {
                             list.add(user)
@@ -153,7 +155,7 @@ class AddGroupFragment : Fragment() {
                         }
                     }
                 }
-                binding.rvParticipants.adapter = adapter
+                adapter!!.setData(list)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

@@ -1,98 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bgGrey"
-    tools:context=".activities.ChatActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorBlack"
-        app:popupTheme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:background="@color/bgGrey"
+        android:orientation="vertical"
+        tools:context=".activities.ChatActivity">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:scaleType="centerCrop"/>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editGroupLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginLeft="20dp">
+            android:background="@drawable/rounded_post_details"
+            android:elevation="10dp"
+            android:visibility="invisible"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/tvName"
+            <EditText
+                android:id="@+id/changeGroupName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Group Name"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@android:color/white"
+                android:hint="Change name"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:paddingLeft="10dp"
+                android:paddingBottom="15dp"
                 android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:textCursorDrawable="@drawable/cursor_white"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/changeGroupPic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/rounded_avatar"
+                app:cardCornerRadius="60dp"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_overlay="true"
+                app:civ_border_width="0.8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/changeGroupName" />
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Tap on photo to change it"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@id/changeGroupPic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/changeGroupPic"
+                app:layout_constraintTop_toTopOf="@id/changeGroupPic" />
+
+            <ImageView
+                android:id="@+id/addGroupMembers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_add_remove_member"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@id/changeGroupPic"
+                app:layout_constraintStart_toStartOf="@id/changeGroupPic"
+                app:layout_constraintTop_toBottomOf="@id/changeGroupPic" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="Tap on icon to add or remove members"
+                android:textColor="@android:color/white"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/addGroupMembers"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv1"
+                app:layout_constraintTop_toTopOf="@id/addGroupMembers" />
+
+
+            <ImageView
+                android:id="@+id/groupDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_confirm"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/collapseChange"
+                app:layout_constraintTop_toBottomOf="@id/addGroupMembers" />
+
+            <ImageView
+                android:id="@+id/collapseChange"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_up"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/groupDone"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addGroupMembers" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorBlack"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/AppTheme.AppBarOverlay">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Group Name"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/editGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_arrow_down" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/toolbar"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@color/bgGrey"
+            app:layout_constraintBottom_toTopOf="@id/llChat"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:stackFromEnd="true"></androidx.recyclerview.widget.RecyclerView>
+
+
+        <LinearLayout
+            android:id="@+id/llChat"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="0"
+            android:background="@drawable/rounded_send_text"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Message..."
+                android:inputType="textCapSentences"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF"
+                android:textCursorDrawable="@drawable/cursor_white"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/bnSend"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:src="@drawable/ic_send" />
         </LinearLayout>
 
-    </androidx.appcompat.widget.Toolbar>
+        <RelativeLayout
+            android:id="@+id/rlAddMembers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:visibility="invisible">
 
+            <ImageView
+                android:id="@+id/ivCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_confirm" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        app:stackFromEnd="true"
-        android:background="@color/bgGrey"
-        android:layout_weight="1"
-        android:layout_marginBottom="5dp"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:padding="10dp"
+                android:text="No back option choose and go next"
+                android:textColor="@android:color/white"
+                android:textStyle="italic" />
 
-
-    <LinearLayout
-        android:id="@+id/llChat"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_weight="0"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:background="@drawable/rounded_send_text"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/etMessage"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_gravity="center"
-            android:textSize="16sp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#FFFFFF"
-            android:textCursorDrawable="@drawable/cursor_white"
-            android:hint="Message..."
-            android:layout_marginLeft="25dp"
-            android:inputType="textCapSentences"/>
-
-        <ImageButton
-            android:id="@+id/bnSend"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@null"
-            android:src="@drawable/ic_send"
-            android:layout_marginRight="10dp"/>
-    </LinearLayout>
-</LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvParticipants"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/ivCreate"
+                android:layout_marginTop="10dp"
+                tools:listitem="@layout/participants_item" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

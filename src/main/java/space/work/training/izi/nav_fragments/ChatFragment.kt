@@ -1,5 +1,7 @@
 package space.work.training.izi.nav_fragments
 
+import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -30,7 +32,7 @@ import space.work.training.izi.notifications.Sender
 import space.work.training.izi.notifications.Token
 
 @AndroidEntryPoint
-class ChatFragment : Fragment() {
+class ChatFragment : Fragment(),ChatAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentChatBinding
 
@@ -72,6 +74,8 @@ class ChatFragment : Fragment() {
         linearLayoutManager.stackFromEnd = true
         binding.rvChat.setHasFixedSize(true)
         binding.rvChat.layoutManager = linearLayoutManager
+        chatAdapter = ChatAdapter(requireContext(),this)
+        binding.rvChat.setAdapter(chatAdapter)
 
         requestQueue = Volley.newRequestQueue(requireContext())
 
@@ -102,8 +106,9 @@ class ChatFragment : Fragment() {
         usersDbRef!!.child(receiverId!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 receiverImg = dataSnapshot.child("image").getValue(String::class.java)
-                binding.tvName.text = dataSnapshot.child("name").getValue(String::class.java)
+                binding.tvName.text = dataSnapshot.child("username").getValue(String::class.java)
                 Glide.with(requireContext()).load(receiverImg).into(binding.ivProfile)
+                chatAdapter!!.setImageUri(receiverImg!!)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -154,9 +159,7 @@ class ChatFragment : Fragment() {
                     ) {
                         chatList.add(chat)
                     }
-                    chatAdapter = ChatAdapter(requireContext(), chatList, receiverImg!!)
-                    chatAdapter!!.notifyDataSetChanged()
-                    binding.rvChat.setAdapter(chatAdapter)
+                    chatAdapter!!.setData(chatList)
                     binding.rvChat.smoothScrollToPosition(chatAdapter!!.itemCount)
                     binding.rvChat.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
                         if (bottom < oldBottom) {
@@ -183,7 +186,7 @@ class ChatFragment : Fragment() {
         hashMap["message"] = message
         hashMap["timestamp"] = timestamp
         hashMap["isSeen"] = false
-        databaseReference.child("Chats").push().setValue(hashMap)
+        databaseReference.child("Chats").child(timestamp).setValue(hashMap)
         val database = FirebaseDatabase.getInstance().getReference("Users").child(senderId!!)
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -254,6 +257,26 @@ class ChatFragment : Fragment() {
             val response = RetrofitInstance.api.pushNotification(notification)
         } catch (e: Exception) {
 
+        }
+    }
+
+    override fun onItemLongClick(position: Int) {
+        if(chatList.get(position).sender.equals(user!!.uid)){
+            val alertDialogBuilder = AlertDialog.Builder(requireActivity())
+            alertDialogBuilder.setMessage("Confirm")
+            alertDialogBuilder.setPositiveButton(
+                "Ok"
+            ) { _, _ ->
+                val dbRef = FirebaseDatabase.getInstance().getReference("Chats")
+                dbRef.child(chatList.get(position).timestamp).removeValue()
+            }
+            alertDialogBuilder.setNegativeButton(
+                "Cancel"
+            ) { arg0, arg1 -> }
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
         }
     }
 
