@@ -1,5 +1,6 @@
 package space.work.training.izi.adapters
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -15,11 +16,12 @@ import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 import space.work.training.izi.model.ModelComment
+import space.work.training.izi.mvvm.posts.Img
 
-class CommentsAdapter(var mContext: Context, mdata: List<ModelComment>) :
+class CommentsAdapter(var mContext: Context) :
     RecyclerView.Adapter<CommentsAdapter.ImageViewHolder?>() {
 
-    private val mdata: List<ModelComment>
+    private var mdata: List<ModelComment> = ArrayList()
     var publisher = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view: View = LayoutInflater.from(mContext).inflate(R.layout.comment_item, parent, false)
@@ -48,7 +50,7 @@ class CommentsAdapter(var mContext: Context, mdata: List<ModelComment>) :
                         alertDialogBuilder.setPositiveButton("Yes",
                             object : DialogInterface.OnClickListener {
                                 override fun onClick(arg0: DialogInterface, arg1: Int) {
-                                    postRef.child(modelComment.postId).child("Comments")
+                                    postRef.child(modelComment.postId).child("Comments").child(modelComment.uId)
                                         .child(modelComment.cid).removeValue()
                                 }
                             })
@@ -72,6 +74,11 @@ class CommentsAdapter(var mContext: Context, mdata: List<ModelComment>) :
         return mdata.size
     }
 
+    fun setData(comments: List<ModelComment>) {
+        mdata = comments
+        notifyDataSetChanged()
+    }
+
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var ivProfile: CircleImageView
         var tvUsername: TextView
@@ -84,7 +91,4 @@ class CommentsAdapter(var mContext: Context, mdata: List<ModelComment>) :
         }
     }
 
-    init {
-        this.mdata = mdata
-    }
 }

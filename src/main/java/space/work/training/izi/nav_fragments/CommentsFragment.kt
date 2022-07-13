@@ -58,6 +58,11 @@ class CommentsFragment : Fragment() {
         databaseReference = firebaseDatabase!!.getReference("Users")
         currentUser=FirebaseAuth.getInstance().currentUser
 
+        binding.rvComments.setHasFixedSize(true)
+        binding.rvComments.layoutManager = LinearLayoutManager(requireContext())
+        commentsAdapter = CommentsAdapter(requireContext())
+        binding.rvComments.adapter = commentsAdapter
+
         currentUser()
         readComm()
 
@@ -130,11 +135,7 @@ class CommentsFragment : Fragment() {
                             snapshot.child("postId").getValue(String::class.java).toString()
                         modelComments.add(modelComment)
                     }
-
-                    binding.rvComments.setHasFixedSize(true)
-                    binding.rvComments.layoutManager = LinearLayoutManager(requireContext())
-                    commentsAdapter = CommentsAdapter(requireContext(), modelComments)
-                    binding.rvComments.adapter = commentsAdapter
+                    commentsAdapter!!.setData(modelComments)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}

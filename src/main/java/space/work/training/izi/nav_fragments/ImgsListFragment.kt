@@ -99,7 +99,7 @@ class ImgsListFragment : Fragment(), ImgListAdapter.OnItemClickListener {
                         snapshot.child("publisher").getValue(String::class.java).toString()
                     img.img = snapshot.child("postimage").getValue(String::class.java).toString()
                     img.text = snapshot.child("description").getValue(String::class.java).toString()
-                    img.views = snapshot.child("views").childrenCount.toString()
+                    img.views = (snapshot.child("views").childrenCount-1).toString()
                     img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
                     if (img.publisher.equals(userID)) {
                         imgs.add(img)

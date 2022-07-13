@@ -205,7 +205,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                         snapshot.child("publisher").getValue(String::class.java).toString()
                     img.img = snapshot.child("postimage").getValue(String::class.java).toString()
                     img.text = snapshot.child("description").getValue(String::class.java).toString()
-                    img.views = snapshot.child("views").childrenCount.toString()
+                    img.views = (snapshot.child("views").childrenCount-1).toString()
                     img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
                     if (img.publisher.equals(friendId)) {
                         imgs.add(img)
@@ -234,7 +234,11 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         for (i in imgs.indices) {
             sum += imgs.get(i).views.toInt()
         }
-        binding.tvViews.text = (sum - imgs.size).toString()
+        var all=sum - imgs.size
+        if(all<0)
+            all=0
+        binding.tvViews.text = (all).toString()
+        
         likeRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var sum = 0
@@ -392,6 +396,10 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     override fun onItemClick(position: Int) {
         val action = ProfileOtherFragmentDirections.profileOtherToImgList(position,friendId!!)
         findNavController().navigate(action)
+    }
+
+    override fun onItemLongClick(position: Int) {
+
     }
 
 }

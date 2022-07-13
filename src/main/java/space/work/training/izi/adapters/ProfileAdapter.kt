@@ -32,6 +32,7 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
+        fun onItemLongClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -69,6 +70,15 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
                         listener.onItemClick(position)
                     }
                 }
+            }
+            itemView.setOnLongClickListener{
+                if (listener != null) {
+                    val position: Int = getAdapterPosition()
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemLongClick(position)
+                    }
+                }
+                return@setOnLongClickListener true
             }
         }
     }

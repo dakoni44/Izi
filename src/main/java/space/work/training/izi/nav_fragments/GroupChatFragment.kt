@@ -318,7 +318,7 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
     override fun onItemLongClick(position: Int) {
         if(chatList.get(position).sender.equals(user!!.uid)){
             val alertDialogBuilder = AlertDialog.Builder(requireActivity())
-            alertDialogBuilder.setMessage("Confirm")
+            alertDialogBuilder.setMessage("Delete message?")
             alertDialogBuilder.setPositiveButton(
                 "Ok"
             ) { _, _ ->

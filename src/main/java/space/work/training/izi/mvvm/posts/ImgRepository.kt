@@ -65,7 +65,7 @@ class ImgRepository @Inject constructor(
                             snapshot.child("postimage").getValue(String::class.java).toString()
                         img.text =
                             snapshot.child("description").getValue(String::class.java).toString()
-                        img.views = snapshot.child("views").childrenCount.toString()
+                        img.views = (snapshot.child("views").childrenCount-1).toString()
                         img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
                         for (id in friendList) {
                             if (img.publisher == id ) {
@@ -101,7 +101,7 @@ class ImgRepository @Inject constructor(
                             snapshot.child("postimage").getValue(String::class.java).toString()
                         img.text =
                             snapshot.child("description").getValue(String::class.java).toString()
-                        img.views = snapshot.child("views").childrenCount.toString()
+                        img.views = (snapshot.child("views").childrenCount - 1).toString()
                         img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
                         for (id in friendList) {
                             if (img.publisher == id && currentTime <= img.timestamp.toLong()+24*60*60*1000) {
