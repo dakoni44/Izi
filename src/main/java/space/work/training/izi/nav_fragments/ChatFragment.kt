@@ -7,20 +7,27 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ChatAdapter
 import space.work.training.izi.databinding.FragmentChatBinding
@@ -235,16 +242,14 @@ class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
     }
 
     private fun checkTokenAndSend(notifData: NotifData) {
-        val allTokens = FirebaseDatabase.getInstance().getReference("Tokens")
-        val query = allTokens.orderByKey().equalTo(receiverId)
-        query.addValueEventListener(object : ValueEventListener {
+        val allTokens = FirebaseDatabase.getInstance().getReference("Tokens").child(receiverId!!)
+        allTokens.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (ds in dataSnapshot.children) {
                     val token = Token()
-                    token.token = ds.child("token").getValue(String::class.java).toString()
+                    token.token =
+                        dataSnapshot.child("token").getValue(String::class.java).toString()
                     val sender = Sender(notifData, token.token)
                     sendNotification(sender)
-                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -255,6 +260,11 @@ class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
     private fun sendNotification(notification: Sender) = CoroutineScope(Dispatchers.IO).launch {
         try {
             val response = RetrofitInstance.api.pushNotification(notification)
+            if (response.isSuccessful) {
+                Toast.makeText(requireContext(), "succes", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "not sent", Toast.LENGTH_SHORT).show()
+            }
         } catch (e: Exception) {
 
         }
