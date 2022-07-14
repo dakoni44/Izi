@@ -1,6 +1,6 @@
 package space.work.training.izi.notifications
 
 data class Sender(
-    var notifData: NotifData,
-    var to:String
+    var to:String,
+    var notification: NotifData
 )

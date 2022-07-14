@@ -208,7 +208,7 @@ class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (notify) {
                     val notifData =
-                        NotifData(message, receiverId!!)
+                        NotifData(user.username,message)
                     checkTokenAndSend(notifData)
                 }
                 notify = false
@@ -249,7 +249,7 @@ class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
                     val token = Token()
                     token.token =
                         dataSnapshot.child("token").getValue(String::class.java).toString()
-                    val sender = Sender(notifData, token.token)
+                    val sender = Sender(token.token, notifData)
                     sendNotification(sender)
             }
 

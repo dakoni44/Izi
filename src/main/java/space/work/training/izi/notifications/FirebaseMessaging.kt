@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.NonNull
 import androidx.core.app.NotificationCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -65,15 +66,16 @@ class FirebaseMessaging : FirebaseMessagingService() {
            return remoteView
        }*/
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        if (remoteMessage.notification != null) {
+    override fun onMessageReceived(@NonNull message: RemoteMessage) {
+        super.onMessageReceived(message)
+        if (message.notification != null) {
             generateNotification(
-                remoteMessage.notification!!.title!!,
-                remoteMessage.notification!!.body!!
+                message.notification!!.title!!,
+                message.notification!!.body!!
             )
         }
-        super.onMessageReceived(remoteMessage)
     }
+
 
     override fun onNewToken(s: String) {
         super.onNewToken(s)
