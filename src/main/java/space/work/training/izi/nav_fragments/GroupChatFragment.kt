@@ -180,7 +180,8 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (snap in snapshot.children) {
-                        groupMembers.add(snap.key.toString())
+                        if (!snap.key.equals(user!!.uid))
+                            groupMembers.add(snap.key.toString())
                     }
                 }
 
@@ -232,15 +233,15 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Groups")
         val timestamp = System.currentTimeMillis().toString()
         val hashMap = HashMap<String, Any>()
+        hashMap["sender"] = user!!.uid
+        hashMap["message"] = message
+        hashMap["timestamp"] = timestamp
+        databaseReference.child(groupId).child("Messages").child(timestamp)
+            .setValue(hashMap)
         FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("username")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val sender=snapshot.getValue(String::class.java).toString()
-                    hashMap["sender"] = sender
-                    hashMap["message"] = message
-                    hashMap["timestamp"] = timestamp
-                    databaseReference.child(groupId).child("Messages").child(timestamp)
-                        .setValue(hashMap)
+                    val sender = snapshot.getValue(String::class.java).toString()
                     val database =
                         FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
                     database.addValueEventListener(object : ValueEventListener {
