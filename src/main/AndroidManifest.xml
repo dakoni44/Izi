@@ -10,6 +10,7 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
     <application
         android:name=".di.App"
@@ -36,9 +37,11 @@
 
         <service
             android:name=".notifications.FirebaseMessaging"
+            android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
             </intent-filter>
         </service>
 

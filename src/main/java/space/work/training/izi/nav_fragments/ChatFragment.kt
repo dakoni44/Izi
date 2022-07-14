@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -207,7 +208,7 @@ class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
                 user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                 if (notify) {
                     val notifData =
-                        NotifData(senderId!!, message, user.username, receiverId!!, R.drawable.izi)
+                        NotifData(message, receiverId!!)
                     checkTokenAndSend(notifData)
                 }
                 notify = false
@@ -261,12 +262,12 @@ class ChatFragment : Fragment(), ChatAdapter.OnItemClickListener {
         try {
             val response = RetrofitInstance.api.pushNotification(notification)
             if (response.isSuccessful) {
-                Toast.makeText(requireContext(), "succes", Toast.LENGTH_SHORT).show()
+                Log.e("ChatFragment","Sent fcm notif")
             } else {
-                Toast.makeText(requireContext(), "not sent", Toast.LENGTH_SHORT).show()
+                Log.e("ChatFragment",response.errorBody().toString())
             }
         } catch (e: Exception) {
-
+            Log.e("ChatFragment",e.toString())
         }
     }
 

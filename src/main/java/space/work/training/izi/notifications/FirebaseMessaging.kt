@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import space.work.training.izi.BaseActivity
+import kotlin.random.Random
 
 
 const val channelId = "izi_not_kokosanel"
@@ -22,13 +23,16 @@ const val channelName = "space.work.tr.izi.notif"
 class FirebaseMessaging : FirebaseMessagingService() {
 
     fun generateNotification(title: String, message: String) {
+
+        val notifID= Random.nextInt()
         val intent = Intent(this, BaseActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
             this,
-            1, intent, PendingIntent.FLAG_ONE_SHOT
+            0, intent, PendingIntent.FLAG_ONE_SHOT
         )
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder: NotificationCompat.Builder =
+        val notification =
             NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(space.work.training.izi.R.drawable.izi)
                 .setContentTitle(title)
@@ -36,6 +40,7 @@ class FirebaseMessaging : FirebaseMessagingService() {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
+                .build()
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -47,7 +52,7 @@ class FirebaseMessaging : FirebaseMessagingService() {
             )
             notificationManager.createNotificationChannel(channel)
         }
-        notificationManager.notify(1, notificationBuilder.build())
+        notificationManager.notify(notifID, notification)
     }
 
     /*   fun getRemoteView(title: String, message: String): RemoteViews {
