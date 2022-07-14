@@ -1,70 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlL"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rlL"
-    android:layout_marginRight="100dp"
+    android:layout_marginRight="100dp">
 
-    >
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfile"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:civ_border_color="@null"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        app:civ_border_color="@null" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_chat_left_alone"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/ivProfile"
-        android:layout_marginLeft="5dp">
-
+        android:background="@drawable/rounded_chat_left_alone">
 
         <TextView
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:maxEms="10"
-            android:textSize="16sp"
+            android:text="His message"
             android:textColor="@android:color/white"
-            android:text="His message"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tvMessage"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="6dp"
             android:layout_marginRight="8dp"
+            android:layout_toRightOf="@id/tvMessage"
+            android:paddingBottom="6dp"
             android:scaleX="0.8"
             android:text="10:32"
             android:textColor="@android:color/white"
-            android:textSize="11sp"/>
+            android:textSize="11sp" />
 
         <ImageView
             android:id="@+id/ivSeen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/tvTime"
-            android:src="@drawable/ic_delivered"
-            android:paddingBottom="2dp"
             android:layout_marginRight="10dp"
-            android:visibility="gone"
+            android:layout_toRightOf="@id/tvTime"
+            android:paddingBottom="2dp"
             android:scaleX="0.7"
             android:scaleY="0.7"
-            android:textColor="@android:color/black" />
-
+            android:src="@drawable/ic_delivered"
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
     </RelativeLayout>
-
-
 </RelativeLayout>

@@ -6,8 +6,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bgGrey"
         android:animateLayoutChanges="true"
+        android:background="@color/bgGrey"
         tools:context=".activities.ChatListActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,19 +78,18 @@
                 android:textCursorDrawable="@drawable/cursor_white" />
         </RelativeLayout>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChatList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rl"/>
+            android:layout_below="@id/rl" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvGroupList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/bnCreate"

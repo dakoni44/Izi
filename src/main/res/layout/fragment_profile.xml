@@ -188,27 +188,26 @@
                     android:layout_height="100dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="40dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginBottom="40dp"
                     android:background="@drawable/rounded_avatar"
-                    app:layout_constraintTop_toBottomOf="@id/tvL"
-                    app:layout_constraintStart_toEndOf="@id/bnEditProfile"
                     app:layout_constraintEnd_toStartOf="@id/bnLogout"
-                    ></de.hdodenhof.circleimageview.CircleImageView>
+                    app:layout_constraintStart_toEndOf="@id/bnEditProfile"
+                    app:layout_constraintTop_toBottomOf="@id/tvL"></de.hdodenhof.circleimageview.CircleImageView>
 
                 <Button
                     android:id="@+id/bnEditProfile"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="25dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/ivMalaSlika1"
                     android:background="@drawable/rounded_button2"
-                    app:layout_constraintTop_toTopOf="@id/ivMalaSlika1"
-
                     android:text="Edit profile"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+
+                    app:layout_constraintEnd_toStartOf="@id/ivMalaSlika1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ivMalaSlika1" />
 
                 <Button
                     android:id="@+id/bnLogout"
@@ -217,13 +216,13 @@
                     android:layout_alignTop="@id/ivMalaSlika1"
                     android:layout_marginTop="25dp"
                     android:background="@drawable/rounded_button2"
-                    app:layout_constraintStart_toEndOf="@id/ivMalaSlika1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/ivMalaSlika1"
-
                     android:text="Log out"
                     android:textColor="@android:color/white"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivMalaSlika1"
+                    app:layout_constraintTop_toTopOf="@id/ivMalaSlika1" />
 
 
                 <TextView
@@ -247,12 +246,12 @@
                     android:layout_below="@id/ivMalaSlika1"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/ivMalaSlika1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.53"
-                    android:padding="5dp">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivMalaSlika1">
 
                     <TextView
                         android:id="@+id/tvNameFull"
@@ -318,5 +317,4 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-
 </layout>

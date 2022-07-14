@@ -23,7 +23,6 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true" />
 
-
     <Button
         android:id="@+id/bnCancle"
         android:layout_width="150dp"
@@ -47,5 +46,4 @@
         android:background="@drawable/rounded_button2"
         android:text="@string/logOut"
         android:textColor="@android:color/white" />
-
 </RelativeLayout>

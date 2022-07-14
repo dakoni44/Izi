@@ -58,7 +58,6 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottomg"
             android:layout_width="match_parent"

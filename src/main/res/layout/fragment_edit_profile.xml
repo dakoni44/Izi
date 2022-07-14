@@ -134,6 +134,5 @@
             android:background="@drawable/rounded_button2"
             android:text="ok"
             android:textColor="@android:color/white" />
-
     </RelativeLayout>
 </layout>

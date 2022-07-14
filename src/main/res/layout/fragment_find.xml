@@ -45,7 +45,6 @@
                     android:textColorHint="@android:color/black"
                     android:textCursorDrawable="@drawable/cursor_white" />
 
-
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView

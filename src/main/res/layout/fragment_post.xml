@@ -16,8 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:background="@drawable/post_name_bg"
             android:alpha="0.8"
+            android:background="@drawable/post_name_bg"
             android:elevation="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -148,13 +148,13 @@
                 android:layout_marginEnd="10dp"
                 android:drawablePadding="10dp"
                 android:padding="10dp"
+                android:text="@string/reactions"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dislike"
-                android:text="@string/reactions" />
+                app:layout_constraintTop_toBottomOf="@id/dislike" />
 
             <TextView
                 android:id="@+id/description"

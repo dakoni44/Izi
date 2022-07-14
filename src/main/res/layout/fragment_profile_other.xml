@@ -10,12 +10,12 @@
         android:layout_height="match_parent"
         android:background="@color/bgGrey">
 
-    <ScrollView
-        android:id="@+id/svProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bgGrey"
-        android:visibility="visible">
+        <ScrollView
+            android:id="@+id/svProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bgGrey"
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/rlFriends"
@@ -321,7 +321,7 @@
                         android:layout_height="match_parent" />
                 </RelativeLayout>
             </RelativeLayout>
-    </ScrollView>
+        </ScrollView>
 
         <RelativeLayout
             android:id="@+id/rlNotFriends"
@@ -379,7 +379,5 @@
                 android:textColor="@android:color/white"
                 android:textSize="10sp" />
         </RelativeLayout>
-
-
     </RelativeLayout>
 </layout>
