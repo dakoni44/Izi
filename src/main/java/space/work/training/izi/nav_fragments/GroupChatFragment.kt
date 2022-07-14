@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLayoutChangeListener
@@ -29,6 +30,9 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import space.work.training.izi.CropperActivity
 import space.work.training.izi.R
 import space.work.training.izi.ViewUtils
@@ -37,6 +41,10 @@ import space.work.training.izi.adapters.ParticipantsAdapter
 import space.work.training.izi.databinding.FragmentGroupChatBinding
 import space.work.training.izi.model.ModelGroupChat
 import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.notifications.NotifData
+import space.work.training.izi.notifications.RetrofitInstance
+import space.work.training.izi.notifications.Sender
+import space.work.training.izi.notifications.Token
 
 class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
 
@@ -63,6 +71,8 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
     private var databaseReference: DatabaseReference? = null
     var groupMembersAdapter: ParticipantsAdapter? = null
 
+    private var groupMembers: ArrayList<String> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,7 +94,7 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
         val linearLayoutManager = LinearLayoutManager(requireContext())
         linearLayoutManager.stackFromEnd = true
         binding.rvChat.layoutManager = linearLayoutManager
-        groupChatAdapter = GroupChatAdapter(requireContext(),this)
+        groupChatAdapter = GroupChatAdapter(requireContext(), this)
         binding.rvChat.adapter = groupChatAdapter
 
         binding.rvParticipants.setHasFixedSize(true)
@@ -102,6 +112,7 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
         }
 
         loadGroup()
+        loadGroupMembers()
         checkFollowing()
 
         binding.bnSend.setOnClickListener(View.OnClickListener { // notify=true;
@@ -163,6 +174,21 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
         }
     }
 
+    private fun loadGroupMembers() {
+        val groupRef = FirebaseDatabase.getInstance().getReference("Groups")
+        groupRef.child(groupId).child("Participants")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children) {
+                        groupMembers.add(snap.key.toString())
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+    }
+
     private fun updateText() {
         if (!binding.changeGroupName.text.toString().trim().equals("")) {
             val reference = FirebaseDatabase.getInstance().getReference("Groups")
@@ -206,10 +232,64 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
         val databaseReference = FirebaseDatabase.getInstance().getReference("Groups")
         val timestamp = System.currentTimeMillis().toString()
         val hashMap = HashMap<String, Any>()
-        hashMap["sender"] = user!!.uid
-        hashMap["message"] = message
-        hashMap["timestamp"] = timestamp
-        databaseReference.child(groupId).child("Messages").child(timestamp).setValue(hashMap)
+        FirebaseDatabase.getInstance().getReference("Users").child(user!!.uid).child("username")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val sender=snapshot.getValue(String::class.java).toString()
+                    hashMap["sender"] = sender
+                    hashMap["message"] = message
+                    hashMap["timestamp"] = timestamp
+                    databaseReference.child(groupId).child("Messages").child(timestamp)
+                        .setValue(hashMap)
+                    val database =
+                        FirebaseDatabase.getInstance().getReference("Groups").child(groupId)
+                    database.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val groupname =
+                                dataSnapshot.child("groupName").getValue(String::class.java)
+                                    .toString()
+                            val notifData =
+                                NotifData("$groupname ( $sender )", message)
+                            checkTokenAndSend(notifData)
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+    }
+
+    private fun checkTokenAndSend(notifData: NotifData) {
+        for (receiverId in groupMembers) {
+            val allTokens = FirebaseDatabase.getInstance().getReference("Tokens").child(receiverId)
+            allTokens.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val token = Token()
+                    token.token =
+                        dataSnapshot.child("token").getValue(String::class.java).toString()
+                    val sender = Sender(token.token, notifData)
+                    sendNotification(sender)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
+    }
+
+    private fun sendNotification(notification: Sender) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.pushNotification(notification)
+            if (response.isSuccessful) {
+                Log.e("ChatFragment", "Sent fcm notif")
+            } else {
+                Log.e("ChatFragment", response.errorBody().toString())
+            }
+        } catch (e: Exception) {
+            Log.e("ChatFragment", e.toString())
+        }
     }
 
     private fun readMessages() {
@@ -316,14 +396,15 @@ class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
     }
 
     override fun onItemLongClick(position: Int) {
-        if(chatList.get(position).sender.equals(user!!.uid)){
+        if (chatList.get(position).sender.equals(user!!.uid)) {
             val alertDialogBuilder = AlertDialog.Builder(requireActivity())
             alertDialogBuilder.setMessage("Delete message?")
             alertDialogBuilder.setPositiveButton(
                 "Ok"
             ) { _, _ ->
                 val dbRef = FirebaseDatabase.getInstance().getReference("Groups")
-                dbRef.child(groupId).child("Messages").child(chatList.get(position).timestamp).removeValue()
+                dbRef.child(groupId).child("Messages").child(chatList.get(position).timestamp)
+                    .removeValue()
             }
             alertDialogBuilder.setNegativeButton(
                 "Cancel"

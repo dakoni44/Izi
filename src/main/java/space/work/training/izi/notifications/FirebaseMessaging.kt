@@ -53,7 +53,7 @@ class FirebaseMessaging : FirebaseMessagingService() {
             )
             notificationManager.createNotificationChannel(channel)
         }
-        notificationManager.notify(notifID, notification)
+        notificationManager.notify(1, notification)
     }
 
     /*   fun getRemoteView(title: String, message: String): RemoteViews {
