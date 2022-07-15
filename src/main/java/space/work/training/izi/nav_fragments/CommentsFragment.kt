@@ -13,12 +13,14 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.CommentsAdapter
 import space.work.training.izi.databinding.FragmentCommentsBinding
 import space.work.training.izi.model.ModelComment
 import space.work.training.izi.mvvm.chatList.User
 
+@AndroidEntryPoint
 class CommentsFragment : Fragment() {
 
     private lateinit var binding: FragmentCommentsBinding

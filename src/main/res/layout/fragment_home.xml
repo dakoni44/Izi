@@ -71,8 +71,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toBottomOf="@id/bottomg"
+            android:layout_marginBottom="60dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topLo" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -82,9 +83,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="60dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/bottomg"
+            tools:listitem="@layout/img_list_item"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topLo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

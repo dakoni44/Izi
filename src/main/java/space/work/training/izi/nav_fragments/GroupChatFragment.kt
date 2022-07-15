@@ -30,6 +30,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,6 +47,7 @@ import space.work.training.izi.notifications.RetrofitInstance
 import space.work.training.izi.notifications.Sender
 import space.work.training.izi.notifications.Token
 
+@AndroidEntryPoint
 class GroupChatFragment : Fragment(), GroupChatAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentGroupChatBinding

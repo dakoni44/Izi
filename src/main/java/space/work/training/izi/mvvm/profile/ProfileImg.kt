@@ -1,10 +1,10 @@
-package space.work.training.izi.mvvm.posts
+package space.work.training.izi.mvvm.profile
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "home_imgs")
-data class Img(
+@Entity(tableName = "profile_imgs")
+data class ProfileImg(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var imgId: String = "",

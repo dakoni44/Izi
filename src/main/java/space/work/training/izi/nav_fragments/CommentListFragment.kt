@@ -11,10 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.CommentListAdapter
 import space.work.training.izi.databinding.FragmentCommentListBinding
 
+@AndroidEntryPoint
 class CommentListFragment : Fragment(), CommentListAdapter.OnItemClickListener {
 
     private val args: CommentListFragmentArgs by navArgs()

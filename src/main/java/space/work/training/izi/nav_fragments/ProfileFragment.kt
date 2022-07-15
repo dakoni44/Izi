@@ -144,8 +144,9 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                         snapshot.child("publisher").getValue(String::class.java).toString()
                     img.img = snapshot.child("postimage").getValue(String::class.java).toString()
                     img.text = snapshot.child("description").getValue(String::class.java).toString()
-                    img.views = (snapshot.child("views").childrenCount-1).toString()
-                    img.timestamp = snapshot.child("timestamp").getValue(String::class.java).toString()
+                    img.views = (snapshot.child("views").childrenCount - 1).toString()
+                    img.timestamp =
+                        snapshot.child("timestamp").getValue(String::class.java).toString()
                     if (img.publisher.equals(userID)) {
                         imgs.add(img)
                     }
@@ -174,9 +175,9 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         for (i in imgs.indices) {
             sum += imgs.get(i).views.toInt()
         }
-        var all=sum - imgs.size
-        if(all<0)
-            all=0
+        var all = sum - imgs.size
+        if (all < 0)
+            all = 0
         binding.tvViews.text = (all).toString()
 
         likeRef.addValueEventListener(object : ValueEventListener {
@@ -213,26 +214,26 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        val action = ProfileFragmentDirections.profileToImgList(position,userID!!)
+        val action = ProfileFragmentDirections.profileToImgList(position, userID!!)
         findNavController().navigate(action)
     }
 
     override fun onItemLongClick(position: Int) {
-            val alertDialogBuilder = AlertDialog.Builder(requireActivity())
-            alertDialogBuilder.setMessage("Delete image?")
-            alertDialogBuilder.setPositiveButton(
-                "Ok"
-            ) { _, _ ->
-                val dbRef = FirebaseDatabase.getInstance().getReference("Posts")
-                dbRef.child(imgs.get(position).imgId).removeValue()
-            }
-            alertDialogBuilder.setNegativeButton(
-                "Cancel"
-            ) { arg0, arg1 -> }
-            val alertDialog = alertDialogBuilder.create()
-            alertDialog.show()
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
-            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
+        val alertDialogBuilder = AlertDialog.Builder(requireActivity())
+        alertDialogBuilder.setMessage("Delete image?")
+        alertDialogBuilder.setPositiveButton(
+            "Ok"
+        ) { _, _ ->
+            val dbRef = FirebaseDatabase.getInstance().getReference("Posts")
+            dbRef.child(imgs.get(position).imgId).removeValue()
+        }
+        alertDialogBuilder.setNegativeButton(
+            "Cancel"
+        ) { arg0, arg1 -> }
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK)
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK)
 
     }
 

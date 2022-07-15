@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ImgListAdapter
 import space.work.training.izi.databinding.FragmentImgsListBinding
 import space.work.training.izi.mvvm.posts.Img
 
+@AndroidEntryPoint
 class ImgsListFragment : Fragment(), ImgListAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentImgsListBinding

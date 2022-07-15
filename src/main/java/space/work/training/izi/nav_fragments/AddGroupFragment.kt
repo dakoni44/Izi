@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ParticipantsAdapter
 import space.work.training.izi.databinding.FragmentAddGroupBinding
 import space.work.training.izi.mvvm.chatList.User
 
+@AndroidEntryPoint
 class AddGroupFragment : Fragment() {
 
     private lateinit var binding: FragmentAddGroupBinding

@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileOtherBinding
@@ -25,6 +26,7 @@ import space.work.training.izi.mvvm.posts.Img
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentProfileOtherBinding

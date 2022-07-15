@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import space.work.training.izi.BaseActivity
+import space.work.training.izi.R
 import kotlin.random.Random
 
 
@@ -35,7 +36,7 @@ class FirebaseMessaging : FirebaseMessagingService() {
         val defaultSoundUri: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification =
             NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(space.work.training.izi.R.drawable.izi)
+                .setSmallIcon(R.drawable.ic_refresh_notif)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)

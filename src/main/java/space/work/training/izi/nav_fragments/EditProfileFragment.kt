@@ -21,6 +21,7 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.CropperActivity
 import space.work.training.izi.EditTextLinesLimiter
 import space.work.training.izi.R
@@ -28,6 +29,7 @@ import space.work.training.izi.databinding.FragmentEditProfileBinding
 import space.work.training.izi.mvvm.chatList.User
 import java.util.*
 
+@AndroidEntryPoint
 class EditProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentEditProfileBinding

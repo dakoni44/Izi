@@ -75,8 +75,6 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
         listHomeAdapter = ImgListAdapter(requireContext(), this)
         binding.listImg.adapter = listHomeAdapter
 
-        imgViewModel.load()
-
         getToken()
 
         imgViewModel.getImgs().observe(viewLifecycleOwner) {
