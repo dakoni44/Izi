@@ -2,7 +2,6 @@ package space.work.training.izi.mvvm.profile
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import space.work.training.izi.mvvm.posts.Img
 
 @Dao
 interface ProfileDao {
@@ -20,7 +19,7 @@ interface ProfileDao {
     suspend fun deleteAllImgs()
 
     @Query("SELECT * FROM profile_imgs")
-    fun getAllImgs(): LiveData<List<Img>>
+    fun getAllImgs(): LiveData<List<ProfileImg>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUSerInfo(userInfo: UserInfo): Long

@@ -17,4 +17,9 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
         return repository.getUserInfo()
     }
 
+    fun getProfileImgs(): LiveData<List<ProfileImg>> {
+        return repository.getProfileImgs()
+    }
+
+
 }

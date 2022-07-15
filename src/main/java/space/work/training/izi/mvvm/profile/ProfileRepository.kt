@@ -1,6 +1,7 @@
 package space.work.training.izi.mvvm.profile
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -10,7 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.chatList.User
-import space.work.training.izi.mvvm.posts.Img
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -40,9 +40,10 @@ class ProfileRepository @Inject constructor(
     lateinit var friendsRef: DatabaseReference
 
     @Inject
+    @Named("User")
     lateinit var user: FirebaseUser
 
-    private val imgs: ArrayList<Img> = ArrayList<Img>()
+    private val imgs: ArrayList<ProfileImg> = ArrayList<ProfileImg>()
 
     private var userID: String? = null
 
@@ -54,7 +55,7 @@ class ProfileRepository @Inject constructor(
     var postsS = ""
 
     init {
-        userID = user.uid
+        userID = FirebaseAuth.getInstance().currentUser!!.uid
         CoroutineScope(Dispatchers.IO).launch {
             if (profileDao.getUserInfo().value == null)
                 profileDao.insertUSerInfo(
@@ -71,7 +72,18 @@ class ProfileRepository @Inject constructor(
         }
     }
 
-    fun getUserInfo() : LiveData<UserInfo>{
+    suspend fun notifyFirebaseDataChange(list: List<ProfileImg>) {
+        profileDao.deleteAllImgs()
+        for (img in list) {
+            profileDao.insertProfileImgs(img)
+        }
+    }
+
+    fun getProfileImgs(): LiveData<List<ProfileImg>> {
+        return profileDao.getAllImgs()
+    }
+
+    fun getUserInfo(): LiveData<UserInfo> {
         return profileDao.getUserInfo()
     }
 
@@ -147,7 +159,7 @@ class ProfileRepository @Inject constructor(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val img = Img()
+                    val img = ProfileImg()
                     img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                     img.publisher =
                         snapshot.child("publisher").getValue(String::class.java).toString()
@@ -161,6 +173,10 @@ class ProfileRepository @Inject constructor(
                     }
                 }
                 imgs.reverse()
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (!imgs.isNullOrEmpty())
+                        notifyFirebaseDataChange(imgs)
+                }
                 showNumbers()
             }
 

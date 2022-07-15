@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
@@ -24,6 +25,9 @@ import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
 import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.mvvm.profile.ProfileImg
+import space.work.training.izi.mvvm.profile.ProfileViewModel
+import space.work.training.izi.mvvm.profile.UserInfo
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
@@ -44,6 +48,10 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     private val imgs: ArrayList<Img> = ArrayList<Img>()
 
     private var userID: String? = null
+
+    private var profileImgs: ArrayList<ProfileImg> = ArrayList()
+
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +106,18 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
             dialog.show()
         }
 
+        profileViewModel.getUserInfo().observe(viewLifecycleOwner) {
+            it.let {
+                updateUi(it)
+            }
+        }
+
+        profileViewModel.getProfileImgs().observe(viewLifecycleOwner) {
+            it.let {
+                updateUiImgs(it)
+            }
+        }
+
         binding.bBio.setOnClickListener {
             if (binding.rlBio.visibility == View.GONE) {
                 binding.rlBio.visibility = View.VISIBLE
@@ -109,7 +129,25 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         }
     }
 
-    private fun showData() {
+    private fun updateUi(userInfo: UserInfo) {
+        binding.tvName.text = userInfo.uList.get(0)
+        binding.tvNameFull.text = userInfo.uList.get(1)
+        binding.tvBio.text = userInfo.uList.get(2)
+        Glide.with(requireContext()).load(userInfo.uList.get(3))
+            .into(binding.ivMalaSlika1)
+        binding.tvFriends.text = userInfo.friends
+        binding.tvViews.text = userInfo.views
+        binding.tvLikes.text = userInfo.likes
+        binding.tvDislikes.text = userInfo.dislikes
+        binding.tvPosts.text = userInfo.posts
+    }
+
+    private fun updateUiImgs(list: List<ProfileImg>) {
+        profileAdapter!!.setData(list)
+        profileImgs.addAll(list)
+    }
+
+   /* private fun showData() {
         databaseReference.child(userID!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val user = User()
@@ -211,7 +249,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-    }
+    }*/
 
     override fun onItemClick(position: Int) {
         val action = ProfileFragmentDirections.profileToImgList(position, userID!!)
@@ -239,7 +277,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        showData()
-        showPost()
+      //  showData()
+      //  showPost()
     }
 }

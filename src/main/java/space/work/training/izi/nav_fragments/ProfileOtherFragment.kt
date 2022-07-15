@@ -214,7 +214,7 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                     }
                 }
                 imgs.reverse()
-                profileAdapter?.setData(imgs)
+              //  profileAdapter?.setData(imgs)
                 showNumbers()
             }
 

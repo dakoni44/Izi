@@ -119,7 +119,7 @@ object AppModule {
     @Named("Chatlist")
     fun provideChatListRef() = FirebaseDatabase.getInstance().getReference("Chatlist")
 
-    @Singleton
     @Provides
+    @Named("User")
     fun provideFirebaseUser() = FirebaseAuth.getInstance().currentUser
 }
