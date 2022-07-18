@@ -74,8 +74,6 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,
         adapter = ChatList2Adapter(requireContext(), this)
         binding.rvChatList.adapter = adapter
 
-        chatListViewModel.load()
-
         loadGroups()
 
         chatListViewModel.getUsers().observe(viewLifecycleOwner) {

@@ -9,7 +9,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import space.work.training.izi.mvvm.chatList.ChatListDatabase
+import space.work.training.izi.mvvm.chatList.ChatListFirebase
 import space.work.training.izi.mvvm.chatList.ChatListRepository
+import space.work.training.izi.mvvm.chatList.UserDao
 import space.work.training.izi.mvvm.posts.ImgDao
 import space.work.training.izi.mvvm.posts.ImgDatabase
 import space.work.training.izi.mvvm.posts.ImgFirebase
@@ -34,30 +37,6 @@ object AppModule {
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
-    }
-
-    @Provides
-    fun provideChatListRepo(): ChatListRepository {
-        return ChatListRepository()
-    }
-
-    @Provides
-    fun provideImgsRepo(imgDao: ImgDao, imgFirebase: ImgFirebase): ImgRepository {
-        return ImgRepository(imgDao, imgFirebase)
-    }
-
-    @Provides
-    fun provideImgsFirebase(imgDao: ImgDao): ImgFirebase {
-        return ImgFirebase(imgDao)
-    }
-
-    @Singleton
-    @Provides
-    fun provideProfileRepository(
-        profileDao: ProfileDao,
-        profileFirebase: ProfileFirebase
-    ): ProfileRepository {
-        return ProfileRepository(profileDao, profileFirebase)
     }
 
     @Singleton
@@ -87,4 +66,18 @@ object AppModule {
     @Singleton
     @Provides
     fun provideProfileDao(db: ProfileDatabase) = db.profileDao()
+
+    @Singleton
+    @Provides
+    fun provideChatListDatabase(
+        @ApplicationContext app: Context
+    ) = Room.databaseBuilder(
+        app,
+        ChatListDatabase::class.java,
+        "chatList_database"
+    ).fallbackToDestructiveMigration().build()
+
+    @Singleton
+    @Provides
+    fun provideUserDao(db: ChatListDatabase) = db.userDao()
 }

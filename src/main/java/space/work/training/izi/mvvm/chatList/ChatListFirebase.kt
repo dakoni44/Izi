@@ -66,10 +66,10 @@ class ChatListFirebase @Inject constructor(
                             usersList.add(user)
                         }
                     }
-                    CoroutineScope(Dispatchers.IO).launch {
-                        if (!usersList.isNullOrEmpty())
-                            updateRoomChatList(usersList)
-                    }
+                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    if(usersList.isNotEmpty())
+                    updateRoomChatList(usersList)
                 }
             }
 
