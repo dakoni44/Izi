@@ -16,17 +16,18 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
 import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 
 class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<HomeAdapter.ImageViewHolder>() {
 
     var mContext: Context
-    private var mdata: List<Img>
+    private var mdata: List<ImgNew>
     private val listener: OnItemClickListener
     private var firebaseUser: FirebaseUser? = null
 
     init {
-        mdata = ArrayList<Img>()
+        mdata = ArrayList<ImgNew>()
         this.listener = listener
         this.mContext = mContext
     }
@@ -42,7 +43,7 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser()
-        val img: Img = mdata[position]
+        val img: ImgNew = mdata[position]
         unblurPost(holder.ivMainImage, img)
         publisherInfo(img.publisher, holder.tvMainText, holder.ivProfilePic)
     }
@@ -51,7 +52,7 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
         return mdata.size
     }
 
-    fun setData(posts: List<Img>) {
+    fun setData(posts: List<ImgNew>) {
         mdata = posts
         notifyDataSetChanged()
     }
@@ -77,7 +78,7 @@ class HomeAdapter(mContext: Context, listener: OnItemClickListener) :
         }
     }
 
-    private fun unblurPost(ivPost: ImageView, post: Img) {
+    private fun unblurPost(ivPost: ImageView, post: ImgNew) {
         val postRef: DatabaseReference =
             FirebaseDatabase.getInstance().getReference("Posts").child(post.imgId)
         postRef.addValueEventListener(object : ValueEventListener {

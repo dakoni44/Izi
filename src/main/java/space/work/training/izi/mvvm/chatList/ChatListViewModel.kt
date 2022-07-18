@@ -1,5 +1,6 @@
 package space.work.training.izi.mvvm.chatList
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,14 +10,12 @@ import javax.inject.Inject
 class ChatListViewModel @Inject constructor(private val repository: ChatListRepository) :
     ViewModel() {
 
-    private var online: MutableLiveData<List<User>> = MutableLiveData()
-
-    fun load() {
-        online = repository.loadChatList()
+    init {
+        repository.load()
     }
 
-    fun getUsers(): MutableLiveData<List<User>> {
-        return online
+    fun getUsers(): LiveData<List<User>> {
+        return repository.getAllUsers()
     }
 
 }

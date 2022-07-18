@@ -10,11 +10,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import space.work.training.izi.mvvm.chatList.ChatListRepository
+import space.work.training.izi.mvvm.posts.ImgDao
+import space.work.training.izi.mvvm.posts.ImgDatabase
+import space.work.training.izi.mvvm.posts.ImgFirebase
 import space.work.training.izi.mvvm.posts.ImgRepository
-import space.work.training.izi.mvvm.posts.room_v_firebase.ImgDao
-import space.work.training.izi.mvvm.posts.room_v_firebase.ImgDatabase
 import space.work.training.izi.mvvm.profile.ProfileDao
 import space.work.training.izi.mvvm.profile.ProfileDatabase
+import space.work.training.izi.mvvm.profile.ProfileFirebase
 import space.work.training.izi.mvvm.profile.ProfileRepository
 import javax.inject.Singleton
 
@@ -40,18 +42,22 @@ object AppModule {
     }
 
     @Provides
-    fun provideImgsRepo(imgDao: ImgDao): ImgRepository {
-        return ImgRepository(imgDao)
+    fun provideImgsRepo(imgDao: ImgDao, imgFirebase: ImgFirebase): ImgRepository {
+        return ImgRepository(imgDao, imgFirebase)
+    }
+
+    @Provides
+    fun provideImgsFirebase(imgDao: ImgDao): ImgFirebase {
+        return ImgFirebase(imgDao)
     }
 
     @Singleton
     @Provides
     fun provideProfileRepository(
         profileDao: ProfileDao,
-        firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth
+        profileFirebase: ProfileFirebase
     ): ProfileRepository {
-        return ProfileRepository(profileDao, firebaseDatabase, firebaseAuth)
+        return ProfileRepository(profileDao, profileFirebase)
     }
 
     @Singleton
@@ -62,7 +68,7 @@ object AppModule {
         app,
         ImgDatabase::class.java,
         "img_database"
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides
@@ -76,7 +82,7 @@ object AppModule {
         app,
         ProfileDatabase::class.java,
         "profile_database"
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides

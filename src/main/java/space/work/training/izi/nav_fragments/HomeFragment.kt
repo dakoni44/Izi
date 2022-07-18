@@ -22,6 +22,7 @@ import space.work.training.izi.adapters.ImgListAdapter
 import space.work.training.izi.databinding.FragmentHomeBinding
 import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.posts.ImgViewModel
+import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import space.work.training.izi.notifications.Token
 
 
@@ -31,7 +32,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
 
     private lateinit var binding: FragmentHomeBinding
     private var imgs: ArrayList<Img> = ArrayList()
-    private var newImgs: ArrayList<Img> = ArrayList()
+    private var newImgs: ArrayList<ImgNew> = ArrayList()
 
     private val imgViewModel: ImgViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
@@ -121,7 +122,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
         imgs.addAll(pctrs)
     }
 
-    private fun getNewPosts(pctrs: List<Img>) {
+    private fun getNewPosts(pctrs: List<ImgNew>) {
         homeAdapter.setData(pctrs)
         newImgs.addAll(pctrs)
     }

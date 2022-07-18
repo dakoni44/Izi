@@ -1,4 +1,4 @@
-package space.work.training.izi.mvvm.chatList.room_v_firebase
+package space.work.training.izi.mvvm.chatList
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

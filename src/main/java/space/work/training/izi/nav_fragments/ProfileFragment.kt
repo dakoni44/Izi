@@ -111,10 +111,12 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     }
 
     private fun updateUi(userInfo: UserInfo) {
-        binding.tvName.text = userInfo.uList.get(0)
-        binding.tvNameFull.text = userInfo.uList.get(1)
-        binding.tvBio.text = userInfo.uList.get(2)
-        Glide.with(requireContext()).load(userInfo.uList.get(3)).into(binding.ivMalaSlika1)
+        if(userInfo.uList.size>0){
+            binding.tvName.text = userInfo.uList.get(0)
+            binding.tvNameFull.text = userInfo.uList.get(1)
+            binding.tvBio.text = userInfo.uList.get(2)
+            Glide.with(requireContext()).load(userInfo.uList.get(3)).into(binding.ivMalaSlika1)
+        }
         binding.tvFriends.text = userInfo.friends
         binding.tvViews.text = userInfo.views
         binding.tvLikes.text = userInfo.likes
