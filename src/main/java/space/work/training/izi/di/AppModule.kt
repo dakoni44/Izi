@@ -16,12 +16,23 @@ import space.work.training.izi.mvvm.posts.room_v_firebase.ImgDatabase
 import space.work.training.izi.mvvm.profile.ProfileDao
 import space.work.training.izi.mvvm.profile.ProfileDatabase
 import space.work.training.izi.mvvm.profile.ProfileRepository
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideFDb(): FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
 
     @Provides
     fun provideChatListRepo(): ChatListRepository {
@@ -36,9 +47,11 @@ object AppModule {
     @Singleton
     @Provides
     fun provideProfileRepository(
-        profileDao: ProfileDao
+        profileDao: ProfileDao,
+        firebaseDatabase: FirebaseDatabase,
+        firebaseAuth: FirebaseAuth
     ): ProfileRepository {
-        return ProfileRepository(profileDao)
+        return ProfileRepository(profileDao, firebaseDatabase, firebaseAuth)
     }
 
     @Singleton
@@ -68,58 +81,4 @@ object AppModule {
     @Singleton
     @Provides
     fun provideProfileDao(db: ProfileDatabase) = db.profileDao()
-
-    @Singleton
-    @Provides
-    @Named("Users")
-    fun provideUserRef() = FirebaseDatabase.getInstance().getReference("Users")
-
-    @Singleton
-    @Provides
-    @Named("Tokens")
-    fun provideTokenRef() = FirebaseDatabase.getInstance().getReference("Tokens")
-
-    @Singleton
-    @Provides
-    @Named("Posts")
-    fun providePostRef() = FirebaseDatabase.getInstance().getReference("Posts")
-
-    @Singleton
-    @Provides
-    @Named("Likes")
-    fun provideLikesRef() = FirebaseDatabase.getInstance().getReference("Likes")
-
-    @Singleton
-    @Provides
-    @Named("Groups")
-    fun provideGroupsRef() = FirebaseDatabase.getInstance().getReference("Groups")
-
-    @Singleton
-    @Provides
-    @Named("Friends")
-    fun provideFriendsRef() = FirebaseDatabase.getInstance().getReference("Friends")
-
-    @Singleton
-    @Provides
-    @Named("FriendRequests")
-    fun provideFriendRequestsRef() = FirebaseDatabase.getInstance().getReference("FriendRequests")
-
-    @Singleton
-    @Provides
-    @Named("Dislikes")
-    fun provideDislikesRef() = FirebaseDatabase.getInstance().getReference("Dislikes")
-
-    @Singleton
-    @Provides
-    @Named("Chats")
-    fun provideChatsRef() = FirebaseDatabase.getInstance().getReference("Chats")
-
-    @Singleton
-    @Provides
-    @Named("Chatlist")
-    fun provideChatListRef() = FirebaseDatabase.getInstance().getReference("Chatlist")
-
-    @Provides
-    @Named("User")
-    fun provideFirebaseUser() = FirebaseAuth.getInstance().currentUser
 }

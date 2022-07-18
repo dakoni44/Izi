@@ -2,46 +2,22 @@ package space.work.training.izi.mvvm.profile
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.chatList.User
 import javax.inject.Inject
-import javax.inject.Named
 
 
 class ProfileRepository @Inject constructor(
-    private var profileDao: ProfileDao
+    private var profileDao: ProfileDao,
+    private var firebaseDatabase: FirebaseDatabase,
+    private var firebaseAuth: FirebaseAuth
 ) {
-
-    @Inject
-    @Named("Users")
-    lateinit var userRef: DatabaseReference
-
-    @Inject
-    @Named("Posts")
-    lateinit var postRef: DatabaseReference
-
-    @Inject
-    @Named("Likes")
-    lateinit var likesRef: DatabaseReference
-
-    @Inject
-    @Named("Dislikes")
-    lateinit var dislikesRef: DatabaseReference
-
-    @Inject
-    @Named("Friends")
-    lateinit var friendsRef: DatabaseReference
-
-    @Inject
-    @Named("User")
-    lateinit var user: FirebaseUser
 
     private val imgs: ArrayList<ProfileImg> = ArrayList<ProfileImg>()
 
@@ -55,7 +31,6 @@ class ProfileRepository @Inject constructor(
     var postsS = ""
 
     init {
-        userID = FirebaseAuth.getInstance().currentUser!!.uid
         CoroutineScope(Dispatchers.IO).launch {
             if (profileDao.getUserInfo().value == null)
                 profileDao.insertUSerInfo(
@@ -130,32 +105,35 @@ class ProfileRepository @Inject constructor(
     }
 
     fun showData() {
-        userRef.child(userID!!).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = User()
-                user.uid = userID as String
-                user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
-                user.username =
-                    dataSnapshot.child("username").getValue(String::class.java).toString()
-                user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
-                user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
-                user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                if (user.uid.equals(userID)) {
-                    if (!user.username.equals("")) userInfo.add(user.username)
-                    if (!user.name.equals("")) userInfo.add(user.name)
-                    if (!user.bio.equals("")) userInfo.add(user.bio)
-                    if (!user.bio.equals("")) userInfo.add(user.image)
+        userID = firebaseAuth.currentUser!!.uid
+        firebaseDatabase.getReference("Users").child(userID!!)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user = User()
+                    user.uid = userID as String
+                    user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
+                    user.username =
+                        dataSnapshot.child("username").getValue(String::class.java).toString()
+                    user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
+                    user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
+                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                    if (user.uid.equals(userID)) {
+                        userInfo.clear()
+                        userInfo.add(user.username)
+                        userInfo.add(user.name)
+                        userInfo.add(user.bio)
+                        userInfo.add(user.image)
+                    }
+                    updateUList()
+                    showPost()
                 }
-                updateUList()
-                showPost()
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
     }
 
     private fun showPost() {
-        postRef.addValueEventListener(object : ValueEventListener {
+        firebaseDatabase.getReference("Posts").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
@@ -185,15 +163,15 @@ class ProfileRepository @Inject constructor(
     }
 
     private fun showNumbers() {
+        firebaseDatabase.getReference("Friends").child(userID!!)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    friendsS = dataSnapshot.childrenCount.toInt().toString()
+                    updateFriends()
+                }
 
-        friendsRef.child(userID!!).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                friendsS = dataSnapshot.childrenCount.toInt().toString()
-                updateFriends()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
 
         postsS = imgs.size.toString()
         updatePosts()
@@ -208,7 +186,7 @@ class ProfileRepository @Inject constructor(
         viewsS = (all).toString()
         updateViews()
 
-        likesRef.addValueEventListener(object : ValueEventListener {
+        firebaseDatabase.getReference("Likes").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var sum = 0
                 for (snapshot in dataSnapshot.children) {
@@ -225,22 +203,23 @@ class ProfileRepository @Inject constructor(
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-        dislikesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var sum = 0
-                for (snapshot in dataSnapshot.children) {
-                    for (i in imgs.indices) {
-                        if (snapshot.key == imgs.get(i).imgId) {
-                            sum += snapshot.childrenCount.toInt()
+        firebaseDatabase.getReference("Dislikes")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var sum = 0
+                    for (snapshot in dataSnapshot.children) {
+                        for (i in imgs.indices) {
+                            if (snapshot.key == imgs.get(i).imgId) {
+                                sum += snapshot.childrenCount.toInt()
+                            }
                         }
                     }
+                    dislikesS = sum.toString()
+                    updateDislikes()
                 }
-                dislikesS = sum.toString()
-                updateDislikes()
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
     }
 
 }

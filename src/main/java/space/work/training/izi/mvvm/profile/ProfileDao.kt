@@ -48,19 +48,4 @@ interface ProfileDao {
     @Query("UPDATE user_info SET posts=:posts")
     suspend fun updatePosts(posts: String)
 
-/*    @Query("SELECT views FROM user_info")
-    fun getViews(): LiveData<String>
-
-    @Query("SELECT friends FROM user_info")
-    fun getFriends(): LiveData<String>
-
-    @Query("SELECT likes FROM user_info")
-    fun getLikes(): LiveData<String>
-
-    @Query("SELECT dislikes FROM user_info")
-    fun getDislikes(): LiveData<String>
-
-    @Query("SELECT posts FROM user_info")
-    fun getPosts(): LiveData<String>*/
-
 }
