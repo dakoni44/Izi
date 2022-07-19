@@ -15,8 +15,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.ViewUtils
@@ -27,6 +29,7 @@ import space.work.training.izi.databinding.FragmentPostBinding
 import space.work.training.izi.mvvm.SinglePost.PostViewModel
 import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -39,17 +42,13 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
     private var imgId: String? = null
     private var currentUserID: String? = null
 
+    @Inject
+    private lateinit var firebaseAuth: FirebaseAuth
+
+    @Inject
+    private lateinit var firebaseDatabase: FirebaseDatabase
+
     private val postViewModel: PostViewModel by viewModels()
-
-    private var seen = false
-
-    private var firebaseAuth: FirebaseAuth? = null
-    private var firebaseUser: FirebaseUser? = null
-    private var firebaseDatabase: FirebaseDatabase? = null
-    private var databaseReference: DatabaseReference? = null
-    private var postRef: DatabaseReference? = null
-    private var likedRef: DatabaseReference? = null
-    private var dislikedRef: DatabaseReference? = null
 
     private var viewsAdapter: CommentListAdapter? = null
     private var likedAdapter: LikesAdapter? = null
@@ -80,15 +79,7 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         img = Img()
         user = User()
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        firebaseUser = firebaseAuth!!.currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        databaseReference = firebaseDatabase!!.getReference("Users")
-        postRef = firebaseDatabase!!.getReference("Posts").child(imgId!!)
-        likedRef = firebaseDatabase!!.getReference("Likes").child(imgId!!)
-        dislikedRef = firebaseDatabase!!.getReference("Dislikes").child(imgId!!)
-
-        currentUserID = firebaseUser!!.uid
+        currentUserID = firebaseAuth.currentUser!!.uid
 
         binding.rvViews.setHasFixedSize(true)
         binding.rvViews.layoutManager = LinearLayoutManager(requireContext())
@@ -192,8 +183,6 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         }
 
         likeDislike()
-
-
     }
 
     private fun availableData() {
@@ -235,48 +224,6 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         }
     }
 
-    /*private fun loadViews() {
-        postRef!!.child("views").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                viewsList.clear()
-                for (snapshot in dataSnapshot.children) {
-                    val id = snapshot.getValue(String::class.java).toString()
-                    if (!id.equals(currentUserID))
-                        viewsList.add(id)
-                }
-                viewsAdapter?.setData(viewsList)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    private fun loadReactions() {
-        likedRef!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                likedList.clear()
-                for (snapshot in dataSnapshot.children) {
-                    likedList.add(snapshot.key.toString())
-                }
-                likedAdapter?.setData(likedList)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
-        dislikedRef!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dislikedList.clear()
-                for (snapshot in dataSnapshot.children) {
-                    dislikedList.add(snapshot.key.toString())
-                }
-                dislikedAdapter?.setData(dislikedList)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }*/
-
     //ostaje
     private fun likeDislike() {
         binding.like.setOnClickListener {
@@ -299,122 +246,9 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         }
     }
 
-    /*  private fun isLikes(postid: String, textView: TextView) {
-          val reference = firebaseDatabase!!.reference.child("Likes")
-              .child(postid)
-          reference.addValueEventListener(object : ValueEventListener {
-              override fun onDataChange(dataSnapshot: DataSnapshot) {
-                  if (dataSnapshot.child(firebaseUser!!.uid).exists()) {
-                      textView.background = resources.getDrawable(R.drawable.rounded_like)
-                      textView.tag = "liked"
-                  } else {
-                      textView.background = resources.getDrawable(R.drawable.rounded_likedis)
-                      textView.tag = "like"
-                  }
-              }
-
-              override fun onCancelled(databaseError: DatabaseError) {}
-          })
-      }
-
-      private fun nrLikes(likes: TextView, liked: TextView, postid: String) {
-          val reference = firebaseDatabase!!.reference.child("Likes").child(postid)
-          reference.addValueEventListener(object : ValueEventListener {
-              override fun onDataChange(dataSnapshot: DataSnapshot) {
-                  likes.text = dataSnapshot.childrenCount.toString() + ""
-                  liked.text = dataSnapshot.childrenCount.toString() + ""
-              }
-
-              override fun onCancelled(databaseError: DatabaseError) {}
-          })
-      }
-
-      private fun isDislikes(postid: String, textView: TextView) {
-          val reference = firebaseDatabase!!.reference.child("Dislikes")
-              .child(postid)
-          reference.addValueEventListener(object : ValueEventListener {
-              override fun onDataChange(dataSnapshot: DataSnapshot) {
-                  if (dataSnapshot.child(firebaseUser!!.uid).exists()) {
-                      textView.background = resources.getDrawable(R.drawable.rounded_dislike)
-                      textView.tag = "disliked"
-                  } else {
-                      textView.background = resources.getDrawable(R.drawable.rounded_likedis)
-                      textView.tag = "dislike"
-                  }
-              }
-
-              override fun onCancelled(databaseError: DatabaseError) {}
-          })
-      }
-
-      private fun nrDislikes(dislike: TextView, disliked: TextView, postid: String) {
-          val reference = firebaseDatabase!!.reference.child("Dislikes").child(postid)
-          reference.addValueEventListener(object : ValueEventListener {
-              override fun onDataChange(dataSnapshot: DataSnapshot) {
-                  dislike.text = dataSnapshot.childrenCount.toString() + ""
-                  disliked.text = dataSnapshot.childrenCount.toString() + ""
-              }
-
-              override fun onCancelled(databaseError: DatabaseError) {}
-          })
-      }*/
-
-/*    private fun deletePost() {
-        postRef!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                postUserId = dataSnapshot.child("publisher").value.toString()
-                if (currentUserID == postUserId) {
-                    tvDeletePost.setVisibility(View.VISIBLE)
-                    tvDeletePost.setOnClickListener(View.OnClickListener {
-                        val dialog = Dialog(requireContext())
-                        dialog.setContentView(R.layout.remove_dialog)
-                        dialog.setCanceledOnTouchOutside(false)
-                        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                        val bnRemove = dialog.findViewById<Button>(R.id.bnRemove)
-                        bnRemove.setOnClickListener {
-                            postRef!!.removeValue()
-                            val intent = Intent(this@PostActivity, ProfileActivity::class.java)
-                            startActivity(intent)
-                        }
-                        val bnCancle = dialog.findViewById<Button>(R.id.bnCancle)
-                        bnCancle.setOnClickListener { dialog.dismiss() }
-                        dialog.show()
-                    })
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }*/
-
-    /*private fun showPost() {
-        postRef!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                img?.imgId = dataSnapshot.child("postid").getValue(String::class.java).toString()
-                img?.publisher =
-                    dataSnapshot.child("publisher").getValue(String::class.java).toString()
-                img?.img = dataSnapshot.child("postimage").getValue(String::class.java).toString()
-                img?.text =
-                    dataSnapshot.child("description").getValue(String::class.java).toString()
-                img?.views = (dataSnapshot.child("views").childrenCount - 1).toString()
-                img?.timestamp =
-                    dataSnapshot.child("timestamp").getValue(String::class.java).toString()
-                showData()
-                if (currentUserID.equals(img?.publisher)) {
-                    binding.reactions.visibility = View.VISIBLE
-                    availableData()
-                } else {
-                    likeDislike()
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }*/
-
     //ostaje
     private fun showData(img: Img) {
-        databaseReference!!.child(img.publisher)
+        firebaseDatabase.getReference("Users").child(img.publisher)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     user?.uid = dataSnapshot.child("uid").getValue(String::class.java).toString()
@@ -441,21 +275,6 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         binding.views.text = img.views
     }
 
-    /*   private fun updatePost() {
-           postRef!!.child("views").addValueEventListener(object : ValueEventListener {
-               override fun onDataChange(dataSnapshot: DataSnapshot) {
-                   if (!dataSnapshot.hasChild(currentUserID!!)) {
-                       seen = true
-                   }
-                   if (seen) {
-                       postRef!!.child("views").child(currentUserID!!).setValue(currentUserID)
-                       seen = false
-                   }
-               }
-
-               override fun onCancelled(databaseError: DatabaseError) {}
-           })
-       }*/
 
     override fun onItemClick(position: Int) {
         val action = PostFragmentDirections.postToProfileOther(viewsList.get(position))

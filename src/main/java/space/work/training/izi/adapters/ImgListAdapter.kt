@@ -92,7 +92,9 @@ class ImgListAdapter(var mContext: Context, listener: OnItemClickListener) :
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
         })
     }
 
