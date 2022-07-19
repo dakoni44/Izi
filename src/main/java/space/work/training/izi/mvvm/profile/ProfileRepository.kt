@@ -26,8 +26,8 @@ class ProfileRepository @Inject constructor(
         return profileDao.getAllImgs()
     }
 
-    fun getUserInfo(): LiveData<UserInfo> {
-        return profileDao.getUserInfo()
+    fun getUserInfo(id:String): LiveData<UserInfo> {
+        return profileDao.getUserInfo(id)
     }
 
 }

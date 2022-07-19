@@ -19,7 +19,7 @@ import java.util.*
 class ChatAdapter(var mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<ChatAdapter.ImageViewHolder?>() {
 
-    private var mdata: List<Chat>
+    private var mdata: ArrayList<Chat>
     private var imageUri: String = ""
     private var firebaseUser: FirebaseUser? = null
     private var listener: OnItemClickListener
@@ -173,7 +173,8 @@ class ChatAdapter(var mContext: Context, listener: OnItemClickListener) :
         }
     }
 
-    fun setData(posts: List<Chat>) {
+    fun setData(posts: ArrayList<Chat>) {
+        mdata.clear()
         mdata = posts
         notifyDataSetChanged()
     }
@@ -198,7 +199,7 @@ class ChatAdapter(var mContext: Context, listener: OnItemClickListener) :
             tvMessage = itemView.findViewById<TextView>(R.id.tvMessage)
             tvTime = itemView.findViewById<TextView>(R.id.tvTime)
             ivSeen = itemView.findViewById(R.id.ivSeen)
-            itemView.setOnLongClickListener{
+            itemView.setOnLongClickListener {
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
                     if (position != RecyclerView.NO_POSITION) {

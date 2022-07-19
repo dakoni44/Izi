@@ -6,6 +6,8 @@ import androidx.room.*
 data class UserInfo(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
+    @ColumnInfo(name = "uId")
+    var uId: String = "",
     @ColumnInfo(name = "uList")
     var uList : ArrayList<String>,
     @ColumnInfo(name = "views")

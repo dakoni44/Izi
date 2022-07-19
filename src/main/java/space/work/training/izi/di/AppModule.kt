@@ -13,6 +13,7 @@ import space.work.training.izi.mvvm.chatList.ChatListDatabase
 import space.work.training.izi.mvvm.chatList.ChatListFirebase
 import space.work.training.izi.mvvm.chatList.ChatListRepository
 import space.work.training.izi.mvvm.chatList.UserDao
+import space.work.training.izi.mvvm.chatList.chat.ChatDatabase
 import space.work.training.izi.mvvm.posts.ImgDao
 import space.work.training.izi.mvvm.posts.ImgDatabase
 import space.work.training.izi.mvvm.posts.ImgFirebase
@@ -80,4 +81,18 @@ object AppModule {
     @Singleton
     @Provides
     fun provideUserDao(db: ChatListDatabase) = db.userDao()
+
+    @Singleton
+    @Provides
+    fun provideChatDatabase(
+        @ApplicationContext app: Context
+    ) = Room.databaseBuilder(
+        app,
+        ChatDatabase::class.java,
+        "chat_database"
+    ).fallbackToDestructiveMigration().build()
+
+    @Singleton
+    @Provides
+    fun provideChatDao(db: ChatDatabase) = db.chatDao()
 }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.chatList.User
 import javax.inject.Inject
 
-class ProfileFirebase@Inject constructor(
+class ProfileFirebase @Inject constructor(
     private var profileDao: ProfileDao,
     private var firebaseDatabase: FirebaseDatabase,
     private var firebaseAuth: FirebaseAuth
@@ -19,7 +19,7 @@ class ProfileFirebase@Inject constructor(
 
     private val imgs: ArrayList<ProfileImg> = ArrayList<ProfileImg>()
 
-    private var userID: String? = null
+    private var userID = ""
 
     private var userInfo: ArrayList<String> = ArrayList()
     var viewsS = ""
@@ -29,11 +29,13 @@ class ProfileFirebase@Inject constructor(
     var postsS = ""
 
     init {
+        userID = firebaseAuth.currentUser!!.uid
         CoroutineScope(Dispatchers.IO).launch {
-            if (profileDao.getUserInfo().value == null)
+            if (profileDao.getUserInfo(userID).value == null)
                 profileDao.insertUSerInfo(
                     UserInfo(
                         0,
+                        userID,
                         userInfo,
                         viewsS,
                         friendsS,
@@ -54,53 +56,53 @@ class ProfileFirebase@Inject constructor(
 
     fun updateViews() {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.updateViews(viewsS)
+            profileDao.updateViews(viewsS, userID)
         }
 
     }
 
     fun updateFriends() {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.updateFriends(friendsS)
+            profileDao.updateFriends(friendsS, userID)
         }
 
     }
 
     fun updateLikes() {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.updateLikes(likesS)
+            profileDao.updateLikes(likesS, userID)
         }
 
     }
 
     fun updateDislikes() {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.updateDislikes(dislikesS)
+            profileDao.updateDislikes(dislikesS, userID)
         }
 
     }
 
     fun updatePosts() {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.updatePosts(postsS)
+            profileDao.updatePosts(postsS, userID)
         }
 
     }
 
     fun updateUList() {
         CoroutineScope(Dispatchers.IO).launch {
-            profileDao.updateUList(userInfo)
+            profileDao.updateUList(userInfo, userID)
         }
 
     }
 
     fun showData() {
         userID = firebaseAuth.currentUser!!.uid
-        firebaseDatabase.getReference("Users").child(userID!!)
+        firebaseDatabase.getReference("Users").child(userID)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val user = User()
-                    user.uid = userID as String
+                    user.uid = userID
                     user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
                     user.username =
                         dataSnapshot.child("username").getValue(String::class.java).toString()
@@ -153,7 +155,7 @@ class ProfileFirebase@Inject constructor(
     }
 
     private fun showNumbers() {
-        firebaseDatabase.getReference("Friends").child(userID!!)
+        firebaseDatabase.getReference("Friends").child(userID)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     friendsS = dataSnapshot.childrenCount.toInt().toString()

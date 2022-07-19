@@ -87,8 +87,8 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
             dialog.show()
         }
 
-        profileViewModel.getUserInfo().observe(viewLifecycleOwner) {
-            it.let {
+        profileViewModel.getUserInfo(userID!!).observe(viewLifecycleOwner) {
+            it?.let {
                 updateUi(it)
             }
         }

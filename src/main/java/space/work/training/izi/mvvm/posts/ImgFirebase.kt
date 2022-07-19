@@ -13,7 +13,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ImgFirebase @Inject constructor(private var imgDao: ImgDao) {
+class ImgFirebase @Inject constructor(private var imgDao: ImgDao, private var firebaseAuth: FirebaseAuth
+,private var firebaseDatabase: FirebaseDatabase) {
 
     private var friendList: ArrayList<String> = ArrayList()
     private var imgs: ArrayList<Img> = ArrayList()
@@ -39,8 +40,8 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao) {
     }
 
     fun checkFollowing() {
-        val reference = FirebaseDatabase.getInstance().getReference("Friends")
-            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+        val reference = firebaseDatabase.getReference("Friends")
+            .child(firebaseAuth.currentUser!!.uid)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 friendList.let {
@@ -59,7 +60,7 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao) {
     fun readPosts() {
         checkFollowing()
 
-        val postRef = FirebaseDatabase.getInstance().getReference("Posts")
+        val postRef = firebaseDatabase.getReference("Posts")
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.let {
@@ -84,7 +85,7 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao) {
                     }
                 }
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (!imgs.isNullOrEmpty())
+                    if (!imgs.isEmpty())
                         updateRoomImg(imgs)
                 }
             }
@@ -98,7 +99,7 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao) {
 
         val currentTime = System.currentTimeMillis()
 
-        val postRef = FirebaseDatabase.getInstance().getReference("Posts")
+        val postRef = firebaseDatabase.getReference("Posts")
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgsNew.let {
@@ -122,7 +123,7 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao) {
                         }
                     }
                     CoroutineScope(Dispatchers.IO).launch {
-                        if (!imgs.isNullOrEmpty())
+                        if (!imgs.isEmpty())
                             updateRoomImgNew(imgsNew)
                     }
                 }

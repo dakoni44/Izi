@@ -27,25 +27,25 @@ interface ProfileDao {
     @Query("DELETE from user_info")
     suspend fun deleteUSerInfo()
 
-    @Query("SELECT * FROM user_info")
-    fun getUserInfo(): LiveData<UserInfo>
+    @Query("SELECT * FROM user_info WHERE uId=:id")
+    fun getUserInfo(id: String): LiveData<UserInfo>
 
-    @Query("UPDATE user_info SET uList=:uList")
-    suspend fun updateUList(uList: ArrayList<String>)
+    @Query("UPDATE user_info SET uList=:uList WHERE uId=:id")
+    suspend fun updateUList(uList: ArrayList<String>, id: String)
 
-    @Query("UPDATE user_info SET views=:views")
-    suspend fun updateViews(views: String)
+    @Query("UPDATE user_info SET views=:views WHERE uId=:id")
+    suspend fun updateViews(views: String, id: String)
 
-    @Query("UPDATE user_info SET friends=:friends")
-    suspend fun updateFriends(friends: String)
+    @Query("UPDATE user_info SET friends=:friends WHERE uId=:id")
+    suspend fun updateFriends(friends: String, id: String)
 
-    @Query("UPDATE user_info SET likes=:likes")
-    suspend fun updateLikes(likes: String)
+    @Query("UPDATE user_info SET likes=:likes WHERE uId=:id")
+    suspend fun updateLikes(likes: String, id: String)
 
-    @Query("UPDATE user_info SET dislikes=:dislikes")
-    suspend fun updateDislikes(dislikes: String)
+    @Query("UPDATE user_info SET dislikes=:dislikes WHERE uId=:id")
+    suspend fun updateDislikes(dislikes: String, id: String)
 
-    @Query("UPDATE user_info SET posts=:posts")
-    suspend fun updatePosts(posts: String)
+    @Query("UPDATE user_info SET posts=:posts WHERE uId=:id")
+    suspend fun updatePosts(posts: String, id: String)
 
 }
