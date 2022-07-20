@@ -3,6 +3,7 @@ package space.work.training.izi.nav_fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.view.animation.AccelerateInterpolator
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import space.work.training.izi.R
 import space.work.training.izi.ViewUtils
 import space.work.training.izi.adapters.CommentListAdapter
@@ -43,10 +48,10 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
     private var currentUserID: String? = null
 
     @Inject
-    private lateinit var firebaseAuth: FirebaseAuth
+    lateinit var firebaseAuth: FirebaseAuth
 
     @Inject
-    private lateinit var firebaseDatabase: FirebaseDatabase
+    lateinit var firebaseDatabase: FirebaseDatabase
 
     private val postViewModel: PostViewModel by viewModels()
 
@@ -132,20 +137,36 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
 
         postViewModel.getViews().observe(viewLifecycleOwner) {
             viewsAdapter?.setData(it)
+            viewsList.clear()
+            viewsList.addAll(it)
         }
 
         postViewModel.getLikes().observe(viewLifecycleOwner) {
             likedAdapter?.setData(it)
+            likedList.clear()
+            likedList.addAll(it)
         }
 
         postViewModel.getDislikes().observe(viewLifecycleOwner) {
             dislikedAdapter?.setData(it)
+            dislikedList.clear()
+            dislikedList.addAll(it)
         }
 
-        postViewModel.getNrLikes().observe(viewLifecycleOwner) {
+        lifecycleScope.launch{
+            withContext(Dispatchers.IO){
+                postViewModel.getNrLikes(this@PostFragment){likes->
+                    binding.like.text = likes
+                    binding.liked.text = likes
+                }
+            }
+        }
+
+       /* postViewModel.getNrLikes().observe(viewLifecycleOwner) {
+            Log.d("LiveLikes : PostFragment", it)
             binding.like.text = it
             binding.liked.text = it
-        }
+        }*/
         postViewModel.getNrDislikes().observe(viewLifecycleOwner) {
             binding.dislike.text = it
             binding.disliked.text = it
@@ -228,19 +249,19 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
     private fun likeDislike() {
         binding.like.setOnClickListener {
             if (binding.like.tag == "like" && binding.dislike.tag == "dislike") {
-                firebaseDatabase!!.reference.child("Likes").child(imgId!!).child(currentUserID!!)
+                firebaseDatabase.reference.child("Likes").child(imgId!!).child(currentUserID!!)
                     .setValue(true)
             } else {
-                firebaseDatabase!!.reference.child("Likes").child(imgId!!).child(currentUserID!!)
+                firebaseDatabase.reference.child("Likes").child(imgId!!).child(currentUserID!!)
                     .removeValue()
             }
         }
         binding.dislike.setOnClickListener {
             if (binding.dislike.tag == "dislike" && binding.like.tag == "like") {
-                firebaseDatabase!!.reference.child("Dislikes").child(imgId!!).child(currentUserID!!)
+                firebaseDatabase.reference.child("Dislikes").child(imgId!!).child(currentUserID!!)
                     .setValue(true)
             } else {
-                firebaseDatabase!!.reference.child("Dislikes").child(imgId!!).child(currentUserID!!)
+                firebaseDatabase.reference.child("Dislikes").child(imgId!!).child(currentUserID!!)
                     .removeValue()
             }
         }

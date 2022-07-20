@@ -52,11 +52,6 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     private var CURRENT_STATE: String? = null
     private var saveCurrentDate: String? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -1,6 +1,8 @@
 package space.work.training.izi.mvvm.profile
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "user_info")
 data class UserInfo(
@@ -9,7 +11,7 @@ data class UserInfo(
     @ColumnInfo(name = "uId")
     var uId: String = "",
     @ColumnInfo(name = "uList")
-    var uList : ArrayList<String>,
+    var uList: ArrayList<String> = ArrayList(),
     @ColumnInfo(name = "views")
     var views: String = "",
     @ColumnInfo(name = "friends")

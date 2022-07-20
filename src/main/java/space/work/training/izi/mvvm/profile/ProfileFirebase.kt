@@ -33,16 +33,7 @@ class ProfileFirebase @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             if (profileDao.getUserInfo(userID).value == null)
                 profileDao.insertUSerInfo(
-                    UserInfo(
-                        0,
-                        userID,
-                        userInfo,
-                        viewsS,
-                        friendsS,
-                        likesS,
-                        dislikesS,
-                        postsS
-                    )
+                    UserInfo()
                 )
         }
     }
