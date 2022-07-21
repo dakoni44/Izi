@@ -31,10 +31,11 @@ class ProfileFirebase @Inject constructor(
     init {
         userID = firebaseAuth.currentUser!!.uid
         CoroutineScope(Dispatchers.IO).launch {
-            if (profileDao.getUserInfo(userID).value == null)
+            if (!profileDao.exists(userID)) {
                 profileDao.insertUSerInfo(
-                    UserInfo()
+                    UserInfo(0, userID, ArrayList(), "", "", "", "", "")
                 )
+            }
         }
     }
 

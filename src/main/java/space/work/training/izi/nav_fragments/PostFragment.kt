@@ -153,20 +153,11 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
             dislikedList.addAll(it)
         }
 
-        lifecycleScope.launch{
-            withContext(Dispatchers.IO){
-                postViewModel.getNrLikes(this@PostFragment){likes->
-                    binding.like.text = likes
-                    binding.liked.text = likes
-                }
-            }
-        }
-
-       /* postViewModel.getNrLikes().observe(viewLifecycleOwner) {
+       postViewModel.getNrLikes().observe(viewLifecycleOwner) {
             Log.d("LiveLikes : PostFragment", it)
             binding.like.text = it
             binding.liked.text = it
-        }*/
+        }
         postViewModel.getNrDislikes().observe(viewLifecycleOwner) {
             binding.dislike.text = it
             binding.disliked.text = it

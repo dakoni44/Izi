@@ -30,6 +30,9 @@ interface ProfileDao {
     @Query("SELECT * FROM user_info WHERE uId=:id")
     fun getUserInfo(id: String): LiveData<UserInfo>
 
+    @Query("SELECT EXISTS (SELECT 1 FROM user_info WHERE uid = :id)")
+    fun exists(id: String): Boolean
+
     @Query("UPDATE user_info SET uList=:uList WHERE uId=:id")
     suspend fun updateUList(uList: ArrayList<String>, id: String)
 

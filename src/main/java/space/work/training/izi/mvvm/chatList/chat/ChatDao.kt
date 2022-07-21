@@ -16,4 +16,7 @@ interface ChatDao {
 
     @Query("SELECT * FROM chat_user WHERE uId=:id")
     fun getChatUser(id:String): LiveData<ChatUser>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM chat_user WHERE uid = :id)")
+    fun exists(id: String): Boolean
 }

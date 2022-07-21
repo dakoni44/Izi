@@ -1,13 +1,15 @@
 package space.work.training.izi.mvvm.profileOther
 
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.mvvm.profile.ProfileImg
 import space.work.training.izi.mvvm.profile.UserInfo
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,9 +25,13 @@ class ProfileOtherFirebase @Inject constructor(
     private var saveCurrentDate = ""
     private var CURRENT_STATE = "not friends"
     private var user = User()
-    private var profileUser = space.work.training.izi.mvvm.profile.UserInfo()
+    private var profileUser = UserInfo()
     private var userInfo: ArrayList<String> = ArrayList()
-    private val imgs: ArrayList<Img> = ArrayList<Img>()
+    private val imgs: ArrayList<ProfileImg> = ArrayList<ProfileImg>()
+
+    private val currentState = MutableStateFlow("not_friends")
+    private val profileUserFlow = MutableStateFlow(UserInfo())
+    private val imgsFlow = MutableStateFlow(ArrayList<ProfileImg>())
 
     init {
         senderId = firebaseAuth.currentUser!!.uid
@@ -35,15 +41,19 @@ class ProfileOtherFirebase @Inject constructor(
         friendId = id
     }
 
-    fun getProfileUser() : UserInfo{
-        return profileUser
+    fun getProfileUser(): StateFlow<UserInfo> {
+        return profileUserFlow
     }
 
-    fun getCurrentState() : String{
-        return CURRENT_STATE
+    fun getCurrentState(): StateFlow<String> {
+        return currentState
     }
 
-     fun showData() {
+    fun getImgs(): StateFlow<List<ProfileImg>> {
+        return imgsFlow
+    }
+
+    fun showData() {
         firebaseDatabase.getReference("Users").child(friendId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -59,9 +69,8 @@ class ProfileOtherFirebase @Inject constructor(
                     userInfo.add(user.name)
                     userInfo.add(user.bio)
                     userInfo.add(user.image)
-                    profileUser.uList.clear()
-                    profileUser.uList.addAll(userInfo)
-                    showNumbers()
+                    profileUserFlow.value.uList.clear()
+                    profileUserFlow.value.uList.addAll(userInfo)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
@@ -74,6 +83,7 @@ class ProfileOtherFirebase @Inject constructor(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.hasChild(friendId)) {
                         CURRENT_STATE = "friends"
+                        currentState.value = CURRENT_STATE
                     } else {
                     }
                 }
@@ -88,8 +98,10 @@ class ProfileOtherFirebase @Inject constructor(
                             .value.toString()
                         if (requset_type == "sent") {
                             CURRENT_STATE = "request_sent"
+                            currentState.value = CURRENT_STATE
                         } else if (requset_type == "received") {
                             CURRENT_STATE = "request_received"
+                            currentState.value = CURRENT_STATE
                         }
                     }
                 }
@@ -98,12 +110,12 @@ class ProfileOtherFirebase @Inject constructor(
             })
     }
 
-     fun showPost() {
+    fun showPost() {
         firebaseDatabase.getReference("Posts").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val img = Img()
+                    val img = ProfileImg()
                     img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                     img.publisher =
                         snapshot.child("publisher").getValue(String::class.java).toString()
@@ -117,7 +129,7 @@ class ProfileOtherFirebase @Inject constructor(
                     }
                 }
                 imgs.reverse()
-
+                imgsFlow.value = imgs
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -125,16 +137,19 @@ class ProfileOtherFirebase @Inject constructor(
     }
 
 
-    private fun showNumbers() {
+     fun showNumbers() {
         firebaseDatabase.getReference("Friends").child(friendId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                   profileUser.friends = dataSnapshot.childrenCount.toInt().toString()
+                    profileUser.friends = dataSnapshot.childrenCount.toInt().toString()
+                    profileUserFlow.value.friends = profileUser.friends
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
         profileUser.posts = imgs.size.toString()
+        profileUserFlow.value.posts = profileUser.posts
+
         var sum = 0
         for (i in imgs.indices) {
             sum += imgs.get(i).views.toInt()
@@ -143,6 +158,7 @@ class ProfileOtherFirebase @Inject constructor(
         if (all < 0)
             all = 0
         profileUser.views = (all).toString()
+        profileUserFlow.value.views = profileUser.views
 
         firebaseDatabase.getReference("Likes").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -155,6 +171,7 @@ class ProfileOtherFirebase @Inject constructor(
                     }
                 }
                 profileUser.likes = sum.toString()
+                profileUserFlow.value.likes = profileUser.likes
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -170,7 +187,8 @@ class ProfileOtherFirebase @Inject constructor(
                             }
                         }
                     }
-                   profileUser.dislikes = sum.toString()
+                    profileUser.dislikes = sum.toString()
+                    profileUserFlow.value.dislikes = profileUser.dislikes
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
@@ -186,7 +204,7 @@ class ProfileOtherFirebase @Inject constructor(
         //tvLikes.setText(String.valueOf(likesNum.size()));
     }
 
-     fun removeFriend() {
+    fun removeFriend() {
         firebaseDatabase.getReference("Friends").child(senderId).child(friendId).removeValue()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -194,13 +212,14 @@ class ProfileOtherFirebase @Inject constructor(
                         .removeValue().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 CURRENT_STATE = "not_friends"
+                                currentState.value = CURRENT_STATE
                             }
                         }
                 }
             }
     }
 
-     fun sendFriendRequest() {
+    fun sendFriendRequest() {
         firebaseDatabase.getReference("Friends").child(senderId).child(friendId)
             .child("request_type")
             .setValue("sent")
@@ -211,13 +230,14 @@ class ProfileOtherFirebase @Inject constructor(
                         .setValue("received").addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 CURRENT_STATE = "request_sent"
+                                currentState.value = CURRENT_STATE
                             }
                         }
                 }
             }
     }
 
-     fun cancelFriendRequest() {
+    fun cancelFriendRequest() {
         firebaseDatabase.getReference("Friends").child(senderId).child(friendId).removeValue()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -226,13 +246,14 @@ class ProfileOtherFirebase @Inject constructor(
                         .removeValue().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 CURRENT_STATE = "not_friends"
+                                currentState.value = CURRENT_STATE
                             }
                         }
                 }
             }
     }
 
-     fun acceptFriendRequest() {
+    fun acceptFriendRequest() {
         val calForDate = Calendar.getInstance()
         val currentDate = SimpleDateFormat("dd-MMMM-yyyy")
         saveCurrentDate = currentDate.format(calForDate.time)
@@ -255,6 +276,7 @@ class ProfileOtherFirebase @Inject constructor(
                                                 .removeValue().addOnCompleteListener { task ->
                                                     if (task.isSuccessful) {
                                                         CURRENT_STATE = "friends"
+                                                        currentState.value = CURRENT_STATE
                                                     }
                                                 }
                                         }

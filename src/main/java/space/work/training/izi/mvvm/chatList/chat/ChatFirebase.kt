@@ -42,7 +42,7 @@ class ChatFirebase @Inject constructor(
 
     fun showData() {
         CoroutineScope(Dispatchers.IO).launch {
-            if (chatDao.getChatUser(receiverId).value == null)
+            if (!chatDao.exists(receiverId))
                 chatDao.insertChatUser(
                     ChatUser(
                         0,

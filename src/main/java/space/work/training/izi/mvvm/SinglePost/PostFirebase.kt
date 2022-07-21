@@ -61,14 +61,9 @@ class PostFirebase @Inject constructor(
     fun setImgId(id: String) {
         imgId = id
     }
-/*
+
     fun getNrLikes(): LiveData<String> {
         return nrLikesL
-    }*/
-
-    fun getNrLikes(): String {
-        Log.d("LiveLikes : Repo", nrLikes)
-        return nrLikes
     }
 
     fun getNrDislikes(): LiveData<String> {
@@ -167,13 +162,13 @@ class PostFirebase @Inject constructor(
         })
     }
 
-    private fun nrLikes()  {
+    private fun nrLikes() {
         val reference = firebaseDatabase.reference.child("Likes").child(imgId)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 nrLikes = dataSnapshot.childrenCount.toString()
                 Log.d("LiveLikes : Firebase", nrLikes)
-              //  nrLikesL.postValue(nrLikes)
+                nrLikesL.postValue(nrLikes)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
