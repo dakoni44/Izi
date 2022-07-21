@@ -62,8 +62,12 @@ class PostFirebase @Inject constructor(
         imgId = id
     }
 
-    fun getNrLikes(): LiveData<String> {
+  /*  fun getNrLikes(): LiveData<String> {
         return nrLikesL
+    }*/
+
+    fun getNrLikes(): String {
+        return nrLikes
     }
 
     fun getNrDislikes(): LiveData<String> {

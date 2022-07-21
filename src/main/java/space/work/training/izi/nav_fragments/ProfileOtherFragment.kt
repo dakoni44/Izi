@@ -121,13 +121,21 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
                 override fun onCancelled(databaseError: DatabaseError) {}
             })*/
 
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                profileOtherViewModel.getProfileUser().collect {
+//                    updateUi(it)
+//                }
+//            }
+//        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                profileOtherViewModel.getProfileUser().collect {
+                profileOtherViewModel.pUser.collect {
                     updateUi(it)
                 }
             }
         }
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

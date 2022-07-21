@@ -2,10 +2,11 @@ package space.work.training.izi.mvvm.profileOther
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import space.work.training.izi.mvvm.posts.Img
+import kotlinx.coroutines.flow.flow
 import space.work.training.izi.mvvm.profile.ProfileImg
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
@@ -13,6 +14,9 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase: ProfileOtherFirebase) :
     ViewModel() {
+
+    private val _profileUser = MutableStateFlow(UserInfo())
+    val profileUser: StateFlow<UserInfo> = _profileUser
 
     fun setFriendId(id: String) {
         profileOtherFirebase.setFriendId(id)
@@ -45,9 +49,26 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
         return profileOtherFirebase.getCurrentState()
     }
 
-    fun getProfileUser(): StateFlow<UserInfo> {
-        return profileOtherFirebase.getProfileUser()
+    /*  @JvmName("getProfileUser1")
+      fun getProfileUser(): StateFlow<UserInfo> {
+          viewModelScope.launch {
+            profileOtherFirebase.getProfileUser().collect {
+                _profileUser.value = it
+            }
+        }
+    }*/
+
+    /*
+     fun getProfileUser(): StateFlow<UserInfo> {
+       return profileOtherFirebase.getProfileUser()
+    }*/
+
+
+    val pUser: Flow<UserInfo> = flow {
+        emit(profileOtherFirebase.getProfileUser())
+        delay(500)
     }
+
 
     fun getImgs(): StateFlow<List<ProfileImg>> {
         return profileOtherFirebase.getImgs()

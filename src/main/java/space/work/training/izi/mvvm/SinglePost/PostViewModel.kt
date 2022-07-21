@@ -1,7 +1,7 @@
 package space.work.training.izi.mvvm.SinglePost
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import space.work.training.izi.mvvm.posts.Img
@@ -10,6 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(private var postFirebase: PostFirebase) : ViewModel() {
 
+    val nrLikes = MutableLiveData<String>()
 
     fun load() {
         postFirebase.load()
@@ -23,8 +24,17 @@ class PostViewModel @Inject constructor(private var postFirebase: PostFirebase) 
         return postFirebase.isDislike()
     }
 
+    /* fun getNrLikes(): LiveData<String> {
+         return postFirebase.getNrLikes()
+     }*/
+
     fun getNrLikes(): LiveData<String> {
-        return postFirebase.getNrLikes()
+        while (true) {
+            nrLikes.postValue(postFirebase.getNrLikes())
+            if (nrLikes.value != null)
+                break
+        }
+        return nrLikes
     }
 
     fun getNrDislikes(): LiveData<String> {

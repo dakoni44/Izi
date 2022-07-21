@@ -50,6 +50,7 @@ class ChatFirebase @Inject constructor(
                     )
                 )
         }
+
         senderId = firebaseAuth.currentUser!!.uid
         firebaseDatabase.getReference("Users").child(receiverId)
             .addValueEventListener(object : ValueEventListener {

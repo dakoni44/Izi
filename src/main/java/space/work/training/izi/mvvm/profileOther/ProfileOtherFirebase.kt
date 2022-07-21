@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.profile.ProfileImg
@@ -41,8 +42,12 @@ class ProfileOtherFirebase @Inject constructor(
         friendId = id
     }
 
-    fun getProfileUser(): StateFlow<UserInfo> {
+   /* fun getProfileUser(): StateFlow<UserInfo> {
         return profileUserFlow
+    }*/
+
+    fun getProfileUser(): UserInfo {
+        return profileUser
     }
 
     fun getCurrentState(): StateFlow<String> {
@@ -69,6 +74,8 @@ class ProfileOtherFirebase @Inject constructor(
                     userInfo.add(user.name)
                     userInfo.add(user.bio)
                     userInfo.add(user.image)
+                    profileUser.uList.clear()
+                    profileUser.uList.addAll(userInfo)
                     profileUserFlow.value.uList.clear()
                     profileUserFlow.value.uList.addAll(userInfo)
                 }
