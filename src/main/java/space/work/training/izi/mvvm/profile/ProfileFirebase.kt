@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.mvvm.posts.Img
 import javax.inject.Inject
 
 class ProfileFirebase @Inject constructor(
@@ -17,7 +18,7 @@ class ProfileFirebase @Inject constructor(
     private var firebaseAuth: FirebaseAuth
 ) {
 
-    private val imgs: ArrayList<ProfileImg> = ArrayList<ProfileImg>()
+    private val imgs: ArrayList<Img> = ArrayList()
 
     private var userID = ""
 
@@ -33,17 +34,15 @@ class ProfileFirebase @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             if (!profileDao.exists(userID)) {
                 profileDao.insertUSerInfo(
-                    UserInfo(0, userID, ArrayList(), "", "", "", "", "")
+                    UserInfo(0, userID, ArrayList(), "", "", "", "", "", ArrayList())
                 )
             }
         }
     }
 
-    suspend fun notifyFirebaseDataChange(list: List<ProfileImg>) {
-        profileDao.deleteAllImgs()
-        for (img in list) {
-            profileDao.insertProfileImgs(img)
-        }
+    suspend fun notifyFirebaseDataChange(list: ArrayList<Img>) {
+        profileDao.updatePImgs(list, userID)
+
     }
 
     fun updateViews() {
@@ -121,7 +120,7 @@ class ProfileFirebase @Inject constructor(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val img = ProfileImg()
+                    val img = Img()
                     img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                     img.publisher =
                         snapshot.child("publisher").getValue(String::class.java).toString()
@@ -136,7 +135,7 @@ class ProfileFirebase @Inject constructor(
                 }
                 imgs.reverse()
                 CoroutineScope(Dispatchers.IO).launch {
-                    if (!imgs.isNullOrEmpty())
+                    if (imgs.isNotEmpty())
                         notifyFirebaseDataChange(imgs)
                 }
                 showNumbers()

@@ -22,10 +22,6 @@ class ProfileRepository @Inject constructor(
         profileFirebase.showData()
     }
 
-    fun getProfileImgs(): LiveData<List<ProfileImg>> {
-        return profileDao.getAllImgs()
-    }
-
     fun getUserInfo(id:String): LiveData<UserInfo> {
         return profileDao.getUserInfo(id)
     }

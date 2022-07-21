@@ -21,12 +21,12 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<ProfileAdapter.ImageViewHolder>() {
 
     var mContext: Context
-    private var mdata: List<ProfileImg>
+    private var mdata: List<Img>
     private val listener: OnItemClickListener
     private var firebaseUser: FirebaseUser? = null
 
     init {
-        mdata = ArrayList<ProfileImg>()
+        mdata = ArrayList<Img>()
         this.listener = listener
         this.mContext = mContext
     }
@@ -43,7 +43,7 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser()
-        val img: ProfileImg = mdata[position]
+        val img: Img = mdata[position]
         unblurPost(holder.ivMainImage, img)
     }
 
@@ -51,7 +51,7 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
         return mdata.size
     }
 
-    fun setData(posts: List<ProfileImg>) {
+    fun setData(posts: List<Img>) {
         mdata = posts
         notifyDataSetChanged()
     }
@@ -84,7 +84,7 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
         }
     }
 
-    private fun unblurPost(ivPost: ImageView, post: ProfileImg) {
+    private fun unblurPost(ivPost: ImageView, post: Img) {
         val postRef: DatabaseReference =
             FirebaseDatabase.getInstance().getReference("Posts").child(post.imgId)
         postRef.addValueEventListener(object : ValueEventListener {

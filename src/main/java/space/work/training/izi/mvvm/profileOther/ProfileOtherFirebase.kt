@@ -28,11 +28,11 @@ class ProfileOtherFirebase @Inject constructor(
     private var user = User()
     private var profileUser = UserInfo()
     private var userInfo: ArrayList<String> = ArrayList()
-    private val imgs: ArrayList<ProfileImg> = ArrayList<ProfileImg>()
+    private val imgs: ArrayList<Img> = ArrayList<Img>()
 
     private val currentState = MutableStateFlow("not_friends")
     private val profileUserFlow = MutableStateFlow(UserInfo())
-    private val imgsFlow = MutableStateFlow(ArrayList<ProfileImg>())
+    private val imgsFlow = MutableStateFlow(ArrayList<Img>())
 
     init {
         senderId = firebaseAuth.currentUser!!.uid
@@ -54,7 +54,7 @@ class ProfileOtherFirebase @Inject constructor(
         return currentState
     }
 
-    fun getImgs(): StateFlow<List<ProfileImg>> {
+    fun getImgs(): StateFlow<List<Img>> {
         return imgsFlow
     }
 
@@ -122,7 +122,7 @@ class ProfileOtherFirebase @Inject constructor(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val img = ProfileImg()
+                    val img = Img()
                     img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                     img.publisher =
                         snapshot.child("publisher").getValue(String::class.java).toString()

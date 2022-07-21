@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
-import space.work.training.izi.mvvm.profile.ProfileImg
+import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.profile.ProfileViewModel
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
     private var gridManager: StaggeredGridLayoutManager? = null
     private var profileAdapter: ProfileAdapter? = null
-    private val imgs: ArrayList<ProfileImg> = ArrayList()
+    private val imgs: ArrayList<Img> = ArrayList()
 
     private var userID: String? = null
 
@@ -90,14 +90,10 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         profileViewModel.getUserInfo(userID!!).observe(viewLifecycleOwner) {
             it?.let {
                 updateUi(it)
-            }
-        }
-
-        profileViewModel.getProfileImgs().observe(viewLifecycleOwner) {
-            it.let {
                 updateUiImgs(it)
             }
         }
+
 
         binding.bBio.setOnClickListener {
             if (binding.rlBio.visibility == View.GONE) {
@@ -111,7 +107,7 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
     }
 
     private fun updateUi(userInfo: UserInfo) {
-        if(userInfo.uList.size>0){
+        if (userInfo.uList.size > 0) {
             binding.tvName.text = userInfo.uList.get(0)
             binding.tvNameFull.text = userInfo.uList.get(1)
             binding.tvBio.text = userInfo.uList.get(2)
@@ -124,9 +120,9 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         binding.tvPosts.text = userInfo.posts
     }
 
-    private fun updateUiImgs(list: List<ProfileImg>) {
-        profileAdapter!!.setData(list)
-        imgs.addAll(list)
+    private fun updateUiImgs(userInfo: UserInfo) {
+        profileAdapter!!.setData(userInfo.profileImgs)
+        imgs.addAll(userInfo.profileImgs)
     }
 
     override fun onItemClick(position: Int) {

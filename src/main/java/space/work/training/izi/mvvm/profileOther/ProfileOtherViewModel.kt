@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import space.work.training.izi.mvvm.posts.Img
 import space.work.training.izi.mvvm.profile.ProfileImg
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
@@ -63,14 +64,13 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
        return profileOtherFirebase.getProfileUser()
     }*/
 
-
     val pUser: Flow<UserInfo> = flow {
         emit(profileOtherFirebase.getProfileUser())
         delay(500)
     }
 
 
-    fun getImgs(): StateFlow<List<ProfileImg>> {
+    fun getImgs(): StateFlow<List<Img>> {
         return profileOtherFirebase.getImgs()
     }
 }

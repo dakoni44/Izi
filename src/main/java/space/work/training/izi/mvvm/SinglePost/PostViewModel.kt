@@ -4,6 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.posts.Img
 import javax.inject.Inject
 
@@ -29,10 +33,9 @@ class PostViewModel @Inject constructor(private var postFirebase: PostFirebase) 
      }*/
 
     fun getNrLikes(): LiveData<String> {
-        while (true) {
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(1000)
             nrLikes.postValue(postFirebase.getNrLikes())
-            if (nrLikes.value != null)
-                break
         }
         return nrLikes
     }

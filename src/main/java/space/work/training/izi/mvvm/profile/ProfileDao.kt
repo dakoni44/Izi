@@ -2,24 +2,10 @@ package space.work.training.izi.mvvm.profile
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import space.work.training.izi.mvvm.posts.Img
 
 @Dao
 interface ProfileDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertProfileImgs(img: ProfileImg): Long
-
-    @Update
-    suspend fun update(img: ProfileImg)
-
-    @Delete
-    suspend fun delete(img: ProfileImg)
-
-    @Query("DELETE from profile_imgs")
-    suspend fun deleteAllImgs()
-
-    @Query("SELECT * FROM profile_imgs")
-    fun getAllImgs(): LiveData<List<ProfileImg>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUSerInfo(userInfo: UserInfo): Long
@@ -35,6 +21,9 @@ interface ProfileDao {
 
     @Query("UPDATE user_info SET uList=:uList WHERE uId=:id")
     suspend fun updateUList(uList: ArrayList<String>, id: String)
+
+    @Query("UPDATE user_info SET profileImgs=:profileImgs WHERE uId=:id")
+    suspend fun updatePImgs(profileImgs: ArrayList<Img>, id: String)
 
     @Query("UPDATE user_info SET views=:views WHERE uId=:id")
     suspend fun updateViews(views: String, id: String)

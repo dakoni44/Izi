@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import javax.inject.Inject
@@ -33,7 +34,7 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao, private var fi
     }
 
     suspend fun updateRoomImgNew(list: List<ImgNew>) {
-        imgDao.deleteAllImgs()
+        imgDao.deleteAllImgsNew()
         for (img in list) {
             imgDao.insertNew(img)
         }
@@ -123,7 +124,7 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao, private var fi
                         }
                     }
                     CoroutineScope(Dispatchers.IO).launch {
-                        if (!imgs.isEmpty())
+                        if (!imgsNew.isEmpty())
                             updateRoomImgNew(imgsNew)
                     }
                 }

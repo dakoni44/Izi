@@ -13,4 +13,5 @@ class App : Application() {
     //mvvvm, coroutines, firebase, hilt, flow, room
     //every class is mvvm and coroutines for room and background, add flow instead of livedata
     //profileOther to mvvm, groupChat fragment
+    //flow, coroutines delay, live data outside viewModel
 }
