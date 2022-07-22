@@ -1,14 +1,10 @@
 package space.work.training.izi.mvvm.profileOther
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import space.work.training.izi.mvvm.posts.Img
-import space.work.training.izi.mvvm.profile.ProfileImg
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
 
@@ -16,18 +12,17 @@ import javax.inject.Inject
 class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase: ProfileOtherFirebase) :
     ViewModel() {
 
-    private val _profileUser = MutableStateFlow(UserInfo())
-    val profileUser: StateFlow<UserInfo> = _profileUser
-
     fun setFriendId(id: String) {
         profileOtherFirebase.setFriendId(id)
     }
 
     fun load() {
-        profileOtherFirebase.showData()
-        profileOtherFirebase.showNumbers()
-        profileOtherFirebase.maintanceOfButtons()
-        profileOtherFirebase.showPost()
+        profileOtherFirebase.apply {
+            showData()
+            showNumbers()
+            maintanceOfButtons()
+            showPost()
+        }
     }
 
     fun send() {
@@ -46,31 +41,15 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
         profileOtherFirebase.cancelFriendRequest()
     }
 
-    fun getCurrState(): StateFlow<String> {
+    fun getCurrState(): LiveData<String> {
         return profileOtherFirebase.getCurrentState()
     }
 
-    /*  @JvmName("getProfileUser1")
-      fun getProfileUser(): StateFlow<UserInfo> {
-          viewModelScope.launch {
-            profileOtherFirebase.getProfileUser().collect {
-                _profileUser.value = it
-            }
-        }
-    }*/
-
-    /*
-     fun getProfileUser(): StateFlow<UserInfo> {
-       return profileOtherFirebase.getProfileUser()
-    }*/
-
-    val pUser: Flow<UserInfo> = flow {
-        emit(profileOtherFirebase.getProfileUser())
-        delay(500)
+    fun getProfileUser(): LiveData<UserInfo> {
+        return profileOtherFirebase.getProfileUser()
     }
 
-
-    fun getImgs(): StateFlow<List<Img>> {
+    fun getImgs(): LiveData<ArrayList<Img>> {
         return profileOtherFirebase.getImgs()
     }
 }

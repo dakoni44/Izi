@@ -1,16 +1,14 @@
 package space.work.training.izi.mvvm.profileOther
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import space.work.training.izi.mvvm.chatList.User
 import space.work.training.izi.mvvm.posts.Img
-import space.work.training.izi.mvvm.profile.ProfileImg
 import space.work.training.izi.mvvm.profile.UserInfo
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,9 +28,9 @@ class ProfileOtherFirebase @Inject constructor(
     private var userInfo: ArrayList<String> = ArrayList()
     private val imgs: ArrayList<Img> = ArrayList<Img>()
 
-    private val currentState = MutableStateFlow("not_friends")
-    private val profileUserFlow = MutableStateFlow(UserInfo())
-    private val imgsFlow = MutableStateFlow(ArrayList<Img>())
+    private val currentState = MutableLiveData<String>()
+    private var profileUserLive = MutableLiveData<UserInfo>()
+    private val imgsLive = MutableLiveData<ArrayList<Img>>()
 
     init {
         senderId = firebaseAuth.currentUser!!.uid
@@ -42,20 +40,16 @@ class ProfileOtherFirebase @Inject constructor(
         friendId = id
     }
 
-   /* fun getProfileUser(): StateFlow<UserInfo> {
-        return profileUserFlow
-    }*/
-
-    fun getProfileUser(): UserInfo {
-        return profileUser
+    fun getProfileUser(): LiveData<UserInfo> {
+        return profileUserLive
     }
 
-    fun getCurrentState(): StateFlow<String> {
+    fun getCurrentState(): LiveData<String> {
         return currentState
     }
 
-    fun getImgs(): StateFlow<List<Img>> {
-        return imgsFlow
+    fun getImgs(): LiveData<ArrayList<Img>> {
+        return imgsLive
     }
 
     fun showData() {
@@ -63,12 +57,17 @@ class ProfileOtherFirebase @Inject constructor(
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     user.uid = friendId
-                    user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
+                    user.name =
+                        dataSnapshot.child("name").getValue(String::class.java).toString()
                     user.username =
-                        dataSnapshot.child("username").getValue(String::class.java).toString()
-                    user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
-                    user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
-                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                        dataSnapshot.child("username").getValue(String::class.java)
+                            .toString()
+                    user.email =
+                        dataSnapshot.child("email").getValue(String::class.java).toString()
+                    user.image =
+                        dataSnapshot.child("image").getValue(String::class.java).toString()
+                    user.bio =
+                        dataSnapshot.child("bio").getValue(String::class.java).toString()
                     userInfo.clear()
                     userInfo.add(user.username)
                     userInfo.add(user.name)
@@ -76,8 +75,7 @@ class ProfileOtherFirebase @Inject constructor(
                     userInfo.add(user.image)
                     profileUser.uList.clear()
                     profileUser.uList.addAll(userInfo)
-                    profileUserFlow.value.uList.clear()
-                    profileUserFlow.value.uList.addAll(userInfo)
+                    profileUserLive.postValue(profileUser)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
@@ -90,7 +88,7 @@ class ProfileOtherFirebase @Inject constructor(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.hasChild(friendId)) {
                         CURRENT_STATE = "friends"
-                        currentState.value = CURRENT_STATE
+                        currentState.postValue(CURRENT_STATE)
                     } else {
                     }
                 }
@@ -105,10 +103,10 @@ class ProfileOtherFirebase @Inject constructor(
                             .value.toString()
                         if (requset_type == "sent") {
                             CURRENT_STATE = "request_sent"
-                            currentState.value = CURRENT_STATE
+                            currentState.postValue(CURRENT_STATE)
                         } else if (requset_type == "received") {
                             CURRENT_STATE = "request_received"
-                            currentState.value = CURRENT_STATE
+                            currentState.postValue(CURRENT_STATE)
                         }
                     }
                 }
@@ -136,7 +134,20 @@ class ProfileOtherFirebase @Inject constructor(
                     }
                 }
                 imgs.reverse()
-                imgsFlow.value = imgs
+                imgsLive.postValue(imgs)
+
+                profileUser.posts = imgs.size.toString()
+                profileUserLive.postValue(profileUser)
+
+                var sum = 0
+                for (i in imgs.indices) {
+                    sum += imgs.get(i).views.toInt()
+                }
+                var all = sum - imgs.size
+                if (all < 0)
+                    all = 0
+                profileUser.views = (all).toString()
+                profileUserLive.postValue(profileUser)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -144,28 +155,16 @@ class ProfileOtherFirebase @Inject constructor(
     }
 
 
-     fun showNumbers() {
+    fun showNumbers() {
         firebaseDatabase.getReference("Friends").child(friendId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     profileUser.friends = dataSnapshot.childrenCount.toInt().toString()
-                    profileUserFlow.value.friends = profileUser.friends
+                    profileUserLive.postValue(profileUser)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
-        profileUser.posts = imgs.size.toString()
-        profileUserFlow.value.posts = profileUser.posts
-
-        var sum = 0
-        for (i in imgs.indices) {
-            sum += imgs.get(i).views.toInt()
-        }
-        var all = sum - imgs.size
-        if (all < 0)
-            all = 0
-        profileUser.views = (all).toString()
-        profileUserFlow.value.views = profileUser.views
 
         firebaseDatabase.getReference("Likes").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -178,11 +177,12 @@ class ProfileOtherFirebase @Inject constructor(
                     }
                 }
                 profileUser.likes = sum.toString()
-                profileUserFlow.value.likes = profileUser.likes
+                profileUserLive.postValue(profileUser)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+
         firebaseDatabase.getReference("Dislikes")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -195,20 +195,11 @@ class ProfileOtherFirebase @Inject constructor(
                         }
                     }
                     profileUser.dislikes = sum.toString()
-                    profileUserFlow.value.dislikes = profileUser.dislikes
+                    profileUserLive.postValue(profileUser)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
-        /*for(int i=0;i<likes.size();i++){
-            for(int j=0;j<likes.size();j++){
-                if(likes.get(i).equals(posts.get(j).getPostId())){
-                    likesNum.add(likes.get(i));
-                    break;
-                }
-            }
-        }*/
-        //tvLikes.setText(String.valueOf(likesNum.size()));
     }
 
     fun removeFriend() {
@@ -219,7 +210,7 @@ class ProfileOtherFirebase @Inject constructor(
                         .removeValue().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 CURRENT_STATE = "not_friends"
-                                currentState.value = CURRENT_STATE
+                                currentState.postValue(CURRENT_STATE)
                             }
                         }
                 }
@@ -237,7 +228,7 @@ class ProfileOtherFirebase @Inject constructor(
                         .setValue("received").addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 CURRENT_STATE = "request_sent"
-                                currentState.value = CURRENT_STATE
+                                currentState.postValue(CURRENT_STATE)
                             }
                         }
                 }
@@ -253,7 +244,7 @@ class ProfileOtherFirebase @Inject constructor(
                         .removeValue().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 CURRENT_STATE = "not_friends"
-                                currentState.value = CURRENT_STATE
+                                currentState.postValue(CURRENT_STATE)
                             }
                         }
                 }
@@ -283,7 +274,7 @@ class ProfileOtherFirebase @Inject constructor(
                                                 .removeValue().addOnCompleteListener { task ->
                                                     if (task.isSuccessful) {
                                                         CURRENT_STATE = "friends"
-                                                        currentState.value = CURRENT_STATE
+                                                        currentState.postValue(CURRENT_STATE)
                                                     }
                                                 }
                                         }

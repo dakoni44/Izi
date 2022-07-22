@@ -15,7 +15,6 @@ import com.google.firebase.database.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
 import space.work.training.izi.mvvm.posts.Img
-import space.work.training.izi.mvvm.profile.ProfileImg
 
 class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<ProfileAdapter.ImageViewHolder>() {
@@ -72,7 +71,7 @@ class ProfileAdapter(mContext: Context, listener: OnItemClickListener) :
                     }
                 }
             }
-            itemView.setOnLongClickListener{
+            itemView.setOnLongClickListener {
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
                     if (position != RecyclerView.NO_POSITION) {

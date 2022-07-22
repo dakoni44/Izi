@@ -7,15 +7,17 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ImgFirebase @Inject constructor(private var imgDao: ImgDao, private var firebaseAuth: FirebaseAuth
-,private var firebaseDatabase: FirebaseDatabase) {
+class ImgFirebase @Inject constructor(
+    private var imgDao: ImgDao,
+    private var firebaseAuth: FirebaseAuth,
+    private var firebaseDatabase: FirebaseDatabase
+) {
 
     private var friendList: ArrayList<String> = ArrayList()
     private var imgs: ArrayList<Img> = ArrayList()
@@ -26,18 +28,14 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao, private var fi
         readNewPosts()
     }
 
-    suspend fun updateRoomImg(list: List<Img>) {
+    suspend fun updateRoomImg(list: ArrayList<Img>) {
         imgDao.deleteAllImgs()
-        for (img in list) {
-            imgDao.insert(img)
-        }
+        imgDao.insert(list)
     }
 
-    suspend fun updateRoomImgNew(list: List<ImgNew>) {
+    suspend fun updateRoomImgNew(list: ArrayList<ImgNew>) {
         imgDao.deleteAllImgsNew()
-        for (img in list) {
-            imgDao.insertNew(img)
-        }
+        imgDao.insertNew(list)
     }
 
     fun checkFollowing() {
@@ -67,20 +65,22 @@ class ImgFirebase @Inject constructor(private var imgDao: ImgDao, private var fi
                 imgs.let {
                     it.clear()
                     for (snapshot in dataSnapshot.children) {
-                        val img = Img()
-                        img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
-                        img.publisher =
-                            snapshot.child("publisher").getValue(String::class.java).toString()
-                        img.img =
-                            snapshot.child("postimage").getValue(String::class.java).toString()
-                        img.text =
-                            snapshot.child("description").getValue(String::class.java).toString()
-                        img.views = (snapshot.child("views").childrenCount - 1).toString()
-                        img.timestamp =
-                            snapshot.child("timestamp").getValue(String::class.java).toString()
-                        for (id in friendList) {
-                            if (img.publisher == id) {
-                                it.add(img)
+                        val img = Img().apply {
+                            imgId = snapshot.child("postid").getValue(String::class.java).toString()
+                            publisher =
+                                snapshot.child("publisher").getValue(String::class.java).toString()
+                            img =
+                                snapshot.child("postimage").getValue(String::class.java).toString()
+                            text =
+                                snapshot.child("description").getValue(String::class.java)
+                                    .toString()
+                            views = (snapshot.child("views").childrenCount - 1).toString()
+                            timestamp =
+                                snapshot.child("timestamp").getValue(String::class.java).toString()
+                            for (id in friendList) {
+                                if (publisher == id) {
+                                    it.add(this)
+                                }
                             }
                         }
                     }

@@ -14,8 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PostViewModel @Inject constructor(private var postFirebase: PostFirebase) : ViewModel() {
 
-    val nrLikes = MutableLiveData<String>()
-
     fun load() {
         postFirebase.load()
     }
@@ -28,17 +26,9 @@ class PostViewModel @Inject constructor(private var postFirebase: PostFirebase) 
         return postFirebase.isDislike()
     }
 
-    /* fun getNrLikes(): LiveData<String> {
-         return postFirebase.getNrLikes()
-     }*/
-
     fun getNrLikes(): LiveData<String> {
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(1000)
-            nrLikes.postValue(postFirebase.getNrLikes())
-        }
-        return nrLikes
-    }
+         return postFirebase.getNrLikes()
+     }
 
     fun getNrDislikes(): LiveData<String> {
         return postFirebase.getNrDislikes()

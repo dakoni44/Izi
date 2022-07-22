@@ -36,8 +36,11 @@ class ChatFirebase @Inject constructor(
     }
 
     suspend fun updateRoomChatUser(chatUser: ChatUser) {
-        chatDao.deleteChatUser(chatUser.uId)
-        chatDao.insertChatUser(chatUser)
+        chatDao.updateChatUser(chatUser.img, chatUser.username, chatUser.uId)
+    }
+
+    suspend fun updateChatList(chatUser: ChatUser) {
+        chatDao.updateChatList(chatUser.chatList, chatUser.uId)
     }
 
     fun showData() {
@@ -60,6 +63,10 @@ class ChatFirebase @Inject constructor(
                         dataSnapshot.child("image").getValue(String::class.java).toString()
                     chatUser.username =
                         dataSnapshot.child("username").getValue(String::class.java).toString()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if (chatList.isNotEmpty())
+                            updateRoomChatUser(chatUser)
+                    }
                     readMessages()
                 }
 
@@ -116,7 +123,7 @@ class ChatFirebase @Inject constructor(
                 chatUser.chatList.addAll(chatList)
                 CoroutineScope(Dispatchers.IO).launch {
                     if (chatList.isNotEmpty())
-                        updateRoomChatUser(chatUser)
+                        updateChatList(chatUser)
                 }
                 seenMessage()
             }

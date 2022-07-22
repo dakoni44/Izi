@@ -11,7 +11,6 @@ import android.view.animation.AccelerateInterpolator
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +21,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import space.work.training.izi.R
 import space.work.training.izi.ViewUtils
 import space.work.training.izi.adapters.CommentListAdapter
@@ -46,6 +42,7 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
     private val args: PostFragmentArgs by navArgs()
     private var imgId: String? = null
     private var currentUserID: String? = null
+    private var imgPublisher: String? = null
 
     @Inject
     lateinit var firebaseAuth: FirebaseAuth
@@ -101,17 +98,6 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         dislikedAdapter = DislikeAdapter(requireContext(), this)
         binding.rvDislikes.adapter = dislikedAdapter
 
-        /*  updatePost()
-          showPost()
-          // deletePost()
-          isLikes(imgId!!, binding.like)
-          isDislikes(imgId!!, binding.dislike)
-          nrLikes(binding.like, binding.liked, imgId!!)
-          nrDislikes(binding.dislike, binding.disliked, imgId!!)
-
-          loadReactions()
-          loadViews()*/
-
         binding.postDetails.setOnClickListener {
             ViewUtils.expand(binding.detailsLayout)
             binding.postDetails.visibility = View.GONE
@@ -126,7 +112,7 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
 
         binding.comments.setOnClickListener {
             ViewUtils.collapse(binding.detailsLayout)
-            if (currentUserID!!.equals(img!!.publisher)) {
+            if (currentUserID!!.equals(imgPublisher)) {
                 val action = PostFragmentDirections.postToCommentList(imgId!!)
                 findNavController().navigate(action)
             } else {
@@ -153,7 +139,7 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
             dislikedList.addAll(it)
         }
 
-       postViewModel.getNrLikes().observe(viewLifecycleOwner) {
+        postViewModel.getNrLikes().observe(viewLifecycleOwner) {
             Log.d("LiveLikes : PostFragment", it)
             binding.like.text = it
             binding.liked.text = it
@@ -186,53 +172,64 @@ class PostFragment : Fragment(), CommentListAdapter.OnItemClickListener,
         postViewModel.getMyImg().observe(viewLifecycleOwner) {
             if (it) {
                 binding.reactions.visibility = View.VISIBLE
-                availableData()
+                availableData(it)
+            } else {
+                availableData(it)
+                binding.reactions.visibility = View.INVISIBLE
             }
         }
 
         postViewModel.getImg().observe(viewLifecycleOwner) {
+            imgPublisher = it.publisher
             showData(it)
         }
 
         likeDislike()
     }
 
-    private fun availableData() {
+    private fun availableData(currentUser: Boolean) {
         binding.views.setOnClickListener {
-            ViewUtils.collapse(binding.detailsLayout)
-            binding.clViews.visibility = View.VISIBLE
-            binding.clViews.alpha = 0f
-            binding.clViews.animate()
-                .alpha(1f)
-                .setDuration(400)
-                .setInterpolator(AccelerateInterpolator())
-                .start()
+            if (currentUser) {
+                ViewUtils.collapse(binding.detailsLayout)
+                binding.clViews.visibility = View.VISIBLE
+                binding.clViews.alpha = 0f
+                binding.clViews.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .setInterpolator(AccelerateInterpolator())
+                    .start()
+            }
         }
 
         binding.hideViews.setOnClickListener {
-            val handler = Handler(Looper.getMainLooper()).postDelayed({
-                binding.clViews.visibility = View.INVISIBLE
-            }, 200)
-            ViewUtils.expand(binding.detailsLayout)
+            if (currentUser) {
+                val handler = Handler(Looper.getMainLooper()).postDelayed({
+                    binding.clViews.visibility = View.INVISIBLE
+                }, 200)
+                ViewUtils.expand(binding.detailsLayout)
+            }
         }
 
         binding.reactions.setOnClickListener {
-            ViewUtils.collapse(binding.detailsLayout)
-            binding.clReactions.visibility = View.VISIBLE
-            binding.clReactions.alpha = 0f
-            binding.clReactions.animate()
-                .alpha(1f)
-                .setDuration(400)
-                .setInterpolator(AccelerateInterpolator())
-                .start()
-
+            if (currentUser) {
+                ViewUtils.collapse(binding.detailsLayout)
+                binding.clReactions.visibility = View.VISIBLE
+                binding.clReactions.alpha = 0f
+                binding.clReactions.animate()
+                    .alpha(1f)
+                    .setDuration(400)
+                    .setInterpolator(AccelerateInterpolator())
+                    .start()
+            }
         }
 
         binding.hideReactions.setOnClickListener {
-            val handler = Handler(Looper.getMainLooper()).postDelayed({
-                binding.clReactions.visibility = View.INVISIBLE
-            }, 200)
-            ViewUtils.expand(binding.detailsLayout)
+            if (currentUser) {
+                val handler = Handler(Looper.getMainLooper()).postDelayed({
+                    binding.clReactions.visibility = View.INVISIBLE
+                }, 200)
+                ViewUtils.expand(binding.detailsLayout)
+            }
         }
     }
 

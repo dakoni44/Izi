@@ -10,18 +10,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import space.work.training.izi.mvvm.chatList.ChatListDatabase
-import space.work.training.izi.mvvm.chatList.ChatListFirebase
-import space.work.training.izi.mvvm.chatList.ChatListRepository
-import space.work.training.izi.mvvm.chatList.UserDao
 import space.work.training.izi.mvvm.chatList.chat.ChatDatabase
-import space.work.training.izi.mvvm.posts.ImgDao
 import space.work.training.izi.mvvm.posts.ImgDatabase
-import space.work.training.izi.mvvm.posts.ImgFirebase
-import space.work.training.izi.mvvm.posts.ImgRepository
-import space.work.training.izi.mvvm.profile.ProfileDao
 import space.work.training.izi.mvvm.profile.ProfileDatabase
-import space.work.training.izi.mvvm.profile.ProfileFirebase
-import space.work.training.izi.mvvm.profile.ProfileRepository
+import space.work.training.izi.mvvm.profileOther.DataLoadedListener
+import space.work.training.izi.nav_fragments.ProfileOtherFragment
 import javax.inject.Singleton
 
 @Module
