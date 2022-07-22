@@ -21,8 +21,8 @@ import space.work.training.izi.adapters.GroupListAdapter
 import space.work.training.izi.databinding.FragmentChatListBinding
 import space.work.training.izi.model.Chat
 import space.work.training.izi.model.GroupList
-import space.work.training.izi.mvvm.chatList.ChatListViewModel
 import space.work.training.izi.model.User
+import space.work.training.izi.mvvm.chatList.ChatListViewModel
 import java.util.*
 
 @AndroidEntryPoint
@@ -76,12 +76,12 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,
 
         loadGroups()
 
-        chatListViewModel.getUsers().observe(viewLifecycleOwner) {
+        chatListViewModel.getUsers(user!!.uid).observe(viewLifecycleOwner) {
             it.let {
-                adapter!!.setData(it)
-                chatUsers.addAll(it)
-                for (i in it.indices) {
-                    lastMessage(it[i].uid)
+                adapter!!.setData(it.users)
+                chatUsers.addAll(it.users)
+                for (i in it.users.indices) {
+                    lastMessage(it.users[i].uid)
                 }
             }
         }

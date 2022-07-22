@@ -14,6 +14,6 @@ interface UserDao {
     @Query("DELETE from ChatListUsers WHERE uId=:id")
     suspend fun deleteAllUsers(id: String)
 
-    @Query("SELECT * FROM ChatListUsers")
-    fun getAllUsers(): LiveData<ChatListUsers>
+    @Query("SELECT * FROM ChatListUsers WHERE uId=:id")
+    fun getAllUsers(id: String): LiveData<ChatListUsers>
 }

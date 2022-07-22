@@ -15,8 +15,8 @@ class ChatListRepository @Inject constructor(
         chatListFirebase.loadChatList()
     }
 
-    fun getAllUsers(): LiveData<List<User>> {
-        return userDao.getAllUsers()
+    fun getAllUsers(id:String): LiveData<ChatListUsers> {
+        return userDao.getAllUsers(id)
     }
 
 }

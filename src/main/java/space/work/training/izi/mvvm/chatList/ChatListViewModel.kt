@@ -14,8 +14,8 @@ class ChatListViewModel @Inject constructor(private val repository: ChatListRepo
         repository.load()
     }
 
-    fun getUsers(): LiveData<List<User>> {
-        return repository.getAllUsers()
+    fun getUsers(id:String): LiveData<ChatListUsers> {
+        return repository.getAllUsers(id)
     }
 
 }
