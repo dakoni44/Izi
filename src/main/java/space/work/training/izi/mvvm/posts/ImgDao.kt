@@ -5,26 +5,27 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 
 @Dao
 interface ImgDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(imgs: ArrayList<Img>)
+    suspend fun insert(imgHome: ImgHome)
 
-    @Query("DELETE from home_imgs")
-    suspend fun deleteAllImgs()
+    @Query("DELETE FROM home_imgs WHERE uId=:id")
+    suspend fun deleteAllImgs(id: String)
 
-    @Query("SELECT * FROM home_imgs")
-    fun getAllImgs(): LiveData<List<Img>>
+    @Query("SELECT * FROM home_imgs WHERE uid=:id")
+    fun getAllImgs(id: String): LiveData<List<Img>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNew(img: ArrayList<ImgNew>)
+    suspend fun insertNew(imgNew: ImgNew)
 
-    @Query("DELETE from new_imgs")
-    suspend fun deleteAllImgsNew()
+    @Query("DELETE FROM new_imgs WHERE uId=:id")
+    suspend fun deleteAllNewImgs(id: String)
 
-    @Query("SELECT * FROM new_imgs")
-    fun getAllImgsNew(): LiveData<List<ImgNew>>
+    @Query("SELECT * FROM new_imgs WHERE uid=:id")
+    fun getAllImgsNew(id: String): LiveData<List<ImgNew>>
 }

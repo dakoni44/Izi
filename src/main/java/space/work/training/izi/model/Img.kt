@@ -1,9 +1,7 @@
-package space.work.training.izi.mvvm.posts
+package space.work.training.izi.model
 
-import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "home_imgs")
 data class Img(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,

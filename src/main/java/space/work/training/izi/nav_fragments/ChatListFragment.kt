@@ -22,7 +22,7 @@ import space.work.training.izi.databinding.FragmentChatListBinding
 import space.work.training.izi.model.Chat
 import space.work.training.izi.model.GroupList
 import space.work.training.izi.mvvm.chatList.ChatListViewModel
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 import java.util.*
 
 @AndroidEntryPoint

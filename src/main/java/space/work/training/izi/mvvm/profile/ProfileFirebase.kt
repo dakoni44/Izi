@@ -8,8 +8,8 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import space.work.training.izi.mvvm.chatList.User
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.User
+import space.work.training.izi.model.Img
 import javax.inject.Inject
 
 class ProfileFirebase @Inject constructor(

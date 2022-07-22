@@ -7,8 +7,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import space.work.training.izi.mvvm.chatList.User
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.User
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.UserInfo
 import java.text.SimpleDateFormat
 import java.util.*

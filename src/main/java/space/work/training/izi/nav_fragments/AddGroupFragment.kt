@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ParticipantsAdapter
 import space.work.training.izi.databinding.FragmentAddGroupBinding
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 
 @AndroidEntryPoint
 class AddGroupFragment : Fragment() {

@@ -15,7 +15,6 @@ import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 import space.work.training.izi.model.ModelGroupChat
-import space.work.training.izi.mvvm.posts.Img
 import java.util.*
 import kotlin.collections.ArrayList
 

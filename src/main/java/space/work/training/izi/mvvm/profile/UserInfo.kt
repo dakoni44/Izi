@@ -3,8 +3,7 @@ package space.work.training.izi.mvvm.profile
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import space.work.training.izi.model.Chat
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 
 @Entity(tableName = "user_info")
 data class UserInfo(

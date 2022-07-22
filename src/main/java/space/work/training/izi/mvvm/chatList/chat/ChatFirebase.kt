@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import space.work.training.izi.model.Chat
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 import space.work.training.izi.notifications.NotifData
 import space.work.training.izi.notifications.RetrofitInstance
 import space.work.training.izi.notifications.Sender

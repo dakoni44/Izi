@@ -8,6 +8,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,26 +22,30 @@ class ImgFirebase @Inject constructor(
 
     private var friendList: ArrayList<String> = ArrayList()
     private var imgs: ArrayList<Img> = ArrayList()
-    private var imgsNew: ArrayList<ImgNew> = ArrayList()
+    private var imgsNew: ArrayList<Img> = ArrayList()
+    private var imgHome = ImgHome()
+    private var imgNew = ImgNew()
+    private var currentUser = ""
 
     fun load() {
         readPosts()
         readNewPosts()
+        currentUser = firebaseAuth.currentUser!!.uid
     }
 
-    suspend fun updateRoomImg(list: ArrayList<Img>) {
-        imgDao.deleteAllImgs()
-        imgDao.insert(list)
+    suspend fun updateRoomImg(imgHome: ImgHome) {
+        imgDao.deleteAllImgs(imgHome.uid)
+        imgDao.insert(imgHome)
     }
 
-    suspend fun updateRoomImgNew(list: ArrayList<ImgNew>) {
-        imgDao.deleteAllImgsNew()
-        imgDao.insertNew(list)
+    suspend fun updateRoomImgNew(imgNew: ImgNew) {
+        imgDao.deleteAllNewImgs(imgNew.uId)
+        imgDao.insertNew(imgNew)
     }
 
     fun checkFollowing() {
         val reference = firebaseDatabase.getReference("Friends")
-            .child(firebaseAuth.currentUser!!.uid)
+            .child(currentUser)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 friendList.let {
@@ -84,10 +89,12 @@ class ImgFirebase @Inject constructor(
                             }
                         }
                     }
+                    imgHome.uid = currentUser
+                    imgHome.imgs = imgs
                 }
                 CoroutineScope(Dispatchers.IO).launch {
                     if (!imgs.isEmpty())
-                        updateRoomImg(imgs)
+                        updateRoomImg(imgHome)
                 }
             }
 
@@ -106,7 +113,7 @@ class ImgFirebase @Inject constructor(
                 imgsNew.let {
                     it.clear()
                     for (snapshot in dataSnapshot.children) {
-                        val img = ImgNew()
+                        val img = Img()
                         img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
                         img.publisher =
                             snapshot.child("publisher").getValue(String::class.java).toString()
@@ -122,10 +129,12 @@ class ImgFirebase @Inject constructor(
                                 it.add(img)
                             }
                         }
+                        imgNew.uId = currentUser
+                        imgNew.imgs = imgsNew
                     }
                     CoroutineScope(Dispatchers.IO).launch {
                         if (!imgsNew.isEmpty())
-                            updateRoomImgNew(imgsNew)
+                            updateRoomImgNew(imgNew)
                     }
                 }
             }

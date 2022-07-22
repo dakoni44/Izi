@@ -1,14 +1,9 @@
 package space.work.training.izi.mvvm.SinglePost
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 import javax.inject.Inject
 
 @HiltViewModel

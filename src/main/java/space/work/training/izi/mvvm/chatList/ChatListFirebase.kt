@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import space.work.training.izi.model.ChatList
+import space.work.training.izi.model.User
 import javax.inject.Inject
 import javax.inject.Singleton
 

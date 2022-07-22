@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 
 class FindAdapter(var mContext: Context, mdata: List<User>, listener: OnItemClickListener) :
     RecyclerView.Adapter<FindAdapter.ImageViewHolder?>() {

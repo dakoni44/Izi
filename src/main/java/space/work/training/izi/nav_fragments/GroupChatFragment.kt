@@ -41,7 +41,7 @@ import space.work.training.izi.adapters.GroupChatAdapter
 import space.work.training.izi.adapters.ParticipantsAdapter
 import space.work.training.izi.databinding.FragmentGroupChatBinding
 import space.work.training.izi.model.ModelGroupChat
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 import space.work.training.izi.notifications.NotifData
 import space.work.training.izi.notifications.RetrofitInstance
 import space.work.training.izi.notifications.Sender

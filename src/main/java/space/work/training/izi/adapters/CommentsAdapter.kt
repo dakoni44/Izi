@@ -1,6 +1,5 @@
 package space.work.training.izi.adapters
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -16,7 +15,6 @@ import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 import space.work.training.izi.model.ModelComment
-import space.work.training.izi.mvvm.posts.Img
 
 class CommentsAdapter(var mContext: Context) :
     RecyclerView.Adapter<CommentsAdapter.ImageViewHolder?>() {

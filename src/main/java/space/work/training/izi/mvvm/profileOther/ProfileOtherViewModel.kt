@@ -3,8 +3,7 @@ package space.work.training.izi.mvvm.profileOther
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.StateFlow
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
 

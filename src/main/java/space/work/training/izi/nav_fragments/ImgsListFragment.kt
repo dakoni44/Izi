@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ImgListAdapter
 import space.work.training.izi.databinding.FragmentImgsListBinding
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 
 @AndroidEntryPoint
 class ImgsListFragment : Fragment(), ImgListAdapter.OnItemClickListener {

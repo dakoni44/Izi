@@ -15,19 +15,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileOtherBinding
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.UserInfo
-import space.work.training.izi.mvvm.profileOther.DataLoadedListener
 import space.work.training.izi.mvvm.profileOther.ProfileOtherViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {

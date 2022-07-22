@@ -18,7 +18,7 @@ import space.work.training.izi.R
 import space.work.training.izi.adapters.CommentsAdapter
 import space.work.training.izi.databinding.FragmentCommentsBinding
 import space.work.training.izi.model.ModelComment
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 
 @AndroidEntryPoint
 class CommentsFragment : Fragment() {

@@ -1,9 +1,9 @@
 package space.work.training.izi.mvvm.chatList
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import space.work.training.izi.model.User
 import javax.inject.Inject
 
 @HiltViewModel

@@ -26,7 +26,7 @@ import space.work.training.izi.CropperActivity
 import space.work.training.izi.EditTextLinesLimiter
 import space.work.training.izi.R
 import space.work.training.izi.databinding.FragmentEditProfileBinding
-import space.work.training.izi.mvvm.chatList.User
+import space.work.training.izi.model.User
 import java.util.*
 
 @AndroidEntryPoint

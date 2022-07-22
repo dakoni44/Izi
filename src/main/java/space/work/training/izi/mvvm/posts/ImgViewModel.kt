@@ -1,9 +1,9 @@
 package space.work.training.izi.mvvm.posts
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import javax.inject.Inject
 

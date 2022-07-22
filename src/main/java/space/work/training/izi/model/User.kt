@@ -1,4 +1,4 @@
-package space.work.training.izi.mvvm.chatList
+package space.work.training.izi.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

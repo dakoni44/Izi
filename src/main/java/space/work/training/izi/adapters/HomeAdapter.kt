@@ -14,8 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import jp.wasabeef.glide.transformations.BlurTransformation
 import space.work.training.izi.R
-import space.work.training.izi.mvvm.chatList.User
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.User
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 
 class HomeAdapter(mContext: Context, listener: OnItemClickListener) :

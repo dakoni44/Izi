@@ -1,21 +1,11 @@
-package space.work.training.izi.mvvm.profile
+package space.work.training.izi.mvvm.posts
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import space.work.training.izi.model.Img
 
-class Converters {
-
-    @TypeConverter
-    fun restoreList(listOfString: String?): ArrayList<String?>? {
-        return Gson().fromJson(listOfString, object : TypeToken<ArrayList<String?>?>() {}.type)
-    }
-
-    @TypeConverter
-    fun saveList(listOfString: ArrayList<String?>?): String? {
-        return Gson().toJson(listOfString)
-    }
+class HomeImgConverter {
 
     @TypeConverter
     fun fromImgToString(value: ArrayList<Img>): String {

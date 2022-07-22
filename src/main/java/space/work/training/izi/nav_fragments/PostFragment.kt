@@ -28,8 +28,8 @@ import space.work.training.izi.adapters.DislikeAdapter
 import space.work.training.izi.adapters.LikesAdapter
 import space.work.training.izi.databinding.FragmentPostBinding
 import space.work.training.izi.mvvm.SinglePost.PostViewModel
-import space.work.training.izi.mvvm.chatList.User
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.User
+import space.work.training.izi.model.Img
 import javax.inject.Inject
 
 

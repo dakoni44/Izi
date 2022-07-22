@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import space.work.training.izi.R
 import space.work.training.izi.adapters.ProfileAdapter
 import space.work.training.izi.databinding.FragmentProfileBinding
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.ProfileViewModel
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject

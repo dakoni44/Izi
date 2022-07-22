@@ -20,7 +20,7 @@ import space.work.training.izi.R
 import space.work.training.izi.adapters.HomeAdapter
 import space.work.training.izi.adapters.ImgListAdapter
 import space.work.training.izi.databinding.FragmentHomeBinding
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.posts.ImgViewModel
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import space.work.training.izi.notifications.Token

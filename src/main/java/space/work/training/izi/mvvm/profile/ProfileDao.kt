@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import space.work.training.izi.mvvm.posts.Img
+import space.work.training.izi.model.Img
 
 @Dao
 interface ProfileDao {
