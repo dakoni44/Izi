@@ -5,16 +5,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import space.work.training.izi.model.User
 
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(user: ArrayList<User>)
+    suspend fun insert(user: ChatListUsers)
 
-    @Query("DELETE from User")
-    suspend fun deleteAllUsers()
+    @Query("DELETE from ChatListUsers WHERE uId=:id")
+    suspend fun deleteAllUsers(id: String)
 
-    @Query("SELECT * FROM User")
-    fun getAllUsers(): LiveData<List<User>>
+    @Query("SELECT * FROM ChatListUsers")
+    fun getAllUsers(): LiveData<ChatListUsers>
 }

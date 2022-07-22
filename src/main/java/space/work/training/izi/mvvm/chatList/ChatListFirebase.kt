@@ -16,15 +16,17 @@ import javax.inject.Singleton
 @Singleton
 class ChatListFirebase @Inject constructor(
     private var userDao: UserDao,
-    private var firebaseDatabase: FirebaseDatabase
+    private var firebaseDatabase: FirebaseDatabase,
+    private var firebaseAuth: FirebaseAuth
 ) {
 
     private val chatList: ArrayList<ChatList> = ArrayList()
     private var usersList: ArrayList<User> = ArrayList()
+    private var chatListUsers = ChatListUsers()
 
-    suspend fun updateRoomChatList(list: ArrayList<User>) {
-        userDao.deleteAllUsers()
-        userDao.insert(list)
+    suspend fun updateRoomChatList(chatListUsers: ChatListUsers) {
+        userDao.deleteAllUsers(chatListUsers.uId)
+        userDao.insert(chatListUsers)
     }
 
     //Odavde odma citam id-eve i spajam ih sa userima u sledecoj metodi
@@ -67,10 +69,12 @@ class ChatListFirebase @Inject constructor(
                             usersList.add(user)
                         }
                     }
+                    chatListUsers.uId = firebaseAuth.currentUser!!.uid
+                    chatListUsers.users = usersList
                 }
                 CoroutineScope(Dispatchers.IO).launch {
                     if (usersList.isNotEmpty())
-                        updateRoomChatList(usersList)
+                        updateRoomChatList(chatListUsers)
                 }
             }
 
