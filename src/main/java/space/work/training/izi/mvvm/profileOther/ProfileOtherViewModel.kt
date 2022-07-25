@@ -1,7 +1,6 @@
 package space.work.training.izi.mvvm.profileOther
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.UserInfo
@@ -51,4 +50,5 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
     fun getImgs(): LiveData<ArrayList<Img>> {
         return profileOtherFirebase.getImgs()
     }
+
 }

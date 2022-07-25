@@ -262,4 +262,9 @@
             android:name="userId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/funFragment"
+        android:name="space.work.training.izi.nav_fragments.FunFragment"
+        android:label="fragment_fun"
+        tools:layout="@layout/fragment_fun" />
 </navigation>

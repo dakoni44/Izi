@@ -153,16 +153,16 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        profileOtherViewModel.getProfileUser().observe(viewLifecycleOwner) {
-            updateUi(it)
+        profileOtherViewModel.getImgs().observe(viewLifecycleOwner) {
+            profileAdapter!!.setData(it)
         }
 
         profileOtherViewModel.getCurrState().observe(viewLifecycleOwner) {
             checkState(it)
         }
 
-        profileOtherViewModel.getImgs().observe(viewLifecycleOwner) {
-            profileAdapter!!.setData(it)
+        profileOtherViewModel.getProfileUser().observe(viewLifecycleOwner) {
+            updateUi(it)
         }
     }
 
