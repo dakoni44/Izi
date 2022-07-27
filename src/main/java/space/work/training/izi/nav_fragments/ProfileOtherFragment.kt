@@ -76,6 +76,28 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
             }
         }
 
+        /*  lifecycleScope.launch {
+              repeatOnLifecycle(Lifecycle.State.STARTED) {
+                  profileOtherViewModel.getProfileUserFlow2().collect {
+                      updateUi(it)
+                  }
+              }
+          }*/
+
+        /*   lifecycleScope.launch {
+             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                 profileOtherViewModel.getProfileUserFlow().collect {
+                     updateUi(it)
+                 }
+             }
+         }*/
+
+        /*  profileOtherViewModel.getProfileUserFlow()
+          profileOtherViewModel.profileUser.observe(viewLifecycleOwner) {
+              updateUi(it)
+          }*/
+
+
     }
 
     private fun updateUi(userInfo: UserInfo) {

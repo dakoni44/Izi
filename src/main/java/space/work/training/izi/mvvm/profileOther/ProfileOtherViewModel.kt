@@ -1,7 +1,12 @@
 package space.work.training.izi.mvvm.profileOther
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
@@ -10,14 +15,16 @@ import javax.inject.Inject
 class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase: ProfileOtherFirebase) :
     ViewModel() {
 
+    val profileUser = MutableLiveData<UserInfo>()
+
     fun setFriendId(id: String) {
         profileOtherFirebase.setFriendId(id)
     }
 
     fun load() {
         profileOtherFirebase.apply {
-            showData()
             showNumbers()
+            showData()
             maintanceOfButtons()
             showPost()
         }
@@ -50,5 +57,21 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
     fun getImgs(): LiveData<ArrayList<Img>> {
         return profileOtherFirebase.getImgs()
     }
+
+    /* fun getProfileUserFlow() {
+         viewModelScope.launch {
+             profileOtherFirebase.getProfileUserFlow().collect {
+                 profileUser.postValue(it)
+             }
+         }
+    }*/
+
+    /*  fun getProfileUserFlow(): Flow<UserInfo> {
+          return profileOtherFirebase.getProfileUserFlow()
+      }*/
+
+   /* fun getProfileUserFlow2(): MutableStateFlow<UserInfo> {
+        return profileOtherFirebase.getProfileUserFlow2()
+    }*/
 
 }

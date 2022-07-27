@@ -16,12 +16,12 @@ class ImgRepository @Inject constructor(
         imgFirebase.load()
     }
 
-    fun getAllImgs(): LiveData<List<Img>> {
-        return imgDao.getAllImgs()
+    fun getAllImgs(id:String): LiveData<ImgHome> {
+        return imgDao.getAllImgs(id)
     }
 
-    fun getAllImgsNew(): LiveData<List<ImgNew>> {
-        return imgDao.getAllImgsNew()
+    fun getAllImgsNew(id:String): LiveData<ImgNew> {
+        return imgDao.getAllImgsNew(id)
     }
 
 }

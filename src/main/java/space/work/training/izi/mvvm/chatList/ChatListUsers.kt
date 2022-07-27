@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import space.work.training.izi.model.User
 
-@Entity
+@Entity(tableName = "chatList_users")
 data class ChatListUsers(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,

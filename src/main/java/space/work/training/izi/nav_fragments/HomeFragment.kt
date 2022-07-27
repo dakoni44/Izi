@@ -21,9 +21,11 @@ import space.work.training.izi.adapters.HomeAdapter
 import space.work.training.izi.adapters.ImgListAdapter
 import space.work.training.izi.databinding.FragmentHomeBinding
 import space.work.training.izi.model.Img
+import space.work.training.izi.mvvm.posts.ImgHome
 import space.work.training.izi.mvvm.posts.ImgViewModel
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import space.work.training.izi.notifications.Token
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -32,7 +34,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
 
     private lateinit var binding: FragmentHomeBinding
     private var imgs: ArrayList<Img> = ArrayList()
-    private var newImgs: ArrayList<ImgNew> = ArrayList()
+    private var newImgs: ArrayList<Img> = ArrayList()
 
     private val imgViewModel: ImgViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
@@ -41,6 +43,10 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
     private var linearLayoutManager: LinearLayoutManager? = null
 
     private var state = false
+    private var currentUser = ""
+
+    @Inject
+    lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +69,8 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
             findNavController().navigate(R.id.homeToChatList)
         }
 
+        currentUser = firebaseAuth.currentUser!!.uid
+
         val prefs = requireContext().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         val editor = prefs.edit()
 
@@ -78,14 +86,14 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
 
         getToken()
 
-        imgViewModel.getImgs().observe(viewLifecycleOwner) {
-            it.let {
+        imgViewModel.getImgs(currentUser).observe(viewLifecycleOwner) {
+            it?.let {
                 getPosts(it)
             }
         }
 
-        imgViewModel.getNewImgs().observe(viewLifecycleOwner) {
-            it.let {
+        imgViewModel.getNewImgs(currentUser).observe(viewLifecycleOwner) {
+            it?.let {
                 getNewPosts(it)
             }
         }
@@ -117,14 +125,14 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
         }
     }
 
-    private fun getPosts(pctrs: List<Img>) {
-        listHomeAdapter.setData(pctrs)
-        imgs.addAll(pctrs)
+    private fun getPosts(pctrs: ImgHome) {
+        listHomeAdapter.setData(pctrs.imgs)
+        imgs.addAll(pctrs.imgs)
     }
 
-    private fun getNewPosts(pctrs: List<ImgNew>) {
+    private fun getNewPosts(pctrs: ImgNew) {
         homeAdapter.setData(pctrs)
-        newImgs.addAll(pctrs)
+        newImgs.addAll(pctrs.imgs)
     }
 
     private fun getToken() {

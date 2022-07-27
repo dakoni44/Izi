@@ -1,13 +1,15 @@
 package space.work.training.izi.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Drink(
     val dateModified: String,
-    val idDrink: Long,
+    val idDrink: String,
     val strAlcoholic: String,
     val strCategory: String,
     val strCreativeCommonsConfirmed: String,
     val strDrink: String,
-    val strDrinkAlternate: Any,
+    val strDrinkAlternate: String,
     val strDrinkThumb: String,
     val strGlass: String,
     val strIBA: String,
@@ -29,6 +31,14 @@ data class Drink(
     val strIngredient8: String,
     val strIngredient9: String,
     val strInstructions: String,
+    val strInstructionsDE: String,
+    val strInstructionsES: String,
+    val strInstructionsFR: String,
+    val strInstructionsIT: String,
+    @SerializedName("strInstructionsZH-HANS")
+    val strInstructionsZHHANS: String,
+    @SerializedName("strInstructionsZH-HANT")
+    val strInstructionsZHHANT: String,
     val strMeasure1: String,
     val strMeasure10: String,
     val strMeasure11: String,

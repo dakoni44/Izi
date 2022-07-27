@@ -11,9 +11,9 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(user: ChatListUsers)
 
-    @Query("DELETE from ChatListUsers WHERE uId=:id")
+    @Query("DELETE from chatList_users WHERE uId=:id")
     suspend fun deleteAllUsers(id: String)
 
-    @Query("SELECT * FROM ChatListUsers WHERE uId=:id")
+    @Query("SELECT * FROM chatList_users WHERE uId=:id")
     fun getAllUsers(id: String): LiveData<ChatListUsers>
 }

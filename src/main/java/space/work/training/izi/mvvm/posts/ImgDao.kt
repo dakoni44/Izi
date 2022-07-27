@@ -18,7 +18,7 @@ interface ImgDao {
     suspend fun deleteAllImgs(id: String)
 
     @Query("SELECT * FROM home_imgs WHERE uid=:id")
-    fun getAllImgs(id: String): LiveData<List<Img>>
+    fun getAllImgs(id: String): LiveData<ImgHome>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNew(imgNew: ImgNew)
@@ -27,5 +27,5 @@ interface ImgDao {
     suspend fun deleteAllNewImgs(id: String)
 
     @Query("SELECT * FROM new_imgs WHERE uid=:id")
-    fun getAllImgsNew(id: String): LiveData<List<ImgNew>>
+    fun getAllImgsNew(id: String): LiveData<ImgNew>
 }

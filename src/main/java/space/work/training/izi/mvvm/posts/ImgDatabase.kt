@@ -7,7 +7,7 @@ import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.posts.newImgs.ImgNew
 import space.work.training.izi.mvvm.profile.Converters
 
-@Database(entities = [Img::class, ImgNew::class], version = 3, exportSchema = false)
+@Database(entities = [ImgHome::class, ImgNew::class], version = 2, exportSchema = false)
 @TypeConverters(HomeImgConverter::class)
 abstract class ImgDatabase : RoomDatabase() {
 

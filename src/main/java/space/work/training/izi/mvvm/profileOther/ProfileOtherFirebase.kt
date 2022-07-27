@@ -7,8 +7,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import space.work.training.izi.model.User
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 import space.work.training.izi.model.Img
+import space.work.training.izi.model.User
 import space.work.training.izi.mvvm.profile.UserInfo
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,6 +35,9 @@ class ProfileOtherFirebase @Inject constructor(
     private var profileUserLive = MutableLiveData<UserInfo>()
     private val imgsLive = MutableLiveData<ArrayList<Img>>()
 
+    private var profileUserFlow: Flow<UserInfo> = flow { }
+    private var profileUserFlow2 = MutableStateFlow<UserInfo>(UserInfo())
+
     init {
         senderId = firebaseAuth.currentUser!!.uid
     }
@@ -43,6 +49,14 @@ class ProfileOtherFirebase @Inject constructor(
     fun getProfileUser(): LiveData<UserInfo> {
         return profileUserLive
     }
+
+    /*  fun getProfileUserFlow(): Flow<UserInfo> {
+          return profileUserFlow
+      }
+
+      fun getProfileUserFlow2(): MutableStateFlow<UserInfo> {
+          return profileUserFlow2
+      }*/
 
     fun getCurrentState(): LiveData<String> {
         return currentState
@@ -75,7 +89,14 @@ class ProfileOtherFirebase @Inject constructor(
                     userInfo.add(user.image)
                     profileUser.uList.clear()
                     profileUser.uList.addAll(userInfo)
+
                     profileUserLive.postValue(profileUser)
+
+                    /*  profileUserFlow = flow {
+                          emit(profileUser)
+                      }*/
+
+                    // profileUserFlow2.value = profileUser
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
@@ -126,7 +147,7 @@ class ProfileOtherFirebase @Inject constructor(
                         snapshot.child("publisher").getValue(String::class.java).toString()
                     img.img = snapshot.child("postimage").getValue(String::class.java).toString()
                     img.text = snapshot.child("description").getValue(String::class.java).toString()
-                    img.views = (snapshot.child("views").childrenCount - 1).toString()
+                    img.views = (snapshot.child("views").childrenCount).toString()
                     img.timestamp =
                         snapshot.child("timestamp").getValue(String::class.java).toString()
                     if (img.publisher.equals(friendId)) {
@@ -138,6 +159,10 @@ class ProfileOtherFirebase @Inject constructor(
 
                 profileUser.posts = imgs.size.toString()
                 profileUserLive.postValue(profileUser)
+                /*  profileUserFlow = flow {
+                      emit(profileUser)
+                  }*/
+                // profileUserFlow2.value = profileUser
 
                 var sum = 0
                 for (i in imgs.indices) {
@@ -146,8 +171,12 @@ class ProfileOtherFirebase @Inject constructor(
                 var all = sum - imgs.size
                 if (all < 0)
                     all = 0
-                profileUser.views = (all).toString()
+                profileUser.views = all.toString()
                 profileUserLive.postValue(profileUser)
+                /*  profileUserFlow = flow {
+                      emit(profileUser)
+                  }*/
+                // profileUserFlow2.value = profileUser
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -161,6 +190,10 @@ class ProfileOtherFirebase @Inject constructor(
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     profileUser.friends = dataSnapshot.childrenCount.toInt().toString()
                     profileUserLive.postValue(profileUser)
+                    /*    profileUserFlow = flow {
+                            emit(profileUser)
+                        }*/
+                    // profileUserFlow2.value = profileUser
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
@@ -178,6 +211,10 @@ class ProfileOtherFirebase @Inject constructor(
                 }
                 profileUser.likes = sum.toString()
                 profileUserLive.postValue(profileUser)
+                /* profileUserFlow = flow {
+                     emit(profileUser)
+                 }*/
+                // profileUserFlow2.value = profileUser
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -196,6 +233,10 @@ class ProfileOtherFirebase @Inject constructor(
                     }
                     profileUser.dislikes = sum.toString()
                     profileUserLive.postValue(profileUser)
+                    /* profileUserFlow = flow {
+                         emit(profileUser)
+                     }*/
+                    // profileUserFlow2.value = profileUser
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
