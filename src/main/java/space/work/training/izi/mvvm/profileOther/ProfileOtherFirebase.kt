@@ -177,6 +177,7 @@ class ProfileOtherFirebase @Inject constructor(
                       emit(profileUser)
                   }*/
                 // profileUserFlow2.value = profileUser
+                showNumbers()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -184,7 +185,7 @@ class ProfileOtherFirebase @Inject constructor(
     }
 
 
-    fun showNumbers() {
+    private fun showNumbers() {
         firebaseDatabase.getReference("Friends").child(friendId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

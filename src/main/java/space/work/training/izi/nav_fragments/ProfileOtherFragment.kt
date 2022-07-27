@@ -61,6 +61,18 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
         profileAdapter = ProfileAdapter(requireContext(), this)
         binding.profileRecycler.adapter = profileAdapter
 
+        profileOtherViewModel.getImgs().observe(viewLifecycleOwner) {
+            profileAdapter!!.setData(it)
+        }
+
+        profileOtherViewModel.getCurrState().observe(viewLifecycleOwner) {
+            checkState(it)
+        }
+
+        profileOtherViewModel.getProfileUser().observe(viewLifecycleOwner) {
+            updateUi(it)
+        }
+
         binding.sendMessage.setOnClickListener {
             val action = ProfileOtherFragmentDirections.profileOtherToChat(friendId!!)
             findNavController().navigate(action)
@@ -96,8 +108,6 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
           profileOtherViewModel.profileUser.observe(viewLifecycleOwner) {
               updateUi(it)
           }*/
-
-
     }
 
     private fun updateUi(userInfo: UserInfo) {
@@ -171,21 +181,6 @@ class ProfileOtherFragment : Fragment(), ProfileAdapter.OnItemClickListener {
 
     override fun onItemLongClick(position: Int) {
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        profileOtherViewModel.getImgs().observe(viewLifecycleOwner) {
-            profileAdapter!!.setData(it)
-        }
-
-        profileOtherViewModel.getCurrState().observe(viewLifecycleOwner) {
-            checkState(it)
-        }
-
-        profileOtherViewModel.getProfileUser().observe(viewLifecycleOwner) {
-            updateUi(it)
-        }
     }
 
 }

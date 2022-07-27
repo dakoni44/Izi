@@ -3,10 +3,7 @@ package space.work.training.izi.mvvm.profileOther
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import space.work.training.izi.model.Img
 import space.work.training.izi.mvvm.profile.UserInfo
 import javax.inject.Inject
@@ -23,7 +20,6 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
 
     fun load() {
         profileOtherFirebase.apply {
-            showNumbers()
             showData()
             maintanceOfButtons()
             showPost()
@@ -70,8 +66,8 @@ class ProfileOtherViewModel @Inject constructor(private var profileOtherFirebase
           return profileOtherFirebase.getProfileUserFlow()
       }*/
 
-   /* fun getProfileUserFlow2(): MutableStateFlow<UserInfo> {
-        return profileOtherFirebase.getProfileUserFlow2()
-    }*/
+    /* fun getProfileUserFlow2(): MutableStateFlow<UserInfo> {
+         return profileOtherFirebase.getProfileUserFlow2()
+     }*/
 
 }
