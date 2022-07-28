@@ -30,6 +30,12 @@
         <item name="android:fontFamily">@font/telex</item>
     </style>
 
+    <style name="customRoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">25dp</item>
+        <item name="cornerSizeBottomRight">25dp</item>
+    </style>
+
     <style name="spinner_style" parent="Widget.AppCompat.Spinner">
         <item name="android:dropDownVerticalOffset">5dip</item>
         <item name="overlapAnchor">false</item>

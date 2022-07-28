@@ -77,7 +77,7 @@ class ChatListFragment : Fragment(), ChatList2Adapter.OnItemClickListener,
         loadGroups()
 
         chatListViewModel.getUsers(user!!.uid).observe(viewLifecycleOwner) {
-            it.let {
+            it?.let {
                 adapter!!.setData(it.users)
                 chatUsers.addAll(it.users)
                 for (i in it.users.indices) {

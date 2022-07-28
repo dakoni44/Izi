@@ -13,7 +13,7 @@ import space.work.training.izi.model.DrinkList
 interface CocktailApi {
 
     @GET("search.php")
-    suspend fun searchDrinkByName(@Query("s") name: String): DrinkList
+    suspend fun searchDrinkByName(@Query("s") name: String): Response<DrinkList>
 
     @GET("random.php")
     suspend fun getRandomCocktail(): Response<DrinkList>

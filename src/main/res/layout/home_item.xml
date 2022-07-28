@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:foreground="@drawable/rounded_img_item"
         app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/colorBlack"
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
