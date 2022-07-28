@@ -28,9 +28,8 @@ class ImgFirebase @Inject constructor(
     private var currentUser = ""
 
     fun load() {
-        readPosts()
-        readNewPosts()
         currentUser = firebaseAuth.currentUser!!.uid
+        checkFollowing()
     }
 
     suspend fun updateRoomImg(imgHome: ImgHome) {
@@ -54,6 +53,8 @@ class ImgFirebase @Inject constructor(
                         it.add(snapshot.key.toString())
                     }
                 }
+                readPosts()
+                readNewPosts()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -61,9 +62,7 @@ class ImgFirebase @Inject constructor(
     }
 
 
-    fun readPosts() {
-        checkFollowing()
-
+    private fun readPosts() {
         val postRef = firebaseDatabase.getReference("Posts")
         postRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -102,9 +101,7 @@ class ImgFirebase @Inject constructor(
         })
     }
 
-    fun readNewPosts() {
-        checkFollowing()
-
+    private fun readNewPosts() {
         val currentTime = System.currentTimeMillis()
 
         val postRef = firebaseDatabase.getReference("Posts")
