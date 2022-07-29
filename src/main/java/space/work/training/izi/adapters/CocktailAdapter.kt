@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import space.work.training.izi.R
 import space.work.training.izi.model.Drink
-import space.work.training.izi.model.DrinkList
 
 class CocktailAdapter(mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<CocktailAdapter.ImageViewHolder>() {
@@ -48,8 +47,12 @@ class CocktailAdapter(mContext: Context, listener: OnItemClickListener) :
     }
 
     fun setData(drink: List<Drink>) {
-        if (drink != null)
+        if (drink != null) {
             mdata = drink
+        } else {
+            mdata = ArrayList()
+        }
+
         notifyDataSetChanged()
     }
 

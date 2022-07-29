@@ -49,6 +49,7 @@
             android:id="@+id/rvName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginEnd="5dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/rlFindIngredient"
@@ -71,42 +72,64 @@
 
         <RelativeLayout
             android:id="@+id/rlFindIngredient"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/search_bar_grey"
             app:layout_constraintBottom_toTopOf="@id/rvIngredient"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvName">
+
+            <TextView
+                android:id="@+id/etFind2"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:hint="Find by ingredient"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black"
+                android:textCursorDrawable="@drawable/cursor_white"
+                android:textSize="13sp" />
 
             <ImageView
                 android:id="@+id/ivFind2"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@id/etFind2"
                 android:src="@drawable/ic_find" />
 
-            <EditText
-                android:id="@+id/etFind2"
-                android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/ivFind2"
-                android:backgroundTint="@android:color/transparent"
-                android:hint="Find by ingredient"
-                android:padding="5dp"
-                android:textColor="@android:color/black"
-                android:textColorHint="@android:color/black"
-                android:textCursorDrawable="@drawable/cursor_white"
-                android:textSize="13sp" />
-
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/listIng"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginEnd="15dp"
+            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/rounded_border_random"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:text="List of ingredients"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/rlFindIngredient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rlFindIngredient" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvIngredient"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginEnd="5dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/guideline"
@@ -233,9 +256,60 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/cocktail_black"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clRandoms"
                 app:shapeAppearance="@style/customRoundedImageView" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/random2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginBottom="65dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/cocktail_black"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clRandoms"
+                app:shapeAppearance="@style/customRoundedImageView" />
+
+            <TextView
+                android:id="@+id/instructions"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:autoSizeMaxTextSize="18sp"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeTextType="uniform"
+                android:textColor="@android:color/white"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/random2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/random2"
+                app:layout_constraintTop_toTopOf="@id/random2" />
+
+            <TextView
+                android:id="@+id/ingredients"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="65dp"
+                android:autoSizeMaxTextSize="16sp"
+                android:autoSizeMinTextSize="8sp"
+                android:autoSizeTextType="uniform"
+                android:textColor="@android:color/white"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instructions" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline

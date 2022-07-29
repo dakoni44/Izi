@@ -1,9 +1,11 @@
 package space.work.training.izi.api
 
+import okhttp3.ResponseBody
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import space.work.training.izi.Constants
-import space.work.training.izi.notifications.NotificationApi
+import java.lang.reflect.Type
 
 class CocktailRetrofit {
     companion object {

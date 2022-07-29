@@ -10,29 +10,36 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCocktail"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="165dp"
+        android:layout_height="165dp"
         android:adjustViewBounds="true"
         android:src="@drawable/cocktail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:shapeAppearance="@style/customRoundedImageView" />
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="60dp"
         android:background="@drawable/post_name_bg"
         android:fontFamily="@font/telex"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="3dp"
         android:text="Name"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="7sp"
+        android:autoSizeMaxTextSize="12sp"
+        android:maxLines="1"
         android:textColor="@android:color/white"
-        android:textSize="13sp"
+        android:textSize="10sp"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/ivCocktail"
         app:layout_constraintTop_toTopOf="@id/ivCocktail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

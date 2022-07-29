@@ -12,13 +12,32 @@ class CocktailRepository @Inject constructor() {
     val cocktail = MutableLiveData<Drink>()
 
     suspend fun getCocktailByName(name: String): DrinkList? {
-        if (!name.equals("")) {
-            val response = CocktailRetrofit.api.searchDrinkByName(name)
+        val response = CocktailRetrofit.api.searchDrinkByName(name)
+        if(response.isSuccessful){
             return response.body()
-        } else {
+        }else{
             return null
         }
     }
+
+    suspend fun getCocktailByIngredient(ingredient: String): DrinkList? {
+        val response = CocktailRetrofit.api.searchDrinkByIngredient(ingredient)
+        if(response.isSuccessful){
+            return response.body()
+        }else{
+            return null
+        }
+    }
+
+    suspend fun getIngredients(): DrinkList? {
+        val response = CocktailRetrofit.api.findIngredients()
+        if(response.isSuccessful){
+            return response.body()
+        }else{
+            return null
+        }
+    }
+
 
     //1
 /*    fun getRandomCocktail(): Flow<DrinkList?> = flow {

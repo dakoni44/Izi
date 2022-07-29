@@ -18,7 +18,17 @@ class CocktailViewModel @Inject constructor(private var cocktailRepository: Cock
 
     fun getCocktailByName(name: String): Flow<DrinkList?> = flow {
         delay(1000)
-        emit(cocktailRepository.getCocktailByName(name))
+        if (!name.trim().equals(""))
+            emit(cocktailRepository.getCocktailByName(name))
+    }
+
+    fun getCocktailByIngredient(ingredient: String): Flow<DrinkList?> = flow {
+        if (!ingredient.trim().equals(""))
+            emit(cocktailRepository.getCocktailByIngredient(ingredient))
+    }
+
+    fun getIngredients(): Flow<DrinkList?> = flow {
+        emit(cocktailRepository.getIngredients())
     }
 
     //3
