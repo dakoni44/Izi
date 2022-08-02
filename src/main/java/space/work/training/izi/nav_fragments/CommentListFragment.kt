@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -28,7 +27,6 @@ class CommentListFragment : Fragment(), CommentListAdapter.OnItemClickListener {
     private var firebaseDatabase: FirebaseDatabase? = null
 
     private var userList: ArrayList<String> = ArrayList()
-
     private var adapter: CommentListAdapter? = null
 
     override fun onCreateView(
@@ -54,7 +52,6 @@ class CommentListFragment : Fragment(), CommentListAdapter.OnItemClickListener {
         binding.commentList.adapter = adapter
 
         getUsers()
-
     }
 
     private fun getUsers() {
@@ -65,12 +62,11 @@ class CommentListFragment : Fragment(), CommentListAdapter.OnItemClickListener {
                     for (snapshot in dataSnapshot.children) {
                         userList.add(snapshot.key.toString())
                     }
-                     adapter!!.setData(userList)
+                    adapter!!.setData(userList)
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
-
     }
 
     override fun onItemClick(position: Int) {
@@ -78,6 +74,4 @@ class CommentListFragment : Fragment(), CommentListAdapter.OnItemClickListener {
             CommentListFragmentDirections.commentListToComments(imgId, userList.get(position))
         findNavController().navigate(action)
     }
-
-
 }

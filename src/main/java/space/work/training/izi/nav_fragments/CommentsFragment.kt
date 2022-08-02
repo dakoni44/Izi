@@ -58,7 +58,7 @@ class CommentsFragment : Fragment() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         postRef = firebaseDatabase!!.getReference("Posts").child(imgId)
         databaseReference = firebaseDatabase!!.getReference("Users")
-        currentUser=FirebaseAuth.getInstance().currentUser
+        currentUser = FirebaseAuth.getInstance().currentUser
 
         binding.rvComments.setHasFixedSize(true)
         binding.rvComments.layoutManager = LinearLayoutManager(requireContext())

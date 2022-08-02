@@ -8,14 +8,14 @@ import space.work.training.izi.model.Chat
 class ChatConverters {
 
     @TypeConverter
-    fun fromCountryLangList(value: ArrayList<Chat>): String {
+    fun fromChatList(value: ArrayList<Chat>): String {
         val gson = Gson()
         val type = object : TypeToken<ArrayList<Chat>>() {}.type
         return gson.toJson(value, type)
     }
 
     @TypeConverter
-    fun toCountryLangList(value: String): ArrayList<Chat> {
+    fun toChatList(value: String): ArrayList<Chat> {
         val gson = Gson()
         val type = object : TypeToken<ArrayList<Chat>>() {}.type
         return gson.fromJson(value, type)

@@ -2,23 +2,18 @@ package space.work.training.izi.nav_fragments
 
 import android.content.ContentResolver
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -45,7 +40,7 @@ class AddPostFragment : Fragment() {
     private var myUrl = ""
     private var storageReference: StorageReference? = null
 
-    private var desc: String=""
+    private var desc: String = ""
 
     lateinit var mGetContent: ActivityResultLauncher<String>
 
@@ -79,12 +74,12 @@ class AddPostFragment : Fragment() {
         mGetContent.launch("image/*")
 
         binding.tvAddDescription.setOnClickListener {
-            ViewUtils.expandOrCollapseDownUp(binding.rl,"expand")
+            ViewUtils.expandOrCollapseDownUp(binding.rl, "expand")
             binding.tvAddDescription.visibility = View.GONE
         }
 
         binding.descDown.setOnClickListener {
-            ViewUtils.expandOrCollapseDownUp(binding.rl,"collapse")
+            ViewUtils.expandOrCollapseDownUp(binding.rl, "collapse")
             binding.tvAddDescription.visibility = View.VISIBLE
             desc = binding.etAddDesc.text.toString().trim()
         }

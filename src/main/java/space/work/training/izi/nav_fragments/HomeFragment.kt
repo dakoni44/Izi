@@ -103,9 +103,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener,
         if (state) {
             binding.homeRecycler.visibility = View.INVISIBLE
             binding.listImg.visibility = View.VISIBLE
+            binding.ivList.setImageResource(R.drawable.ic_grid_blur)
         } else {
             binding.listImg.visibility = View.INVISIBLE
             binding.homeRecycler.visibility = View.VISIBLE
+            binding.ivList.setImageResource(R.drawable.ic_img)
         }
 
 

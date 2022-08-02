@@ -55,7 +55,7 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
         binding.etFind.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    searchUsers(s.toString().lowercase(Locale.getDefault()))
+                searchUsers(s.toString().lowercase(Locale.getDefault()))
             }
 
             override fun afterTextChanged(s: Editable) {}
@@ -63,23 +63,24 @@ class FindFragment : Fragment(), FindAdapter.OnItemClickListener {
     }
 
     private fun searchUsers(s: String) {
-        if(!s.trim().equals("")){
+        if (!s.trim().equals("")) {
             val query = FirebaseDatabase.getInstance().getReference("Users")
                 .orderByChild("username").startAt(s).endAt(s + "\uf8ff")
             query.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     findUsers.clear()
                     for (snapshot in dataSnapshot.children) {
-                        val user = User()
-                        user.uid = snapshot.child("uid").getValue(String::class.java).toString()
-                        user.name = snapshot.child("name").getValue(String::class.java).toString()
-                        user.username =
-                            snapshot.child("username").getValue(String::class.java).toString()
-                        user.email = snapshot.child("email").getValue(String::class.java).toString()
-                        user.image = snapshot.child("image").getValue(String::class.java).toString()
-                        user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                        if (!user.uid.equals(firebaseUser!!.uid))
-                            findUsers.add(user)
+                        val user = User().apply {
+                            uid = snapshot.child("uid").getValue(String::class.java).toString()
+                            name = snapshot.child("name").getValue(String::class.java).toString()
+                            username =
+                                snapshot.child("username").getValue(String::class.java).toString()
+                            email = snapshot.child("email").getValue(String::class.java).toString()
+                            image = snapshot.child("image").getValue(String::class.java).toString()
+                            bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                            if (uid.equals(firebaseUser!!.uid))
+                                findUsers.add(this)
+                        }
                     }
                     findAdapter!!.notifyDataSetChanged()
                 }

@@ -62,7 +62,7 @@ class AddGroupFragment : Fragment() {
 
         binding.rvParticipants.setHasFixedSize(true)
         binding.rvParticipants.layoutManager = LinearLayoutManager(requireContext())
-        adapter = ParticipantsAdapter(requireContext(),timestamp!!)
+        adapter = ParticipantsAdapter(requireContext(), timestamp!!)
         binding.rvParticipants.adapter = adapter
 
         checkFollowing()
@@ -142,18 +142,19 @@ class AddGroupFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 list.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val user = User()
-                    user.uid = snapshot.child("uid").getValue(String::class.java).toString()
-                    user.name = snapshot.child("name").getValue(String::class.java).toString()
-                    user.username =
-                        snapshot.child("username").getValue(String::class.java).toString()
-                    user.email = snapshot.child("email").getValue(String::class.java).toString()
-                    user.image = snapshot.child("image").getValue(String::class.java).toString()
-                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                    for (id in friendList!!) {
-                        if (user.uid.equals(id)) {
-                            list.add(user)
-                            break
+                    val user = User().apply {
+                        uid = snapshot.child("uid").getValue(String::class.java).toString()
+                        name = snapshot.child("name").getValue(String::class.java).toString()
+                        username =
+                            snapshot.child("username").getValue(String::class.java).toString()
+                        email = snapshot.child("email").getValue(String::class.java).toString()
+                        image = snapshot.child("image").getValue(String::class.java).toString()
+                        bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                        for (id in friendList!!) {
+                            if (uid.equals(id)) {
+                                list.add(this)
+                                break
+                            }
                         }
                     }
                 }

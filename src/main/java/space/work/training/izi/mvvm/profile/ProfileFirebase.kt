@@ -8,8 +8,8 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import space.work.training.izi.model.User
 import space.work.training.izi.model.Img
+import space.work.training.izi.model.User
 import javax.inject.Inject
 
 class ProfileFirebase @Inject constructor(
@@ -49,42 +49,36 @@ class ProfileFirebase @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.updateViews(viewsS, userID)
         }
-
     }
 
     fun updateFriends() {
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.updateFriends(friendsS, userID)
         }
-
     }
 
     fun updateLikes() {
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.updateLikes(likesS, userID)
         }
-
     }
 
     fun updateDislikes() {
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.updateDislikes(dislikesS, userID)
         }
-
     }
 
     fun updatePosts() {
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.updatePosts(postsS, userID)
         }
-
     }
 
     fun updateUList() {
         CoroutineScope(Dispatchers.IO).launch {
             profileDao.updateUList(userInfo, userID)
         }
-
     }
 
     fun showData() {
@@ -92,20 +86,21 @@ class ProfileFirebase @Inject constructor(
         firebaseDatabase.getReference("Users").child(userID)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val user = User()
-                    user.uid = userID
-                    user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
-                    user.username =
-                        dataSnapshot.child("username").getValue(String::class.java).toString()
-                    user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
-                    user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
-                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                    if (user.uid.equals(userID)) {
-                        userInfo.clear()
-                        userInfo.add(user.username)
-                        userInfo.add(user.name)
-                        userInfo.add(user.bio)
-                        userInfo.add(user.image)
+                    val user = User().apply {
+                        uid = userID
+                        name = dataSnapshot.child("name").getValue(String::class.java).toString()
+                        username =
+                            dataSnapshot.child("username").getValue(String::class.java).toString()
+                        email = dataSnapshot.child("email").getValue(String::class.java).toString()
+                        image = dataSnapshot.child("image").getValue(String::class.java).toString()
+                        bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                        if (uid.equals(userID)) {
+                            userInfo.clear()
+                            userInfo.add(username)
+                            userInfo.add(name)
+                            userInfo.add(bio)
+                            userInfo.add(image)
+                        }
                     }
                     updateUList()
                     showPost()
@@ -120,17 +115,18 @@ class ProfileFirebase @Inject constructor(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 imgs.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val img = Img()
-                    img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
-                    img.publisher =
-                        snapshot.child("publisher").getValue(String::class.java).toString()
-                    img.img = snapshot.child("postimage").getValue(String::class.java).toString()
-                    img.text = snapshot.child("description").getValue(String::class.java).toString()
-                    img.views = (snapshot.child("views").childrenCount - 1).toString()
-                    img.timestamp =
-                        snapshot.child("timestamp").getValue(String::class.java).toString()
-                    if (img.publisher.equals(userID)) {
-                        imgs.add(img)
+                    val img = Img().apply {
+                        imgId = snapshot.child("postid").getValue(String::class.java).toString()
+                        publisher =
+                            snapshot.child("publisher").getValue(String::class.java).toString()
+                        img = snapshot.child("postimage").getValue(String::class.java).toString()
+                        text = snapshot.child("description").getValue(String::class.java).toString()
+                        views = (snapshot.child("views").childrenCount - 1).toString()
+                        timestamp =
+                            snapshot.child("timestamp").getValue(String::class.java).toString()
+                        if (publisher.equals(userID)) {
+                            imgs.add(this)
+                        }
                     }
                 }
                 imgs.reverse()

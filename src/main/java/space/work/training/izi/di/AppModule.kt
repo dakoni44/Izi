@@ -13,8 +13,6 @@ import space.work.training.izi.mvvm.chatList.ChatListDatabase
 import space.work.training.izi.mvvm.chatList.chat.ChatDatabase
 import space.work.training.izi.mvvm.posts.ImgDatabase
 import space.work.training.izi.mvvm.profile.ProfileDatabase
-import space.work.training.izi.mvvm.profileOther.DataLoadedListener
-import space.work.training.izi.nav_fragments.ProfileOtherFragment
 import javax.inject.Singleton
 
 @Module

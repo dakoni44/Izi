@@ -25,8 +25,10 @@ class ChatListFirebase @Inject constructor(
     private var chatListUsers = ChatListUsers()
 
     suspend fun updateRoomChatList(chatListUsers: ChatListUsers) {
-        userDao.deleteAllUsers(chatListUsers.uId)
-        userDao.insert(chatListUsers)
+        userDao.apply {
+            deleteAllUsers(chatListUsers.uId)
+            insert(chatListUsers)
+        }
     }
 
     //Odavde odma citam id-eve i spajam ih sa userima u sledecoj metodi
@@ -55,18 +57,19 @@ class ChatListFirebase @Inject constructor(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 usersList.clear()
                 for (snapshot in dataSnapshot.children) {
-                    val user = User()
-                    user.uid = snapshot.child("uid").getValue(String::class.java).toString()
-                    user.name = snapshot.child("name").getValue(String::class.java).toString()
-                    user.username =
-                        snapshot.child("username").getValue(String::class.java).toString()
-                    user.email = snapshot.child("email").getValue(String::class.java).toString()
-                    user.image = snapshot.child("image").getValue(String::class.java).toString()
-                    user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                    //preko isto postojecih ide-va trazim cim se poklope i ubacujem ih u listu
-                    for (chat in chatList) {
-                        if (user.uid.equals(chat.id)) {
-                            usersList.add(user)
+                    val user = User().apply {
+                        uid = snapshot.child("uid").getValue(String::class.java).toString()
+                        name = snapshot.child("name").getValue(String::class.java).toString()
+                        username =
+                            snapshot.child("username").getValue(String::class.java).toString()
+                        email = snapshot.child("email").getValue(String::class.java).toString()
+                        image = snapshot.child("image").getValue(String::class.java).toString()
+                        bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                        //preko isto postojecih ide-va trazim cim se poklope i ubacujem ih u listu
+                        for (chat in chatList) {
+                            if (this.uid.equals(chat.id)) {
+                                usersList.add(this)
+                            }
                         }
                     }
                     chatListUsers.uId = firebaseAuth.currentUser!!.uid

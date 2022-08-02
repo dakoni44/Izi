@@ -58,11 +58,13 @@ class ChatFirebase @Inject constructor(
         firebaseDatabase.getReference("Users").child(receiverId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    chatUser.uId = dataSnapshot.child("uid").getValue(String::class.java).toString()
-                    chatUser.img =
-                        dataSnapshot.child("image").getValue(String::class.java).toString()
-                    chatUser.username =
-                        dataSnapshot.child("username").getValue(String::class.java).toString()
+                    chatUser.apply {
+                        uId = dataSnapshot.child("uid").getValue(String::class.java).toString()
+                        img =
+                            dataSnapshot.child("image").getValue(String::class.java).toString()
+                        username =
+                            dataSnapshot.child("username").getValue(String::class.java).toString()
+                    }
                     CoroutineScope(Dispatchers.IO).launch {
                         if (chatList.isNotEmpty())
                             updateRoomChatUser(chatUser)
@@ -79,18 +81,19 @@ class ChatFirebase @Inject constructor(
         seenListener = userRefForSeen.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
-                    val chat = Chat()
-                    chat.message = ds.child("message").getValue(String::class.java).toString()
-                    chat.reciever = ds.child("receiver").getValue(String::class.java).toString()
-                    chat.sender = ds.child("sender").getValue(String::class.java).toString()
-                    chat.timestamp = ds.child("timestamp").getValue(String::class.java).toString()
-                    chat.isSeen = ds.child("isSeen").getValue(Boolean::class.java)!!
-                    if (chat.reciever.equals(senderId) && chat.sender
-                            .equals(receiverId)
-                    ) {
-                        val hasSeenHashMap = HashMap<String, Any>()
-                        hasSeenHashMap["isSeen"] = true
-                        ds.ref.updateChildren(hasSeenHashMap)
+                    val chat = Chat().apply {
+                        message = ds.child("message").getValue(String::class.java).toString()
+                        reciever = ds.child("receiver").getValue(String::class.java).toString()
+                        sender = ds.child("sender").getValue(String::class.java).toString()
+                        timestamp = ds.child("timestamp").getValue(String::class.java).toString()
+                        isSeen = ds.child("isSeen").getValue(Boolean::class.java)!!
+                        if (this.reciever.equals(senderId) && this.sender
+                                .equals(receiverId)
+                        ) {
+                            val hasSeenHashMap = HashMap<String, Any>()
+                            hasSeenHashMap["isSeen"] = true
+                            ds.ref.updateChildren(hasSeenHashMap)
+                        }
                     }
                 }
             }
@@ -106,17 +109,18 @@ class ChatFirebase @Inject constructor(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 chatList.clear()
                 for (ds in dataSnapshot.children) {
-                    val chat = Chat()
-                    chat.message = ds.child("message").getValue(String::class.java).toString()
-                    chat.reciever = ds.child("receiver").getValue(String::class.java).toString()
-                    chat.sender = ds.child("sender").getValue(String::class.java).toString()
-                    chat.timestamp = ds.child("timestamp").getValue(String::class.java).toString()
-                    chat.isSeen = ds.child("isSeen").getValue(Boolean::class.java)!!
-                    if (chat.reciever.equals(senderId) && chat.sender
-                            .equals(receiverId) ||
-                        chat.reciever.equals(receiverId) && chat.sender.equals(senderId)
-                    ) {
-                        chatList.add(chat)
+                    val chat = Chat().apply {
+                        message = ds.child("message").getValue(String::class.java).toString()
+                        reciever = ds.child("receiver").getValue(String::class.java).toString()
+                        sender = ds.child("sender").getValue(String::class.java).toString()
+                        timestamp = ds.child("timestamp").getValue(String::class.java).toString()
+                        isSeen = ds.child("isSeen").getValue(Boolean::class.java)!!
+                        if (this.reciever.equals(senderId) && this.sender
+                                .equals(receiverId) ||
+                            this.reciever.equals(receiverId) && this.sender.equals(senderId)
+                        ) {
+                            chatList.add(this)
+                        }
                     }
                 }
                 chatUser.chatList.clear()
@@ -145,18 +149,18 @@ class ChatFirebase @Inject constructor(
         val database = FirebaseDatabase.getInstance().getReference("Users").child(senderId)
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = User()
-                user.uid = dataSnapshot.child("uid").getValue(String::class.java).toString()
-                user.name = dataSnapshot.child("name").getValue(String::class.java).toString()
-                user.username =
-                    dataSnapshot.child("username").getValue(String::class.java).toString()
-                user.email = dataSnapshot.child("email").getValue(String::class.java).toString()
-                user.image = dataSnapshot.child("image").getValue(String::class.java).toString()
-                user.bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
-                val notifData =
-                    NotifData(user.username, message)
-                checkTokenAndSend(notifData)
-
+                val user = User().apply {
+                    uid = dataSnapshot.child("uid").getValue(String::class.java).toString()
+                    name = dataSnapshot.child("name").getValue(String::class.java).toString()
+                    username =
+                        dataSnapshot.child("username").getValue(String::class.java).toString()
+                    email = dataSnapshot.child("email").getValue(String::class.java).toString()
+                    image = dataSnapshot.child("image").getValue(String::class.java).toString()
+                    bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
+                    val notifData =
+                        NotifData(this.username, message)
+                    checkTokenAndSend(notifData)
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -188,7 +192,7 @@ class ChatFirebase @Inject constructor(
     }
 
     private fun checkTokenAndSend(notifData: NotifData) {
-        val allTokens = FirebaseDatabase.getInstance().getReference("Tokens").child(receiverId!!)
+        val allTokens = FirebaseDatabase.getInstance().getReference("Tokens").child(receiverId)
         allTokens.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val token = Token()

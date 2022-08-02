@@ -24,7 +24,6 @@ import space.work.training.izi.databinding.FragmentFunBinding
 import space.work.training.izi.model.Drink
 import space.work.training.izi.mvvm.cocktails.CocktailViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint

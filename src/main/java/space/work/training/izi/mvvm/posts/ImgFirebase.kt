@@ -33,13 +33,17 @@ class ImgFirebase @Inject constructor(
     }
 
     suspend fun updateRoomImg(imgHome: ImgHome) {
-        imgDao.deleteAllImgs(imgHome.uid)
-        imgDao.insert(imgHome)
+        imgDao.apply {
+            deleteAllImgs(imgHome.uid)
+            insert(imgHome)
+        }
     }
 
     suspend fun updateRoomImgNew(imgNew: ImgNew) {
-        imgDao.deleteAllNewImgs(imgNew.uId)
-        imgDao.insertNew(imgNew)
+        imgDao.apply {
+            deleteAllNewImgs(imgNew.uId)
+            insertNew(imgNew)
+        }
     }
 
     fun checkFollowing() {
@@ -110,20 +114,21 @@ class ImgFirebase @Inject constructor(
                 imgsNew.let {
                     it.clear()
                     for (snapshot in dataSnapshot.children) {
-                        val img = Img()
-                        img.imgId = snapshot.child("postid").getValue(String::class.java).toString()
-                        img.publisher =
-                            snapshot.child("publisher").getValue(String::class.java).toString()
-                        img.img =
-                            snapshot.child("postimage").getValue(String::class.java).toString()
-                        img.text =
-                            snapshot.child("description").getValue(String::class.java).toString()
-                        img.views = (snapshot.child("views").childrenCount - 1).toString()
-                        img.timestamp =
-                            snapshot.child("timestamp").getValue(String::class.java).toString()
-                        for (id in friendList) {
-                            if (img.publisher == id && currentTime <= img.timestamp.toLong() + 24 * 60 * 60 * 1000) {
-                                it.add(img)
+                        val img = Img().apply {
+                            imgId = snapshot.child("postid").getValue(String::class.java).toString()
+                            publisher =
+                                snapshot.child("publisher").getValue(String::class.java).toString()
+                            img =
+                                snapshot.child("postimage").getValue(String::class.java).toString()
+                            text =
+                                snapshot.child("description").getValue(String::class.java).toString()
+                            views = (snapshot.child("views").childrenCount - 1).toString()
+                            timestamp =
+                                snapshot.child("timestamp").getValue(String::class.java).toString()
+                            for (id in friendList) {
+                                if (publisher == id && currentTime <= timestamp.toLong() + 24 * 60 * 60 * 1000) {
+                                    it.add(this)
+                                }
                             }
                         }
                         imgNew.uId = currentUser

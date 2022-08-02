@@ -27,9 +27,9 @@ import space.work.training.izi.adapters.CommentListAdapter
 import space.work.training.izi.adapters.DislikeAdapter
 import space.work.training.izi.adapters.LikesAdapter
 import space.work.training.izi.databinding.FragmentPostBinding
-import space.work.training.izi.mvvm.SinglePost.PostViewModel
-import space.work.training.izi.model.User
 import space.work.training.izi.model.Img
+import space.work.training.izi.model.User
+import space.work.training.izi.mvvm.SinglePost.PostViewModel
 import javax.inject.Inject
 
 
