@@ -157,26 +157,6 @@ class ProfileOtherFirebase @Inject constructor(
                 imgs.reverse()
                 imgsLive.postValue(imgs)
 
-                profileUser.posts = imgs.size.toString()
-                profileUserLive.postValue(profileUser)
-                /*  profileUserFlow = flow {
-                      emit(profileUser)
-                  }*/
-                // profileUserFlow2.value = profileUser
-
-                var sum = 0
-                for (i in imgs.indices) {
-                    sum += imgs.get(i).views.toInt()
-                }
-                var all = sum - imgs.size
-                if (all < 0)
-                    all = 0
-                profileUser.views = all.toString()
-                profileUserLive.postValue(profileUser)
-                /*  profileUserFlow = flow {
-                      emit(profileUser)
-                  }*/
-                // profileUserFlow2.value = profileUser
                 showNumbers()
             }
 
@@ -186,6 +166,28 @@ class ProfileOtherFirebase @Inject constructor(
 
 
     private fun showNumbers() {
+        profileUser.posts = imgs.size.toString()
+        profileUserLive.postValue(profileUser)
+        /*  profileUserFlow = flow {
+                   emit(profileUser)
+               }*/
+        // profileUserFlow2.value = profileUser
+
+
+        var sum = 0
+        for (i in imgs.indices) {
+            sum += imgs.get(i).views.toInt()
+        }
+        var all = sum - imgs.size
+        if (all < 0)
+            all = 0
+        profileUser.views = all.toString()
+        profileUserLive.postValue(profileUser)
+        /*  profileUserFlow = flow {
+                   emit(profileUser)
+               }*/
+        // profileUserFlow2.value = profileUser
+
         firebaseDatabase.getReference("Friends").child(friendId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {

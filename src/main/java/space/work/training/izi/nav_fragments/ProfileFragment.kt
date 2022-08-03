@@ -94,7 +94,6 @@ class ProfileFragment : Fragment(), ProfileAdapter.OnItemClickListener {
             }
         }
 
-
         binding.bBio.setOnClickListener {
             if (binding.rlBio.visibility == View.GONE) {
                 binding.rlBio.visibility = View.VISIBLE

@@ -87,7 +87,7 @@ class ChatFirebase @Inject constructor(
                         sender = ds.child("sender").getValue(String::class.java).toString()
                         timestamp = ds.child("timestamp").getValue(String::class.java).toString()
                         isSeen = ds.child("isSeen").getValue(Boolean::class.java)!!
-                        if (this.reciever.equals(senderId) && this.sender
+                        if (reciever.equals(senderId) && sender
                                 .equals(receiverId)
                         ) {
                             val hasSeenHashMap = HashMap<String, Any>()
@@ -115,9 +115,9 @@ class ChatFirebase @Inject constructor(
                         sender = ds.child("sender").getValue(String::class.java).toString()
                         timestamp = ds.child("timestamp").getValue(String::class.java).toString()
                         isSeen = ds.child("isSeen").getValue(Boolean::class.java)!!
-                        if (this.reciever.equals(senderId) && this.sender
+                        if (reciever.equals(senderId) && sender
                                 .equals(receiverId) ||
-                            this.reciever.equals(receiverId) && this.sender.equals(senderId)
+                            reciever.equals(receiverId) && sender.equals(senderId)
                         ) {
                             chatList.add(this)
                         }
@@ -158,7 +158,7 @@ class ChatFirebase @Inject constructor(
                     image = dataSnapshot.child("image").getValue(String::class.java).toString()
                     bio = dataSnapshot.child("bio").getValue(String::class.java).toString()
                     val notifData =
-                        NotifData(this.username, message)
+                        NotifData(username, message)
                     checkTokenAndSend(notifData)
                 }
             }

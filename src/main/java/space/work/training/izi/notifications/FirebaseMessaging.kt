@@ -77,7 +77,6 @@ class FirebaseMessaging : FirebaseMessagingService() {
         }
     }
 
-
     override fun onNewToken(s: String) {
         super.onNewToken(s)
         val user = FirebaseAuth.getInstance().currentUser

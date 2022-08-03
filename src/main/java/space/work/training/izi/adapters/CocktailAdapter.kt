@@ -46,6 +46,8 @@ class CocktailAdapter(mContext: Context, listener: OnItemClickListener) :
         return mdata.size
     }
 
+
+
     fun setData(drink: List<Drink>) {
         if (drink != null) {
             mdata = drink
