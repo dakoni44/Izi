@@ -14,7 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 
-class LikesAdapter (var mContext: Context, listener: OnItemClickListener) :
+class LikesAdapter(var mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<LikesAdapter.ImageViewHolder?>() {
 
     private var mdata: List<String> = ArrayList()
@@ -72,9 +72,9 @@ class LikesAdapter (var mContext: Context, listener: OnItemClickListener) :
             tvUsername = itemView.findViewById<TextView>(R.id.tvUsername)
             tvUsernameComment = itemView.findViewById<TextView>(R.id.tvUsernameComment)
             tvComment = itemView.findViewById<TextView>(R.id.tvComment)
-            tvComment.visibility= View.INVISIBLE
-            tvUsername.visibility= View.INVISIBLE
-            tvUsernameComment.visibility= View.VISIBLE
+            tvComment.visibility = View.INVISIBLE
+            tvUsername.visibility = View.INVISIBLE
+            tvUsernameComment.visibility = View.VISIBLE
             itemView.setOnClickListener {
                 val position: Int = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {

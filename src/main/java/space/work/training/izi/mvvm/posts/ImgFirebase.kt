@@ -121,7 +121,8 @@ class ImgFirebase @Inject constructor(
                             img =
                                 snapshot.child("postimage").getValue(String::class.java).toString()
                             text =
-                                snapshot.child("description").getValue(String::class.java).toString()
+                                snapshot.child("description").getValue(String::class.java)
+                                    .toString()
                             views = (snapshot.child("views").childrenCount - 1).toString()
                             timestamp =
                                 snapshot.child("timestamp").getValue(String::class.java).toString()

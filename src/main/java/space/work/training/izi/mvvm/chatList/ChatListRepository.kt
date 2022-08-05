@@ -1,7 +1,6 @@
 package space.work.training.izi.mvvm.chatList
 
 import androidx.lifecycle.LiveData
-import space.work.training.izi.model.User
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +14,7 @@ class ChatListRepository @Inject constructor(
         chatListFirebase.loadChatList()
     }
 
-    fun getAllUsers(id:String): LiveData<ChatListUsers> {
+    fun getAllUsers(id: String): LiveData<ChatListUsers> {
         return userDao.getAllUsers(id)
     }
 

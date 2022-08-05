@@ -48,7 +48,8 @@ class CommentsAdapter(var mContext: Context) :
                         alertDialogBuilder.setPositiveButton("Yes",
                             object : DialogInterface.OnClickListener {
                                 override fun onClick(arg0: DialogInterface, arg1: Int) {
-                                    postRef.child(modelComment.postId).child("Comments").child(modelComment.uId)
+                                    postRef.child(modelComment.postId).child("Comments")
+                                        .child(modelComment.uId)
                                         .child(modelComment.cid).removeValue()
                                 }
                             })

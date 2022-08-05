@@ -14,11 +14,15 @@ import space.work.training.izi.R
 import space.work.training.izi.model.GroupList
 import java.util.*
 
-class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:OnItemClickListener) :
+class GroupListAdapter(
+    var mContext: Context,
+    mdata: List<GroupList>,
+    listener: OnItemClickListener
+) :
     RecyclerView.Adapter<GroupListAdapter.ImageViewHolder?>() {
 
     private val mdata: List<GroupList>
-    private val listener : OnItemClickListener
+    private val listener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onItemGroupClick(position: Int)
@@ -40,12 +44,12 @@ class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:O
         } else {
             Glide.with(mContext).load(modelGroup.icon).into(holder.ivProfile)
         }
-      /*  holder.itemView.setOnClickListener(View.OnClickListener {
-            val intent = Intent(mContext, GroupChatActivity::class.java)
-            intent.putExtra("groupId", groupId)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            mContext.startActivity(intent)
-        })*/
+        /*  holder.itemView.setOnClickListener(View.OnClickListener {
+              val intent = Intent(mContext, GroupChatActivity::class.java)
+              intent.putExtra("groupId", groupId)
+              intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+              mContext.startActivity(intent)
+          })*/
     }
 
     override fun getItemCount(): Int {
@@ -63,7 +67,7 @@ class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:O
             tvGroupName = itemView.findViewById(R.id.tvGroupName)
             tvSender = itemView.findViewById(R.id.tvSender)
             tvTime = itemView.findViewById(R.id.tvTime)
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 val position: Int = getAdapterPosition()
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onItemGroupClick(position)
@@ -84,7 +88,8 @@ class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:O
                         val timestamp: String = ds.child("timestamp").getValue<String>(
                             String::class.java
                         ).toString()
-                        val sender: String = ds.child("sender").getValue<String>(String::class.java).toString()
+                        val sender: String =
+                            ds.child("sender").getValue<String>(String::class.java).toString()
                         val cal = Calendar.getInstance(Locale.ENGLISH)
                         cal.timeInMillis = timestamp.toLong()
                         val dateTime = DateFormat.format("HH:mm", cal).toString()
@@ -94,21 +99,23 @@ class GroupListAdapter(var mContext: Context, mdata: List<GroupList>, listener:O
                         ref.child(sender)
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
-                                    holder.tvSender.text = snapshot.child("username").getValue<String>(
-                                        String::class.java
-                                    ).toString() + ": " + message
+                                    holder.tvSender.text =
+                                        snapshot.child("username").getValue<String>(
+                                            String::class.java
+                                        ).toString() + ": " + message
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {}
                             })
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {}
             })
     }
 
     init {
         this.mdata = mdata
-        this.listener=listener
+        this.listener = listener
     }
 }

@@ -1,9 +1,7 @@
 package space.work.training.izi.mvvm.posts
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.SerializedName
 import space.work.training.izi.model.Img
 
 @Entity(tableName = "home_imgs")

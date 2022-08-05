@@ -20,7 +20,7 @@ class ChatList2Adapter(private val mContext: Context, listener: OnItemClickListe
     var time: String? = null
 
     init {
-        this.listener=listener
+        this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {

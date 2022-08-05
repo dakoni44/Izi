@@ -13,31 +13,40 @@ class CocktailRepository @Inject constructor() {
 
     suspend fun getCocktailByName(name: String): DrinkList? {
         val response = CocktailRetrofit.api.searchDrinkByName(name)
-        if(response.isSuccessful){
+        if (response.isSuccessful) {
             return response.body()
-        }else{
-            return null
+        } else {
+            return DrinkList()
         }
     }
 
     suspend fun getCocktailByIngredient(ingredient: String): DrinkList? {
         val response = CocktailRetrofit.api.searchDrinkByIngredient(ingredient)
-        if(response.isSuccessful){
+        if (response.isSuccessful) {
             return response.body()
-        }else{
+        } else {
             return null
         }
     }
 
     suspend fun getIngredients(): DrinkList? {
         val response = CocktailRetrofit.api.findIngredients()
-        if(response.isSuccessful){
+        if (response.isSuccessful) {
             return response.body()
-        }else{
+        } else {
             return null
         }
     }
 
+    //3
+    suspend fun getRandomCocktail3(): DrinkList? {
+        val response = CocktailRetrofit.api.getRandomCocktail()
+        if (response.isSuccessful) {
+            return response.body()
+        } else {
+            return DrinkList()
+        }
+    }
 
     //1
 /*    fun getRandomCocktail(): Flow<DrinkList?> = flow {
@@ -50,12 +59,6 @@ class CocktailRepository @Inject constructor() {
           val response = CocktailRetrofit.api.getRandomCocktail()
           emit(response.body())
       }.flowOn(Dispatchers.IO)*/
-
-    //3
-    suspend fun getRandomCocktail3(): DrinkList? {
-        val response = CocktailRetrofit.api.getRandomCocktail()
-        return response.body()
-    }
 
     //4
     /* fun getRandomCocktail4() {

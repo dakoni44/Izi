@@ -1,7 +1,6 @@
 package space.work.training.izi.mvvm.chatList.chat
 
 import androidx.lifecycle.LiveData
-import space.work.training.izi.model.Chat
 import javax.inject.Inject
 import javax.inject.Singleton
 

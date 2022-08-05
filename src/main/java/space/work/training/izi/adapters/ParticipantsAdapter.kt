@@ -35,7 +35,7 @@ class ParticipantsAdapter(var mContext: Context, timestamp: String) :
         val user: User = mdata[position]
         holder.tvUsername.setText(user.username)
         Glide.with(mContext).load(user.image).into(holder.ivProfile)
-        checkCircle(position,holder.ivChecked,holder.ivCircle)
+        checkCircle(position, holder.ivChecked, holder.ivCircle)
     }
 
     override fun getItemCount(): Int {
@@ -87,7 +87,7 @@ class ParticipantsAdapter(var mContext: Context, timestamp: String) :
         }
     }
 
-    fun checkCircle(position: Int, iv1 :ImageView, iv2:ImageView){
+    fun checkCircle(position: Int, iv1: ImageView, iv2: ImageView) {
         groupRef.child(timestamp).child("Participants")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {

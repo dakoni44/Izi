@@ -22,8 +22,8 @@ class PostViewModel @Inject constructor(private var postFirebase: PostFirebase) 
     }
 
     fun getNrLikes(): LiveData<String> {
-         return postFirebase.getNrLikes()
-     }
+        return postFirebase.getNrLikes()
+    }
 
     fun getNrDislikes(): LiveData<String> {
         return postFirebase.getNrDislikes()

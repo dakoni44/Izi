@@ -3,7 +3,6 @@ package space.work.training.izi.mvvm.chatList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import space.work.training.izi.model.User
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,7 +13,7 @@ class ChatListViewModel @Inject constructor(private val repository: ChatListRepo
         repository.load()
     }
 
-    fun getUsers(id:String): LiveData<ChatListUsers> {
+    fun getUsers(id: String): LiveData<ChatListUsers> {
         return repository.getAllUsers(id)
     }
 

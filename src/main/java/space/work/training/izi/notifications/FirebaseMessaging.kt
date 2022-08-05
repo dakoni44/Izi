@@ -26,7 +26,7 @@ class FirebaseMessaging : FirebaseMessagingService() {
 
     fun generateNotification(title: String, message: String) {
 
-        val notifID= Random.nextInt()
+        val notifID = Random.nextInt()
         val intent = Intent(this, BaseActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(

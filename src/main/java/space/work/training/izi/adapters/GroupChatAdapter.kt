@@ -16,14 +16,13 @@ import de.hdodenhof.circleimageview.CircleImageView
 import space.work.training.izi.R
 import space.work.training.izi.model.ModelGroupChat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class GroupChatAdapter(var mContext: Context, listener: OnItemClickListener) :
     RecyclerView.Adapter<GroupChatAdapter.ImageViewHolder?>() {
 
     private var mdata: List<ModelGroupChat>
     private var firebaseUser: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
-    private var listener:OnItemClickListener
+    private var listener: OnItemClickListener
 
     interface OnItemClickListener {
         fun onItemLongClick(position: Int)
@@ -161,7 +160,7 @@ class GroupChatAdapter(var mContext: Context, listener: OnItemClickListener) :
             tvMessage = itemView.findViewById<TextView>(R.id.tvMessage)
             tvTime = itemView.findViewById<TextView>(R.id.tvTime)
             ivSeen = itemView.findViewById(R.id.ivSeen)
-            itemView.setOnLongClickListener{
+            itemView.setOnLongClickListener {
                 if (listener != null) {
                     val position: Int = getAdapterPosition()
                     if (position != RecyclerView.NO_POSITION) {

@@ -6,7 +6,7 @@ import space.work.training.izi.Constants.Companion.BASE_URL
 
 class RetrofitInstance {
 
-    companion object{
+    companion object {
         private val retrofit by lazy {
             Retrofit.Builder()
                 .baseUrl(BASE_URL)

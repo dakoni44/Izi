@@ -9,11 +9,11 @@ class ProfileRepository @Inject constructor(
     private var profileFirebase: ProfileFirebase
 ) {
 
-    fun load(){
+    fun load() {
         profileFirebase.showData()
     }
 
-    fun getUserInfo(id:String): LiveData<UserInfo> {
+    fun getUserInfo(id: String): LiveData<UserInfo> {
         return profileDao.getUserInfo(id)
     }
 

@@ -10,5 +10,5 @@ data class User(
     var uid: String = "",
     var email: String = "",
     var name: String = "", var username: String = "",
-    var image: String = "",var bio: String = ""
+    var image: String = "", var bio: String = ""
 )

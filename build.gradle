@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.6'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     implementation 'com.google.firebase:firebase-messaging:23.0.6'
-    implementation 'com.google.firebase:firebase-analytics:21.0.0'
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-messaging-directboot:23.0.6'
     //hilt
@@ -88,8 +88,8 @@ dependencies {
     //fragment
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     //navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
     //coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
